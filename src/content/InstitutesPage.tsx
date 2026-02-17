@@ -786,10 +786,10 @@ export function InstitutesPage() {
                             {inst.distance.toFixed(1)} km away
                           </div>
                         )}
-                        <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+                        {/* <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
                           <DollarSign className="w-3 h-3" />
                           {inst.feeRange}
-                        </div>
+                        </div> */}
                       </div>
 
                       {/* Badges */}

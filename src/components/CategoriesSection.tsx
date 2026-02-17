@@ -17,6 +17,7 @@ import {
   School,
   BookOpen
 } from 'lucide-react';
+import Link from 'next/link';
 
 const categories = [
   'Loksewa',
@@ -144,11 +145,10 @@ export function CategoriesSection() {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === category
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === category
                   ? 'bg-[#d91f22] text-white shadow-lg shadow-[#d91f22]/20'
                   : 'bg-white border border-gray-200 text-gray-700 hover:border-[#d91f22] hover:text-[#d91f22]'
-              }`}
+                }`}
             >
               {category}
             </button>
@@ -252,13 +252,15 @@ export function CategoriesSection() {
                   </div>
 
                   {/* Action Button */}
-                  <button className="w-full bg-white border border-[#d91f22] text-[#d91f22] hover:bg-[#d91f22] hover:text-white py-2.5 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center group/btn">
-                    Explore Now
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  <Link href="loksewa/1">
+                    <button className="w-full bg-white border border-[#d91f22] text-[#d91f22] hover:bg-[#d91f22] hover:text-white py-2.5 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center group/btn">
+                      Explore Now
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </Link>
 
                   {/* Hover Effect Line */}
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d91f22] to-[#252872] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                  {/* <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#d91f22] to-[#252872] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" /> */}
                 </motion.div>
               );
             })}
