@@ -17,7 +17,7 @@ export function AdBanner() {
           viewport={{
             once: true
           }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#252872] to-[#d91f22] p-8 md:p-16 text-center md:text-left shadow-2xl">
+          className="relative overflow-hidden rounded-3xl bg-[#252872] p-8 md:p-16 text-center md:text-left shadow-2xl">
 
           {/* Abstract Shapes */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl"></div>

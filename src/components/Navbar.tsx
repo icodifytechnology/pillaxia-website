@@ -89,6 +89,7 @@ export default function Navbar() {
             <NavItem to="/entrance" label="Entrance" />
             <NavItem to="/institutes" label="Institutes" />
             <NavItem to="/blog" label="Blog" />
+            {/* <NavItem to="/course-counselling" label="Counselling" /> */}
             <NavItem to="/about" label="About Us" />
             <NavItem to="/contact" label="Contact" />
           </div>

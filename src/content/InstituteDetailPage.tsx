@@ -1,6 +1,6 @@
 'use client'
 
-import  { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowLeft,
@@ -33,6 +33,11 @@ import {
   ExternalLink,
   ChevronLeft,
   X,
+  Eye,
+  Linkedin,
+  DollarSign,
+  Building,
+  Target,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation';
 
@@ -41,6 +46,16 @@ const tabs = [
     id: 'about',
     label: 'About',
     icon: Building2,
+  },
+  {
+    id: 'tour',
+    label: 'College Tour',
+    icon: Video,
+  },
+  {
+    id: 'faculty',
+    label: 'Faculty',
+    icon: GraduationCap,
   },
   {
     id: 'facilities',
@@ -86,11 +101,6 @@ const tabs = [
     id: 'gallery',
     label: 'Gallery',
     icon: Camera,
-  },
-  {
-    id: 'tour',
-    label: '360° Tour',
-    icon: Video,
   },
 ]
 
@@ -145,12 +155,39 @@ const galleryImages = [
   },
 ]
 
-
+const awardPhotos = [
+  {
+    label: 'Best College Award Ceremony 2025',
+    src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+  },
+  {
+    label: 'Excellence in IT Education Trophy',
+    src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
+  },
+  {
+    label: 'Top Placement Record Certificate',
+    src: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80',
+  },
+  {
+    label: 'Green Campus Award Presentation',
+    src: 'https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=800&q=80',
+  },
+  {
+    label: 'Innovation in Teaching Award',
+    src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
+  },
+  {
+    label: 'Students Receiving Awards',
+    src: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&q=80',
+  },
+]
 
 export function InstituteDetailPage({ id }: any) {
   const { push: navigate } = useRouter();
   const [activeTab, setActiveTab] = useState('about');
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+  const [showAwardGallery, setShowAwardGallery] = useState(false)
+  const [selectedAwardImage, setSelectedAwardImage] = useState<number | null>(null)
 
   const openLightbox = (index: number) => {
     setSelectedImage(index)
@@ -171,6 +208,40 @@ export function InstituteDetailPage({ id }: any) {
       setSelectedImage((selectedImage - 1 + galleryImages.length) % galleryImages.length)
     }
   }
+
+  const openAwardLightbox = (index: number) => {
+    setSelectedAwardImage(index)
+  }
+
+  const closeAwardLightbox = () => {
+    setSelectedAwardImage(null)
+  }
+
+  const nextAwardImage = () => {
+    if (selectedAwardImage !== null) {
+      setSelectedAwardImage((selectedAwardImage + 1) % awardPhotos.length)
+    }
+  }
+
+  const prevAwardImage = () => {
+    if (selectedAwardImage !== null) {
+      setSelectedAwardImage((selectedAwardImage - 1 + awardPhotos.length) % awardPhotos.length)
+    }
+  }
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (!scrollRef.current) return
+
+    const scrollAmount = 200
+
+    scrollRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Banner */}
@@ -202,14 +273,8 @@ export function InstituteDetailPage({ id }: any) {
           <div className="flex flex-col md:flex-row items-start gap-8">
             {/* Logo */}
             <motion.div
-              initial={{
-                opacity: 0,
-                scale: 0.9,
-              }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-              }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-2xl flex items-center justify-center text-5xl shadow-xl border-4 border-white/20 flex-shrink-0"
             >
               <img
@@ -221,14 +286,8 @@ export function InstituteDetailPage({ id }: any) {
 
             {/* Info */}
             <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               className="flex-1"
             >
               <div className="flex flex-wrap gap-2 mb-3">
@@ -268,40 +327,16 @@ export function InstituteDetailPage({ id }: any) {
 
             {/* Quick Stats */}
             <motion.div
-              initial={{
-                opacity: 0,
-                x: 20,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              transition={{
-                delay: 0.2,
-              }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
               className="hidden lg:grid grid-cols-2 gap-3 flex-shrink-0"
             >
               {[
-                {
-                  label: 'Rating',
-                  value: '4.8',
-                  icon: Star,
-                },
-                {
-                  label: 'Students',
-                  value: '2,500+',
-                  icon: Users,
-                },
-                {
-                  label: 'Programs',
-                  value: '12',
-                  icon: BookOpen,
-                },
-                {
-                  label: 'Awards',
-                  value: '15+',
-                  icon: Award,
-                },
+                { label: 'Rating', value: '4.8', icon: Star },
+                { label: 'Students', value: '2,500+', icon: Users },
+                { label: 'Programs', value: '12', icon: BookOpen },
+                { label: 'Awards', value: '15+', icon: Award },
               ].map((s, i) => (
                 <div
                   key={i}
@@ -321,42 +356,57 @@ export function InstituteDetailPage({ id }: any) {
 
       {/* Tab Navigation */}
       <div className="bg-white border-b border-gray-200 sticky top-[68px] z-30 shadow-sm">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex overflow-x-auto scrollbar-hide -mb-px">
+        <div className="container mx-auto px-4 max-w-7xl relative">
+
+          {/* Left Arrow */}
+          <button
+            onClick={() => scroll('left')}
+            className="absolute left-[-25px] top-1/2 -translate-y-1/2 z-40 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Scrollable Tabs */}
+          <div
+            ref={scrollRef}
+            className="flex overflow-x-auto scrollbar-hide -mb-px scroll-smooth"
+          >
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-all ${activeTab === tab.id ? 'border-[#d91f22] text-[#d91f22]' : 'border-transparent text-gray-500 hover:text-[#252872] hover:border-gray-300'}`}
+                className={`flex items-center gap-2 px-5 py-4 text-sm font-medium whitespace-nowrap border-b-2 transition-all ${activeTab === tab.id
+                  ? 'border-[#d91f22] text-[#d91f22]'
+                  : 'border-transparent text-gray-500 hover:text-[#252872] hover:border-gray-300'
+                  }`}
               >
                 <tab.icon className="w-4 h-4" />
                 {tab.label}
               </button>
             ))}
           </div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={() => scroll('right')}
+            className="absolute right-[-25px] top-1/2 -translate-y-1/2 z-40 bg-white shadow-md p-2 rounded-full hover:bg-gray-100"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
         </div>
       </div>
+
 
       {/* Tab Content */}
       <div className="container mx-auto px-4 max-w-7xl py-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{
-              opacity: 0,
-              y: 12,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              y: -12,
-            }}
-            transition={{
-              duration: 0.2,
-            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2 }}
           >
             {/* ABOUT */}
             {activeTab === 'about' && (
@@ -432,30 +482,12 @@ export function InstituteDetailPage({ id }: any) {
                     </h3>
                     <div className="space-y-4">
                       {[
-                        {
-                          label: 'Established',
-                          value: '2005',
-                        },
-                        {
-                          label: 'Type',
-                          value: 'Private',
-                        },
-                        {
-                          label: 'Affiliation',
-                          value: 'Tribhuvan University',
-                        },
-                        {
-                          label: 'Campus Size',
-                          value: '5 Acres',
-                        },
-                        {
-                          label: 'Faculty Members',
-                          value: '120+',
-                        },
-                        {
-                          label: 'Library Books',
-                          value: '25,000+',
-                        },
+                        { label: 'Established', value: '2005' },
+                        { label: 'Type', value: 'Private' },
+                        { label: 'Affiliation', value: 'Tribhuvan University' },
+                        { label: 'Campus Size', value: '5 Acres' },
+                        { label: 'Faculty Members', value: '120+' },
+                        { label: 'Library Books', value: '25,000+' },
                       ].map((item, i) => (
                         <div
                           key={i}
@@ -482,6 +514,155 @@ export function InstituteDetailPage({ id }: any) {
                       Apply Now <ExternalLink className="w-4 h-4" />
                     </button>
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* COLLEGE TOUR */}
+            {activeTab === 'tour' && (
+              <div>
+                <h2 className="text-2xl font-bold text-[#252872] mb-6">
+                  College Tour
+                </h2>
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:scale-110 transition-transform">
+                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center pl-1 shadow-xl">
+                          <Play className="w-7 h-7 text-[#d91f22] fill-current" />
+                        </div>
+                      </div>
+                      <h3 className="text-white text-xl font-bold mb-2">
+                        Virtual Campus Tour
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        Experience our campus from the comfort of your home
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                  {[
+                    'Main Building Tour',
+                    'Library & Labs',
+                    'Sports Facilities',
+                  ].map((tour, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow"
+                    >
+                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Play className="w-6 h-6 text-[#d91f22]" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#252872] text-sm">
+                          {tour}
+                        </h4>
+                        <p className="text-xs text-gray-400">3-5 min video</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* FACULTY */}
+            {activeTab === 'faculty' && (
+              <div>
+                <h2 className="text-2xl font-bold text-[#252872] mb-6">
+                  Our Faculty
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[
+                    {
+                      name: 'Dr. Ramesh Shrestha',
+                      image: 'https://i.pravatar.cc/150?img=12',
+                      designation: 'Dean, Faculty of Management',
+                      qualification: 'Ph.D. in Business Administration',
+                      experience: '15 Years',
+                      specialization: 'Strategic Management, Marketing',
+                    },
+                    {
+                      name: 'Prof. Sita Karki',
+                      image: 'https://i.pravatar.cc/150?img=5',
+                      designation: 'Head, Computer Science Dept.',
+                      qualification: 'Ph.D. in Computer Science',
+                      experience: '18 Years',
+                      specialization: 'AI, Machine Learning, Data Science',
+                    },
+                    {
+                      name: 'Dr. Binod Thapa',
+                      image: 'https://i.pravatar.cc/150?img=22',
+                      designation: 'Associate Professor, BBA',
+                      qualification: 'Ph.D. in Economics',
+                      experience: '12 Years',
+                      specialization: 'Economics, Finance, Banking',
+                    },
+                    {
+                      name: 'Ms. Anjali Rai',
+                      image: 'https://i.pravatar.cc/150?img=32',
+                      designation: 'Senior Lecturer, English',
+                      qualification: 'M.A. in English Literature',
+                      experience: '10 Years',
+                      specialization: 'Literature, Communication Skills',
+                    },
+                    {
+                      name: 'Dr. Krishna Prasad',
+                      image: 'https://i.pravatar.cc/150?img=45',
+                      designation: 'Professor, Mathematics',
+                      qualification: 'Ph.D. in Applied Mathematics',
+                      experience: '20 Years',
+                      specialization: 'Statistics, Calculus, Research',
+                    },
+                    {
+                      name: 'Mr. Suresh Adhikari',
+                      image: 'https://i.pravatar.cc/150?img=60',
+                      designation: 'Assistant Professor, IT',
+                      qualification: 'M.Sc. in Information Technology',
+                      experience: '8 Years',
+                      specialization: 'Web Development, Networking',
+                    },
+                  ].map((faculty, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300"
+                    >
+                      <div className="flex items-start gap-4 mb-4">
+                        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 shadow-sm">
+                          <img
+                            src={faculty.image}
+                            alt={faculty.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-[#252872] mb-1">
+                            {faculty.name}
+                          </h3>
+                          <p className="text-xs text-[#d91f22] font-medium">
+                            {faculty.designation}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-start gap-2">
+                          <GraduationCap className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-600">{faculty.qualification}</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <Clock className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-600">{faculty.experience} Experience</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <BookOpen className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-600">{faculty.specialization}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             )}
@@ -551,17 +732,9 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((facility, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.05,
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
                       className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
                     >
                       <div
@@ -634,17 +807,9 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((program, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.05,
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
                       className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group"
                     >
                       <div
@@ -737,17 +902,9 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((activity, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.04,
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.04 }}
                       className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 text-center"
                     >
                       <div
@@ -796,17 +953,9 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((stat, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        scale: 0.95,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        scale: 1,
-                      }}
-                      transition={{
-                        delay: i * 0.08,
-                      }}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.08 }}
                       className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center"
                     >
                       <div className="text-3xl font-bold text-[#252872] mb-1">
@@ -818,6 +967,98 @@ export function InstituteDetailPage({ id }: any) {
                     </motion.div>
                   ))}
                 </div>
+
+                {/* Student Placements */}
+                <div>
+                  <h3 className="text-xl font-bold text-[#252872] mb-4">
+                    Recent Placements
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {[
+                      {
+                        name: 'Aarav Sharma',
+                        image: 'https://i.pravatar.cc/150?img=11',
+                        program: 'BBA - 2025 Batch',
+                        company: 'Nabil Bank',
+                        position: 'Management Trainee',
+                        salary: 'NPR 8 Lakhs/year',
+                        achievement: 'Batch Topper, Student Council President',
+                      },
+                      {
+                        name: 'Priya Adhikari',
+                        image: 'https://i.pravatar.cc/150?img=47',
+                        program: 'B.Sc. CSIT - 2025 Batch',
+                        company: 'Deloitte Nepal',
+                        position: 'Software Engineer',
+                        salary: 'NPR 12 Lakhs/year',
+                        achievement: 'Best Final Year Project, Hackathon Winner',
+                      },
+                      {
+                        name: 'Bikash Thapa',
+                        image: 'https://i.pravatar.cc/150?img=33',
+                        program: 'BCA - 2024 Batch',
+                        company: 'WorldLink Communications',
+                        position: 'Junior Developer',
+                        salary: 'NPR 6 Lakhs/year',
+                        achievement: 'Tech Club President, 3 Internships',
+                      },
+                      {
+                        name: 'Srijana KC',
+                        image: 'https://i.pravatar.cc/150?img=25',
+                        program: 'MBA - 2025 Batch',
+                        company: 'Unilever Nepal',
+                        position: 'Marketing Executive',
+                        salary: 'NPR 10 Lakhs/year',
+                        achievement: "Best Marketing Project, Dean's List",
+                      },
+                    ].map((student, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all"
+                      >
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 shadow-sm">
+                            <img
+                              src={student.image}
+                              alt={student.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[#252872] mb-1">
+                              {student.name}
+                            </h4>
+                            <p className="text-xs text-gray-500">{student.program}</p>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex items-start gap-2">
+                            <Building className="w-4 h-4 text-[#d91f22] mt-0.5 flex-shrink-0" />
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900">{student.company}</p>
+                              <p className="text-xs text-gray-500">{student.position}</p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <DollarSign className="w-4 h-4 text-green-600 flex-shrink-0" />
+                            <span className="text-sm font-bold text-green-600">{student.salary}</span>
+                          </div>
+
+                          <div className="flex items-start gap-2">
+                            <Target className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                            <p className="text-xs text-gray-600">{student.achievement}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                   <h3 className="font-bold text-[#252872] mb-4">
                     Top Recruiters
@@ -858,37 +1099,42 @@ export function InstituteDetailPage({ id }: any) {
                   {[
                     {
                       name: 'Aarav Sharma',
+                      image: 'https://i.pravatar.cc/150?img=15',
                       batch: '2015',
                       role: 'CEO, TechStart Nepal',
                       quote: 'Milton gave me the foundation to dream big.',
                     },
                     {
                       name: 'Priya Adhikari',
+                      image: 'https://i.pravatar.cc/150?img=48',
                       batch: '2016',
                       role: 'Data Scientist, Google',
                       quote: 'The faculty mentorship was truly life-changing.',
                     },
                     {
                       name: 'Bikash Thapa',
+                      image: 'https://i.pravatar.cc/150?img=36',
                       batch: '2014',
                       role: 'Founder, EduTech Nepal',
                       quote: 'I learned leadership and teamwork here.',
                     },
                     {
                       name: 'Srijana KC',
+                      image: 'https://i.pravatar.cc/150?img=29',
                       batch: '2017',
                       role: 'VP, Nabil Bank',
-                      quote:
-                        'The practical exposure prepared me for the real world.',
+                      quote: 'The practical exposure prepared me for the real world.',
                     },
                     {
                       name: 'Rohan Poudel',
+                      image: 'https://i.pravatar.cc/150?img=52',
                       batch: '2018',
                       role: 'Software Engineer, Microsoft',
                       quote: 'Best 4 years of my academic life.',
                     },
                     {
                       name: 'Anita Gurung',
+                      image: 'https://i.pravatar.cc/150?img=44',
                       batch: '2016',
                       role: 'Public Health Director, WHO Nepal',
                       quote: 'Milton instilled values that guide me every day.',
@@ -896,22 +1142,18 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((alumni, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.05,
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
                       className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
                     >
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-[#252872] to-[#3a3d9e] rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {alumni.name.charAt(0)}
+                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100 shadow-sm">
+                          <img
+                            src={alumni.image}
+                            alt={alumni.name}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div>
                           <h3 className="font-bold text-[#252872]">
@@ -936,72 +1178,168 @@ export function InstituteDetailPage({ id }: any) {
 
             {/* AWARDS */}
             {activeTab === 'awards' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Awards & Achievements
-                </h2>
-                <div className="space-y-4">
-                  {[
-                    {
-                      year: '2025',
-                      title: 'Best Private College in Nepal',
-                      org: 'Nepal Education Board',
-                      icon: '🏆',
-                    },
-                    {
-                      year: '2024',
-                      title: 'Excellence in IT Education',
-                      org: 'CAN Federation',
-                      icon: '🥇',
-                    },
-                    {
-                      year: '2024',
-                      title: 'Top Placement Record',
-                      org: 'FNCCI',
-                      icon: '📈',
-                    },
-                    {
-                      year: '2023',
-                      title: 'Green Campus Award',
-                      org: 'Ministry of Environment',
-                      icon: '🌿',
-                    },
-                    {
-                      year: '2023',
-                      title: 'Innovation in Teaching',
-                      org: 'UGC Nepal',
-                      icon: '💡',
-                    },
-                  ].map((award, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{
-                        opacity: 0,
-                        x: -20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        x: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.08,
-                      }}
-                      className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-5"
-                    >
-                      <div className="text-3xl flex-shrink-0">{award.icon}</div>
-                      <div className="flex-1">
-                        <h3 className="font-bold text-[#252872]">
-                          {award.title}
-                        </h3>
-                        <p className="text-sm text-gray-500">{award.org}</p>
-                      </div>
-                      <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg">
-                        {award.year}
-                      </span>
-                    </motion.div>
-                  ))}
+              <>
+                <div className="mb-6 flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-[#252872]">
+                    Awards & Achievements
+                  </h2>
+                  <button
+                    onClick={() => setShowAwardGallery(!showAwardGallery)}
+                    className="flex items-center gap-2 px-4 py-2 bg-[#252872] hover:bg-[#1a1d54] text-white rounded-xl font-semibold text-sm transition-colors"
+                  >
+                    <Eye className="w-4 h-4" />
+                    {showAwardGallery ? 'View List' : 'View Photos'}
+                  </button>
                 </div>
-              </div>
+
+                {!showAwardGallery ? (
+                  <div className="space-y-4">
+                    {[
+                      {
+                        year: '2025',
+                        title: 'Best Private College in Nepal',
+                        org: 'Nepal Education Board',
+                        icon: '🏆',
+                      },
+                      {
+                        year: '2024',
+                        title: 'Excellence in IT Education',
+                        org: 'CAN Federation',
+                        icon: '🥇',
+                      },
+                      {
+                        year: '2024',
+                        title: 'Top Placement Record',
+                        org: 'FNCCI',
+                        icon: '📈',
+                      },
+                      {
+                        year: '2023',
+                        title: 'Green Campus Award',
+                        org: 'Ministry of Environment',
+                        icon: '🌿',
+                      },
+                      {
+                        year: '2023',
+                        title: 'Innovation in Teaching',
+                        org: 'UGC Nepal',
+                        icon: '💡',
+                      },
+                    ].map((award, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.08 }}
+                        className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-5"
+                      >
+                        <div className="text-3xl flex-shrink-0">{award.icon}</div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-[#252872]">
+                            {award.title}
+                          </h3>
+                          <p className="text-sm text-gray-500">{award.org}</p>
+                        </div>
+                        <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg">
+                          {award.year}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {awardPhotos.map((img, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.04 }}
+                        onClick={() => openAwardLightbox(i)}
+                        className="aspect-video rounded-2xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
+                      >
+                        <img
+                          src={img.src}
+                          alt={img.label}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                          <Camera className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
+                          <p className="text-white text-xs font-medium">
+                            {img.label}
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Award Photos Lightbox */}
+                <AnimatePresence>
+                  {selectedAwardImage !== null && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+                      onClick={closeAwardLightbox}
+                    >
+                      <button
+                        onClick={closeAwardLightbox}
+                        className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10 group"
+                      >
+                        <X className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          prevAwardImage()
+                        }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
+                      >
+                        <ChevronLeft className="w-6 h-6 text-white" />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          nextAwardImage()
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
+                      >
+                        <ChevronRight className="w-6 h-6 text-white" />
+                      </button>
+
+                      <motion.div
+                        initial={{ scale: 0.9 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0.9 }}
+                        className="max-w-5xl max-h-[90vh] relative"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <img
+                          src={awardPhotos[selectedAwardImage].src}
+                          alt={awardPhotos[selectedAwardImage].label}
+                          className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-xl">
+                          <h3 className="text-white text-xl font-bold text-center">
+                            {awardPhotos[selectedAwardImage].label}
+                          </h3>
+                        </div>
+                      </motion.div>
+
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                        <span className="text-white font-medium text-sm">
+                          {selectedAwardImage + 1} / {awardPhotos.length}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
             )}
 
             {/* NEWS */}
@@ -1043,17 +1381,9 @@ export function InstituteDetailPage({ id }: any) {
                   ].map((news, i) => (
                     <motion.div
                       key={i}
-                      initial={{
-                        opacity: 0,
-                        y: 20,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      transition={{
-                        delay: i * 0.05,
-                      }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
                       className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 group cursor-pointer"
                     >
                       <div className="flex items-center gap-2 mb-3">
@@ -1187,17 +1517,9 @@ export function InstituteDetailPage({ id }: any) {
                     {galleryImages.map((img, i) => (
                       <motion.div
                         key={i}
-                        initial={{
-                          opacity: 0,
-                          scale: 0.95,
-                        }}
-                        animate={{
-                          opacity: 1,
-                          scale: 1,
-                        }}
-                        transition={{
-                          delay: i * 0.04,
-                        }}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.04 }}
                         onClick={() => openLightbox(i)}
                         className="aspect-square rounded-2xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
                       >
@@ -1229,7 +1551,6 @@ export function InstituteDetailPage({ id }: any) {
                       className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
                       onClick={closeLightbox}
                     >
-                      {/* Close Button */}
                       <button
                         onClick={closeLightbox}
                         className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10 group"
@@ -1237,7 +1558,6 @@ export function InstituteDetailPage({ id }: any) {
                         <X className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
                       </button>
 
-                      {/* Previous Button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
@@ -1248,7 +1568,6 @@ export function InstituteDetailPage({ id }: any) {
                         <ChevronLeft className="w-6 h-6 text-white" />
                       </button>
 
-                      {/* Next Button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
@@ -1259,7 +1578,6 @@ export function InstituteDetailPage({ id }: any) {
                         <ChevronRight className="w-6 h-6 text-white" />
                       </button>
 
-                      {/* Image */}
                       <motion.div
                         initial={{ scale: 0.9 }}
                         animate={{ scale: 1 }}
@@ -1279,7 +1597,6 @@ export function InstituteDetailPage({ id }: any) {
                         </div>
                       </motion.div>
 
-                      {/* Image Counter */}
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                         <span className="text-white font-medium text-sm">
                           {selectedImage + 1} / {galleryImages.length}
@@ -1289,54 +1606,6 @@ export function InstituteDetailPage({ id }: any) {
                   )}
                 </AnimatePresence>
               </>
-            )}
-
-            {/* 360 TOUR */}
-            {activeTab === 'tour' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  360° College Tour
-                </h2>
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:scale-110 transition-transform">
-                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center pl-1 shadow-xl">
-                          <Play className="w-7 h-7 text-[#d91f22] fill-current" />
-                        </div>
-                      </div>
-                      <h3 className="text-white text-xl font-bold mb-2">
-                        Virtual Campus Tour
-                      </h3>
-                      <p className="text-gray-400 text-sm">
-                        Experience our campus from the comfort of your home
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                  {[
-                    'Main Building Tour',
-                    'Library & Labs',
-                    'Sports Facilities',
-                  ].map((tour, i) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Play className="w-6 h-6 text-[#d91f22]" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-[#252872] text-sm">
-                          {tour}
-                        </h4>
-                        <p className="text-xs text-gray-400">3-5 min video</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             )}
           </motion.div>
         </AnimatePresence>

@@ -11,12 +11,14 @@ import { ImageGallery } from '../src/components/ImageGallery'
 import { NoticesSection } from '../src/components/NoticesSection'
 import { VideoGrid } from '../src/components/VideoGrid'
 import { Newsletter } from '../src/components/Newsletter'
+import { PlatformsSection } from '@/src/components/PlatformSection'
 
 export default function HomePage() {
   return (
     <main>
       <HeroSection />
       <StatsSection />
+      <PlatformsSection />
       <PartnersSection />
       <CategoriesSection />
       <AdBanner />

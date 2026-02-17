@@ -13,9 +13,11 @@ import {
   X,
   BookOpen,
   School,
+  Award,
 } from 'lucide-react'
 import { AdBanner } from '../components/AdBanner'
 import { Newsletter } from '../components/Newsletter'
+
 // Mock Data for Entrance
 const entranceCourses = [
   {
@@ -23,6 +25,7 @@ const entranceCourses = [
     title: 'CMAT Preparation',
     university: 'Tribhuvan University',
     category: 'Management',
+    level: 'Bachelors',
     duration: '10 Weeks',
     students: '2.5k+',
     color: 'bg-green-500',
@@ -32,42 +35,47 @@ const entranceCourses = [
     title: 'IOE Entrance',
     university: 'Tribhuvan University',
     category: 'Engineering',
+    level: 'Bachelors',
     duration: '12 Weeks',
     students: '5k+',
     color: 'bg-blue-500',
   },
   {
     id: 3,
-    title: 'KUUMAT',
-    university: 'Kathmandu University',
-    category: 'Management',
+    title: 'SEE (Class 10)',
+    university: 'Government of Nepal',
+    category: 'Secondary',
+    level: 'Class 10',
     duration: '8 Weeks',
-    students: '1.2k+',
-    color: 'bg-green-500',
+    students: '12k+',
+    color: 'bg-purple-500',
   },
   {
     id: 4,
     title: 'MBBS Entrance (CEE)',
     university: 'Medical Education Commission',
     category: 'Medical',
+    level: 'Bachelors',
     duration: '16 Weeks',
     students: '8k+',
     color: 'bg-red-500',
   },
   {
     id: 5,
-    title: "St. Xavier's Entrance",
-    university: "St. Xavier's College",
-    category: 'Science',
-    duration: '6 Weeks',
-    students: '3k+',
-    color: 'bg-purple-500',
+    title: 'NEB Class 12 (+2)',
+    university: 'National Examination Board',
+    category: 'Higher Secondary',
+    level: '+2',
+    duration: '10 Weeks',
+    students: '15k+',
+    color: 'bg-indigo-500',
   },
   {
     id: 6,
     title: 'BCA Entrance',
     university: 'Tribhuvan University',
     category: 'IT',
+    level: 'Bachelors',
     duration: '8 Weeks',
     students: '4k+',
     color: 'bg-orange-500',
@@ -77,6 +85,7 @@ const entranceCourses = [
     title: 'CSIT Entrance',
     university: 'Tribhuvan University',
     category: 'IT',
+    level: 'Bachelors',
     duration: '10 Weeks',
     students: '6k+',
     color: 'bg-orange-500',
@@ -86,37 +95,86 @@ const entranceCourses = [
     title: 'Nursing Entrance',
     university: 'CTEVT',
     category: 'Medical',
+    level: 'Bachelors',
     duration: '8 Weeks',
     students: '2k+',
     color: 'bg-red-500',
   },
+  {
+    id: 9,
+    title: 'KUUMAT',
+    university: 'Kathmandu University',
+    category: 'Management',
+    level: 'Bachelors',
+    duration: '9 Weeks',
+    students: '1.8k+',
+    color: 'bg-green-500',
+  },
+  {
+    id: 10,
+    title: 'KUET (KU Engineering)',
+    university: 'Kathmandu University',
+    category: 'Engineering',
+    level: 'Bachelors',
+    duration: '11 Weeks',
+    students: '2.2k+',
+    color: 'bg-blue-500',
+  },
+  {
+    id: 11,
+    title: 'PUSET (PU Engineering)',
+    university: 'Pokhara University',
+    category: 'Engineering',
+    level: 'Bachelors',
+    duration: '10 Weeks',
+    students: '1.5k+',
+    color: 'bg-blue-500',
+  },
+  {
+    id: 12,
+    title: 'Law Entrance',
+    university: 'Tribhuvan University',
+    category: 'Law',
+    level: 'Bachelors',
+    duration: '8 Weeks',
+    students: '1.2k+',
+    color: 'bg-yellow-500',
+  },
 ]
+
 export function EntrancePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([])
+  const [selectedUniversities, setSelectedUniversities] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('Popularity')
+
   const categories = [
-    {
-      name: 'Medical',
-      count: 12,
-    },
-    {
-      name: 'Engineering',
-      count: 8,
-    },
-    {
-      name: 'Management',
-      count: 15,
-    },
-    {
-      name: 'Science',
-      count: 6,
-    },
-    {
-      name: 'IT',
-      count: 10,
-    },
+    { name: 'Medical', count: 2 },
+    { name: 'Engineering', count: 4 },
+    { name: 'Management', count: 2 },
+    { name: 'IT', count: 2 },
+    { name: 'Law', count: 1 },
+    { name: 'Secondary', count: 1 },
+    { name: 'Higher Secondary', count: 1 },
   ]
+
+  const levels = [
+    { name: 'Class 10', count: 1 },
+    { name: '+2', count: 1 },
+    { name: 'Bachelors', count: 10 },
+  ]
+
+  const universities = [
+    { name: 'Tribhuvan University', count: 5 },
+    { name: 'Kathmandu University', count: 2 },
+    { name: 'Pokhara University', count: 1 },
+    { name: 'Government of Nepal', count: 1 },
+    { name: 'Medical Education Commission', count: 1 },
+    { name: 'CTEVT', count: 1 },
+    { name: 'National Examination Board', count: 1 },
+  ]
+
   const toggleCategory = (cat: string) => {
     if (selectedCategories.includes(cat)) {
       setSelectedCategories(selectedCategories.filter((c) => c !== cat))
@@ -124,15 +182,39 @@ export function EntrancePage() {
       setSelectedCategories([...selectedCategories, cat])
     }
   }
+
+  const toggleLevel = (level: string) => {
+    if (selectedLevels.includes(level)) {
+      setSelectedLevels(selectedLevels.filter((l) => l !== level))
+    } else {
+      setSelectedLevels([...selectedLevels, level])
+    }
+  }
+
+  const toggleUniversity = (uni: string) => {
+    if (selectedUniversities.includes(uni)) {
+      setSelectedUniversities(selectedUniversities.filter((u) => u !== uni))
+    } else {
+      setSelectedUniversities([...selectedUniversities, uni])
+    }
+  }
+
   const filteredCourses = entranceCourses.filter((course) => {
     const matchesCategory =
       selectedCategories.length === 0 ||
       selectedCategories.includes(course.category)
+    const matchesLevel =
+      selectedLevels.length === 0 ||
+      selectedLevels.includes(course.level)
+    const matchesUniversity =
+      selectedUniversities.length === 0 ||
+      selectedUniversities.includes(course.university)
     const matchesSearch = course.title
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+    return matchesCategory && matchesLevel && matchesUniversity && matchesSearch
   })
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Breadcrumb Header */}
@@ -161,26 +243,10 @@ export function EntrancePage() {
         <div className="container mx-auto px-4 max-w-7xl py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              {
-                label: 'Total Courses',
-                value: '8',
-                icon: BookOpen,
-              },
-              {
-                label: 'Students Enrolled',
-                value: '30k+',
-                icon: Users,
-              },
-              {
-                label: 'Universities',
-                value: '5',
-                icon: School,
-              },
-              {
-                label: 'Streams',
-                value: '5',
-                icon: GraduationCap,
-              },
+              { label: 'Total Courses', value: '12', icon: BookOpen },
+              { label: 'Students Enrolled', value: '60k+', icon: Users },
+              { label: 'Universities', value: '7', icon: School },
+              { label: 'Streams', value: '7', icon: GraduationCap },
             ].map((stat, idx) => (
               <div
                 key={idx}
@@ -212,16 +278,18 @@ export function EntrancePage() {
                 <h3 className="text-lg font-bold text-[#252872] flex items-center">
                   <Filter className="w-5 h-5 mr-2 text-[#d91f22]" />
                   Filters
-                  {selectedCategories.length > 0 && (
+                  {(selectedCategories.length + selectedLevels.length + selectedUniversities.length) > 0 && (
                     <span className="ml-2 bg-[#d91f22] text-white text-xs px-2 py-0.5 rounded-full">
-                      {selectedCategories.length}
+                      {selectedCategories.length + selectedLevels.length + selectedUniversities.length}
                     </span>
                   )}
                 </h3>
-                {(selectedCategories.length > 0 || searchQuery) && (
+                {(selectedCategories.length > 0 || selectedLevels.length > 0 || selectedUniversities.length > 0 || searchQuery) && (
                   <button
                     onClick={() => {
                       setSelectedCategories([])
+                      setSelectedLevels([])
+                      setSelectedUniversities([])
                       setSearchQuery('')
                     }}
                     className="text-xs text-[#d91f22] hover:underline font-medium"
@@ -243,8 +311,47 @@ export function EntrancePage() {
                 <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
               </div>
 
+              {/* Level Filter */}
+              <div className="mb-6">
+                <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">
+                  Level
+                </h4>
+                <div className="space-y-2">
+                  {levels.map((level) => (
+                    <label
+                      key={level.name}
+                      className="flex items-center justify-between cursor-pointer group"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div
+                          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedLevels.includes(level.name) ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}
+                        >
+                          {selectedLevels.includes(level.name) && (
+                            <CheckCircle2 className="w-3 h-3 text-white" />
+                          )}
+                        </div>
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          checked={selectedLevels.includes(level.name)}
+                          onChange={() => toggleLevel(level.name)}
+                        />
+                        <span
+                          className={`text-sm ${selectedLevels.includes(level.name) ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}
+                        >
+                          {level.name}
+                        </span>
+                      </div>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {level.count}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               {/* Categories */}
-              <div>
+              <div className="mb-6">
                 <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">
                   Stream
                 </h4>
@@ -281,6 +388,45 @@ export function EntrancePage() {
                   ))}
                 </div>
               </div>
+
+              {/* University Filter */}
+              <div>
+                <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">
+                  University
+                </h4>
+                <div className="space-y-2">
+                  {universities.map((uni) => (
+                    <label
+                      key={uni.name}
+                      className="flex items-center justify-between cursor-pointer group"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <div
+                          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedUniversities.includes(uni.name) ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}
+                        >
+                          {selectedUniversities.includes(uni.name) && (
+                            <CheckCircle2 className="w-3 h-3 text-white" />
+                          )}
+                        </div>
+                        <input
+                          type="checkbox"
+                          className="hidden"
+                          checked={selectedUniversities.includes(uni.name)}
+                          onChange={() => toggleUniversity(uni.name)}
+                        />
+                        <span
+                          className={`text-sm ${selectedUniversities.includes(uni.name) ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}
+                        >
+                          {uni.name}
+                        </span>
+                      </div>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {uni.count}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             </div>
           </aside>
 
@@ -310,8 +456,18 @@ export function EntrancePage() {
             </div>
 
             {/* Active Filters Pills */}
-            {selectedCategories.length > 0 && (
+            {(selectedCategories.length > 0 || selectedLevels.length > 0 || selectedUniversities.length > 0) && (
               <div className="flex flex-wrap gap-2 mb-6">
+                {selectedLevels.map((level) => (
+                  <button
+                    key={level}
+                    onClick={() => toggleLevel(level)}
+                    className="flex items-center space-x-1 bg-red-50 text-[#d91f22] px-3 py-1 rounded-full text-xs font-medium hover:bg-red-100 transition-colors"
+                  >
+                    <span>{level}</span>
+                    <X className="w-3 h-3" />
+                  </button>
+                ))}
                 {selectedCategories.map((cat) => (
                   <button
                     key={cat}
@@ -319,6 +475,16 @@ export function EntrancePage() {
                     className="flex items-center space-x-1 bg-red-50 text-[#d91f22] px-3 py-1 rounded-full text-xs font-medium hover:bg-red-100 transition-colors"
                   >
                     <span>{cat}</span>
+                    <X className="w-3 h-3" />
+                  </button>
+                ))}
+                {selectedUniversities.map((uni) => (
+                  <button
+                    key={uni}
+                    onClick={() => toggleUniversity(uni)}
+                    className="flex items-center space-x-1 bg-red-50 text-[#d91f22] px-3 py-1 rounded-full text-xs font-medium hover:bg-red-100 transition-colors"
+                  >
+                    <span>{uni}</span>
                     <X className="w-3 h-3" />
                   </button>
                 ))}
@@ -331,21 +497,10 @@ export function EntrancePage() {
                   <motion.div
                     key={course.id}
                     layout
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      scale: 0.95,
-                    }}
-                    transition={{
-                      delay: index * 0.05,
-                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: index * 0.05 }}
                     className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group flex flex-col relative"
                   >
                     {/* Top Color Stripe */}
@@ -353,9 +508,15 @@ export function EntrancePage() {
 
                     <div className="p-6 flex-1">
                       <div className="flex justify-between items-start mb-4">
-                        <span className="inline-block px-3 py-1 bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-wider rounded-full">
-                          {course.category}
-                        </span>
+                        <div className="flex flex-col gap-2">
+                          <span className="inline-block px-3 py-1 bg-gray-50 text-gray-600 text-xs font-bold uppercase tracking-wider rounded-full">
+                            {course.category}
+                          </span>
+                          <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider rounded-full">
+                            <Award className="w-3 h-3 mr-1" />
+                            {course.level}
+                          </span>
+                        </div>
                         <div className="bg-red-50 p-2 rounded-full">
                           <GraduationCap className="w-5 h-5 text-[#d91f22]" />
                         </div>
@@ -385,7 +546,7 @@ export function EntrancePage() {
                         View Syllabus
                       </button>
                       <button className="flex-1 bg-[#d91f22] text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-[#b91c1c] transition-colors shadow-md">
-                        Enroll Now
+                        Start Paper
                       </button>
                     </div>
                   </motion.div>

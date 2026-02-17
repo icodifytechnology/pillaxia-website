@@ -9,10 +9,13 @@ import { ImageGallery } from '../components/ImageGallery'
 import { NoticesSection } from '../components/NoticesSection'
 import { VideoGrid } from '../components/VideoGrid'
 import { Newsletter } from '../components/Newsletter'
+import { PlatformsSection } from '../components/PlatformSection'
+
 export function HomePage() {
   return (
     <main>
       <HeroSection />
+      <PlatformsSection/>
       <StatsSection />
       <PartnersSection />
       <CategoriesSection />
