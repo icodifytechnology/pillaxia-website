@@ -38,8 +38,21 @@ import {
   DollarSign,
   Building,
   Target,
+  User,
+  Lightbulb,
+  CheckCircle2,
+  GraduationCapIcon,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation';
+import PlacementsSection from '../components/institute/PlacementsSection';
+import AcademicResults from '../components/institute/AcademicResults';
+import ScholarshipSection from '../components/institute/ScholarshipSection';
+import AboutSection from '../components/institute/AboutSection';
+import FacilitiesSection from '../components/institute/FacilitiesSection';
+import ProgramsSection from '../components/institute/ProgramsSection';
+import ECASection from '../components/institute/ECASection';
+import NewsSection from '../components/institute/NewsSection';
+import AlumniSection from '../components/institute/AlumniSection';
 
 const tabs = [
   {
@@ -49,12 +62,12 @@ const tabs = [
   },
   {
     id: 'tour',
-    label: 'College Tour',
+    label: '360 College Tour',
     icon: Video,
   },
   {
     id: 'faculty',
-    label: 'Faculty',
+    label: 'Faculties',
     icon: GraduationCap,
   },
   {
@@ -102,6 +115,12 @@ const tabs = [
     label: 'Gallery',
     icon: Camera,
   },
+   {
+    id: 'scholarship',
+    label: 'Scholarship',
+    icon: GraduationCapIcon,
+  },
+  
 ]
 
 const galleryImages = [
@@ -241,6 +260,209 @@ export function InstituteDetailPage({ id }: any) {
       behavior: 'smooth',
     })
   }
+
+  const [selectedFaculty, setSelectedFaculty] = useState<any>(null);
+
+  const facultyData = [
+    {
+      name: 'Dr. Ramesh Shrestha',
+      image: 'https://i.pravatar.cc/300?img=12',
+      designation: 'Senior Mathematics Instructor',
+      department: 'Mathematics Department',
+      experience: '15 Years',
+      qualification: 'Ph.D. in Applied Mathematics, Tribhuvan University',
+      email: 'ramesh.shrestha@institute.edu.np',
+      phone: '+977 9851234567',
+      location: 'Kathmandu, Nepal',
+      bio: 'Dr. Ramesh is a passionate Mathematics educator with over 15 years of teaching experience in entrance preparation and +2 level education. He specializes in problem-solving techniques and concept clarity, helping students build strong mathematical foundations.',
+      expertise: ['Entrance Exam Preparation', 'Advanced Problem Solving', 'Concept-Based Teaching', 'Competitive Exam Strategy', 'Mentorship & Academic Counseling'],
+      philosophy: 'I believe in making complex mathematical concepts simple through real-life examples and interactive discussions, ensuring every student grasps the fundamentals.',
+      achievements: [
+        'Produced 500+ successful entrance qualifiers',
+        'Best Faculty Award (2023)',
+        '98% student satisfaction rate',
+        'Published 5+ research papers in international journals',
+        'Developed innovative teaching methodology for entrance exams'
+      ],
+      hobbies: ['Reading motivational books', 'Playing chess', 'Public speaking', 'Traveling', 'Solving mathematical puzzles'],
+      education: [
+        { degree: 'Ph.D. in Applied Mathematics', university: 'Tribhuvan University', year: '2010' },
+        { degree: 'M.Sc. in Mathematics', university: 'Tribhuvan University', year: '2005' },
+        { degree: 'B.Sc. in Mathematics', university: 'Tribhuvan University', year: '2003' }
+      ],
+      publications: [
+        'Advanced Problem-Solving Techniques in Calculus (2022)',
+        'Innovative Methods in Teaching Mathematics (2021)',
+        'Research on Student Learning Patterns (2020)'
+      ],
+      courses: ['Advanced Mathematics', 'Calculus & Analysis', 'Statistics', 'Entrance Preparation']
+    },
+    {
+      name: 'Prof. Sita Karki',
+      image: 'https://i.pravatar.cc/300?img=5',
+      designation: 'Head of Computer Science Department',
+      department: 'Computer Science & IT',
+      experience: '18 Years',
+      qualification: 'Ph.D. in Computer Science, Pokhara University',
+      email: 'sita.karki@institute.edu.np',
+      phone: '+977 9851234568',
+      location: 'Pokhara, Nepal',
+      bio: 'Prof. Sita is an innovative educator dedicated to bridging the gap between theoretical knowledge and practical application. With expertise in AI and Machine Learning, she inspires students to embrace technology and innovation.',
+      expertise: ['AI & Machine Learning', 'Data Science', 'Programming Fundamentals', 'Project-Based Learning', 'Research & Development'],
+      philosophy: 'Technology is best learned by doing. I encourage hands-on projects and real-world problem solving to prepare students for the digital future.',
+      achievements: [
+        'Trained 1000+ IT professionals',
+        'Excellence in Teaching Award (2022)',
+        'Led 50+ successful student projects',
+        'Speaker at national tech conferences',
+        'Published 10+ research papers in AI/ML'
+      ],
+      hobbies: ['Coding challenges', 'Gardening', 'Tech blogging', 'Mentoring startups', 'Photography'],
+      education: [
+        { degree: 'Ph.D. in Computer Science', university: 'Pokhara University', year: '2012' },
+        { degree: 'M.Tech in AI & ML', university: 'IIT Bombay', year: '2007' },
+        { degree: 'B.E. in Computer Engineering', university: 'Pokhara University', year: '2004' }
+      ],
+      publications: [
+        'Machine Learning Applications in Education (2023)',
+        'Deep Learning for Beginners (2022)',
+        'AI in Nepali Context (2021)'
+      ],
+      courses: ['Artificial Intelligence', 'Machine Learning', 'Data Structures', 'Python Programming']
+    },
+    {
+      name: 'Dr. Binod Thapa',
+      image: 'https://i.pravatar.cc/300?img=22',
+      designation: 'Associate Professor, Business Studies',
+      department: 'Management Faculty',
+      experience: '12 Years',
+      qualification: 'Ph.D. in Economics, Kathmandu University',
+      email: 'binod.thapa@institute.edu.np',
+      phone: '+977 9851234569',
+      location: 'Lalitpur, Nepal',
+      bio: 'Dr. Binod combines academic excellence with industry experience to deliver practical business education. His teaching style focuses on case studies and real-world business scenarios that prepare students for corporate challenges.',
+      expertise: ['Economics & Finance', 'Banking & Insurance', 'Business Strategy', 'Market Analysis', 'Financial Planning'],
+      philosophy: 'Business education should not be limited to textbooks. I integrate current market trends and case studies to make learning relevant and engaging.',
+      achievements: [
+        '300+ BBA/BBS graduates placed in top companies',
+        'Authored 2 books on Nepali economy',
+        'Outstanding Educator Award (2021)',
+        'Consultant for 10+ business firms',
+        'Guest lecturer at international universities'
+      ],
+      hobbies: ['Stock market analysis', 'Writing articles', 'Cricket', 'Social volunteering', 'Reading business magazines'],
+      education: [
+        { degree: 'Ph.D. in Economics', university: 'Kathmandu University', year: '2014' },
+        { degree: 'MBA in Finance', university: 'Kathmandu University', year: '2009' },
+        { degree: 'BBS', university: 'Tribhuvan University', year: '2006' }
+      ],
+      publications: [
+        'Nepal Economy: Challenges and Opportunities (2023)',
+        'Banking Sector Analysis (2022)',
+        'Modern Business Strategies (2020)'
+      ],
+      courses: ['Business Economics', 'Financial Management', 'Banking & Insurance', 'Strategic Management']
+    },
+    {
+      name: 'Ms. Anjali Rai',
+      image: 'https://i.pravatar.cc/300?img=32',
+      designation: 'Senior English Language Instructor',
+      department: 'English & Communication',
+      experience: '10 Years',
+      qualification: 'M.A. in English Literature, Tribhuvan University',
+      email: 'anjali.rai@institute.edu.np',
+      phone: '+977 9851234570',
+      location: 'Kathmandu, Nepal',
+      bio: 'Ms. Anjali is passionate about developing strong communication skills in students. She believes that mastering English opens doors to global opportunities and focuses on practical communication along with literature appreciation.',
+      expertise: ['English Literature', 'Communication Skills', 'IELTS/TOEFL Preparation', 'Creative Writing', 'Public Speaking'],
+      philosophy: 'Language is a tool for expression and connection. I help students find their voice and communicate confidently in any situation.',
+      achievements: [
+        '200+ students scored Band 7+ in IELTS',
+        'Published poetry collection "Himalayan Voices"',
+        'Best Communication Trainer (2022)',
+        '95% entrance success rate in English',
+        'Conducted 100+ communication workshops'
+      ],
+      hobbies: ['Reading novels', 'Poetry writing', 'Debating', 'Yoga & meditation', 'Theater & drama'],
+      education: [
+        { degree: 'M.A. in English Literature', university: 'Tribhuvan University', year: '2011' },
+        { degree: 'B.A. in English', university: 'Tribhuvan University', year: '2009' },
+        { degree: 'IELTS Trainer Certification', university: 'British Council', year: '2012' }
+      ],
+      publications: [
+        'Himalayan Voices - Poetry Collection (2023)',
+        'Effective Communication Guide (2022)',
+        'IELTS Success Strategies (2021)'
+      ],
+      courses: ['English Literature', 'Communication Skills', 'IELTS/TOEFL', 'Creative Writing']
+    },
+    {
+      name: 'Dr. Krishna Prasad',
+      image: 'https://i.pravatar.cc/300?img=45',
+      designation: 'Professor, Advanced Mathematics',
+      department: 'Science Faculty',
+      experience: '20 Years',
+      qualification: 'Ph.D. in Applied Mathematics, IIT Delhi',
+      email: 'krishna.prasad@institute.edu.np',
+      phone: '+977 9851234571',
+      location: 'Bhaktapur, Nepal',
+      bio: 'Dr. Krishna is a veteran educator known for his innovative teaching methods in advanced mathematics. He has mentored thousands of students preparing for engineering and medical entrance exams with remarkable success rates.',
+      expertise: ['Statistics & Probability', 'Calculus & Analysis', 'Research Methodology', 'Entrance Exam Strategy', 'Mathematical Modeling'],
+      philosophy: 'Mathematics is not about memorization but understanding patterns and logic. I teach students to think mathematically and apply concepts creatively.',
+      achievements: [
+        '800+ engineering entrance qualifiers',
+        'Lifetime Achievement Award in Education (2023)',
+        'Published 15+ research papers',
+        'Developed innovative teaching methodology',
+        'National Mathematics Olympiad coordinator'
+      ],
+      hobbies: ['Solving puzzles', 'Astronomy', 'Playing tabla', 'Mountain trekking', 'Chess'],
+      education: [
+        { degree: 'Ph.D. in Applied Mathematics', university: 'IIT Delhi', year: '2005' },
+        { degree: 'M.Sc. in Mathematics', university: 'Tribhuvan University', year: '2000' },
+        { degree: 'B.Sc. in Mathematics', university: 'Tribhuvan University', year: '1998' }
+      ],
+      publications: [
+        'Advanced Calculus for Engineering Students (2023)',
+        'Statistical Methods in Research (2022)',
+        'Mathematical Modeling Techniques (2020)'
+      ],
+      courses: ['Advanced Calculus', 'Statistics', 'Mathematical Methods', 'Research Methodology']
+    },
+    {
+      name: 'Mr. Suresh Adhikari',
+      image: 'https://i.pravatar.cc/300?img=60',
+      designation: 'Assistant Professor, Information Technology',
+      department: 'Computer Science & IT',
+      experience: '8 Years',
+      qualification: 'M.Sc. in Information Technology, Kathmandu University',
+      email: 'suresh.adhikari@institute.edu.np',
+      phone: '+977 9851234572',
+      location: 'Kathmandu, Nepal',
+      bio: 'Mr. Suresh is a young and dynamic educator who brings industry experience into the classroom. He focuses on practical skills that make students job-ready from day one and encourages innovation in technology.',
+      expertise: ['Web Development', 'Cloud Computing', 'Cybersecurity Basics', 'Mobile App Development', 'DevOps'],
+      philosophy: 'The best way to learn technology is by building projects. I guide students to create real applications that solve actual problems.',
+      achievements: [
+        '150+ students placed in IT companies',
+        'Developed 30+ open-source projects',
+        'Young Educator Award (2023)',
+        'Certified AWS & Azure instructor',
+        'Mentored 10+ successful startups'
+      ],
+      hobbies: ['Open source contribution', 'Gaming', 'Photography', 'Hiking', 'Tech podcasts'],
+      education: [
+        { degree: 'M.Sc. in Information Technology', university: 'Kathmandu University', year: '2015' },
+        { degree: 'B.Sc. in Computer Science', university: 'Tribhuvan University', year: '2012' },
+        { degree: 'AWS Certified Solutions Architect', university: 'Amazon', year: '2020' }
+      ],
+      publications: [
+        'Modern Web Development Guide (2023)',
+        'Cloud Computing for Beginners (2022)',
+        'Building Scalable Applications (2021)'
+      ],
+      courses: ['Web Development', 'Cloud Computing', 'Mobile Development', 'Database Systems']
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -409,114 +631,7 @@ export function InstituteDetailPage({ id }: any) {
             transition={{ duration: 0.2 }}
           >
             {/* ABOUT */}
-            {activeTab === 'about' && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-8">
-                  <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                    <h2 className="text-2xl font-bold text-[#252872] mb-4">
-                      About Us
-                    </h2>
-                    <div className="prose prose-gray max-w-none text-gray-600 leading-relaxed space-y-4">
-                      <p>
-                        Milton International College, established in 2005, is
-                        one of the leading educational institutions in Nepal.
-                        Located in the heart of Kathmandu, we are committed to
-                        providing world-class education that prepares students
-                        for global challenges.
-                      </p>
-                      <p>
-                        Our institution combines rigorous academic programs with
-                        practical learning experiences, ensuring students
-                        develop both theoretical knowledge and real-world
-                        skills. With state-of-the-art facilities and experienced
-                        faculty, we create an environment that fosters
-                        innovation, critical thinking, and personal growth.
-                      </p>
-                      <p>
-                        We believe in holistic education that goes beyond
-                        textbooks. Our diverse range of extra-curricular
-                        activities, community service programs, and industry
-                        partnerships ensure that every student graduates as a
-                        well-rounded individual ready to make a positive impact
-                        in society.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Mission & Vision */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                      <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-4">
-                        <Heart className="w-6 h-6 text-[#252872]" />
-                      </div>
-                      <h3 className="text-lg font-bold text-[#252872] mb-2">
-                        Our Mission
-                      </h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        To provide accessible, high-quality education that
-                        empowers students with knowledge, skills, and values to
-                        become responsible global citizens and leaders.
-                      </p>
-                    </div>
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                      <div className="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4">
-                        <TrendingUp className="w-6 h-6 text-[#d91f22]" />
-                      </div>
-                      <h3 className="text-lg font-bold text-[#252872] mb-2">
-                        Our Vision
-                      </h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        To be recognized as a center of academic excellence in
-                        South Asia, producing graduates who drive innovation and
-                        positive change in their communities.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sidebar Quick Info */}
-                <div className="space-y-6">
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="font-bold text-[#252872] mb-4">
-                      Quick Information
-                    </h3>
-                    <div className="space-y-4">
-                      {[
-                        { label: 'Established', value: '2005' },
-                        { label: 'Type', value: 'Private' },
-                        { label: 'Affiliation', value: 'Tribhuvan University' },
-                        { label: 'Campus Size', value: '5 Acres' },
-                        { label: 'Faculty Members', value: '120+' },
-                        { label: 'Library Books', value: '25,000+' },
-                      ].map((item, i) => (
-                        <div
-                          key={i}
-                          className="flex justify-between items-center py-2 border-b border-gray-50 last:border-b-0"
-                        >
-                          <span className="text-sm text-gray-500">
-                            {item.label}
-                          </span>
-                          <span className="text-sm font-bold text-[#252872]">
-                            {item.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-gradient-to-br from-[#252872] to-[#1a1d54] rounded-2xl p-6 text-white">
-                    <h3 className="font-bold mb-3">Interested in Admission?</h3>
-                    <p className="text-sm text-blue-200 mb-4">
-                      Applications are open for the 2026 academic session. Apply
-                      now to secure your seat.
-                    </p>
-                    <button className="w-full bg-[#d91f22] hover:bg-[#b91c1c] text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg flex items-center justify-center gap-2">
-                      Apply Now <ExternalLink className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            {activeTab === 'about' && <AboutSection/>}
 
             {/* COLLEGE TOUR */}
             {activeTab === 'tour' && (
@@ -572,55 +687,207 @@ export function InstituteDetailPage({ id }: any) {
                 <h2 className="text-2xl font-bold text-[#252872] mb-6">
                   Our Faculty
                 </h2>
+
+                {/* Faculty Grid - All inline without separate component */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     {
                       name: 'Dr. Ramesh Shrestha',
-                      image: 'https://i.pravatar.cc/150?img=12',
-                      designation: 'Dean, Faculty of Management',
-                      qualification: 'Ph.D. in Business Administration',
+                      image: 'https://i.pravatar.cc/300?img=12',
+                      designation: 'Senior Mathematics Instructor',
+                      department: 'Mathematics Department',
                       experience: '15 Years',
-                      specialization: 'Strategic Management, Marketing',
+                      qualification: 'Ph.D. in Applied Mathematics, Tribhuvan University',
+                      email: 'ramesh.shrestha@institute.edu.np',
+                      phone: '+977 9851234567',
+                      location: 'Kathmandu, Nepal',
+                      bio: 'Dr. Ramesh is a passionate Mathematics educator with over 15 years of teaching experience in entrance preparation and +2 level education. He specializes in problem-solving techniques and concept clarity, helping students build strong mathematical foundations.',
+                      expertise: ['Entrance Exam Preparation', 'Advanced Problem Solving', 'Concept-Based Teaching', 'Competitive Exam Strategy', 'Mentorship & Academic Counseling'],
+                      philosophy: 'I believe in making complex mathematical concepts simple through real-life examples and interactive discussions, ensuring every student grasps the fundamentals.',
+                      achievements: [
+                        'Produced 500+ successful entrance qualifiers',
+                        'Best Faculty Award (2023)',
+                        '98% student satisfaction rate',
+                        'Published 5+ research papers in international journals',
+                        'Developed innovative teaching methodology for entrance exams'
+                      ],
+                      hobbies: ['Reading motivational books', 'Playing chess', 'Public speaking', 'Traveling', 'Solving mathematical puzzles'],
+                      education: [
+                        { degree: 'Ph.D. in Applied Mathematics', university: 'Tribhuvan University', year: '2010' },
+                        { degree: 'M.Sc. in Mathematics', university: 'Tribhuvan University', year: '2005' },
+                        { degree: 'B.Sc. in Mathematics', university: 'Tribhuvan University', year: '2003' }
+                      ],
+                      publications: [
+                        'Advanced Problem-Solving Techniques in Calculus (2022)',
+                        'Innovative Methods in Teaching Mathematics (2021)',
+                        'Research on Student Learning Patterns (2020)'
+                      ],
+                      courses: ['Advanced Mathematics', 'Calculus & Analysis', 'Statistics', 'Entrance Preparation']
                     },
                     {
                       name: 'Prof. Sita Karki',
-                      image: 'https://i.pravatar.cc/150?img=5',
-                      designation: 'Head, Computer Science Dept.',
-                      qualification: 'Ph.D. in Computer Science',
+                      image: 'https://i.pravatar.cc/300?img=5',
+                      designation: 'Head of Computer Science Department',
+                      department: 'Computer Science & IT',
                       experience: '18 Years',
-                      specialization: 'AI, Machine Learning, Data Science',
+                      qualification: 'Ph.D. in Computer Science, Pokhara University',
+                      email: 'sita.karki@institute.edu.np',
+                      phone: '+977 9851234568',
+                      location: 'Pokhara, Nepal',
+                      bio: 'Prof. Sita is an innovative educator dedicated to bridging the gap between theoretical knowledge and practical application. With expertise in AI and Machine Learning, she inspires students to embrace technology and innovation.',
+                      expertise: ['AI & Machine Learning', 'Data Science', 'Programming Fundamentals', 'Project-Based Learning', 'Research & Development'],
+                      philosophy: 'Technology is best learned by doing. I encourage hands-on projects and real-world problem solving to prepare students for the digital future.',
+                      achievements: [
+                        'Trained 1000+ IT professionals',
+                        'Excellence in Teaching Award (2022)',
+                        'Led 50+ successful student projects',
+                        'Speaker at national tech conferences',
+                        'Published 10+ research papers in AI/ML'
+                      ],
+                      hobbies: ['Coding challenges', 'Gardening', 'Tech blogging', 'Mentoring startups', 'Photography'],
+                      education: [
+                        { degree: 'Ph.D. in Computer Science', university: 'Pokhara University', year: '2012' },
+                        { degree: 'M.Tech in AI & ML', university: 'IIT Bombay', year: '2007' },
+                        { degree: 'B.E. in Computer Engineering', university: 'Pokhara University', year: '2004' }
+                      ],
+                      publications: [
+                        'Machine Learning Applications in Education (2023)',
+                        'Deep Learning for Beginners (2022)',
+                        'AI in Nepali Context (2021)'
+                      ],
+                      courses: ['Artificial Intelligence', 'Machine Learning', 'Data Structures', 'Python Programming']
                     },
                     {
                       name: 'Dr. Binod Thapa',
-                      image: 'https://i.pravatar.cc/150?img=22',
-                      designation: 'Associate Professor, BBA',
-                      qualification: 'Ph.D. in Economics',
+                      image: 'https://i.pravatar.cc/300?img=22',
+                      designation: 'Associate Professor, Business Studies',
+                      department: 'Management Faculty',
                       experience: '12 Years',
-                      specialization: 'Economics, Finance, Banking',
+                      qualification: 'Ph.D. in Economics, Kathmandu University',
+                      email: 'binod.thapa@institute.edu.np',
+                      phone: '+977 9851234569',
+                      location: 'Lalitpur, Nepal',
+                      bio: 'Dr. Binod combines academic excellence with industry experience to deliver practical business education. His teaching style focuses on case studies and real-world business scenarios that prepare students for corporate challenges.',
+                      expertise: ['Economics & Finance', 'Banking & Insurance', 'Business Strategy', 'Market Analysis', 'Financial Planning'],
+                      philosophy: 'Business education should not be limited to textbooks. I integrate current market trends and case studies to make learning relevant and engaging.',
+                      achievements: [
+                        '300+ BBA/BBS graduates placed in top companies',
+                        'Authored 2 books on Nepali economy',
+                        'Outstanding Educator Award (2021)',
+                        'Consultant for 10+ business firms',
+                        'Guest lecturer at international universities'
+                      ],
+                      hobbies: ['Stock market analysis', 'Writing articles', 'Cricket', 'Social volunteering', 'Reading business magazines'],
+                      education: [
+                        { degree: 'Ph.D. in Economics', university: 'Kathmandu University', year: '2014' },
+                        { degree: 'MBA in Finance', university: 'Kathmandu University', year: '2009' },
+                        { degree: 'BBS', university: 'Tribhuvan University', year: '2006' }
+                      ],
+                      publications: [
+                        'Nepal Economy: Challenges and Opportunities (2023)',
+                        'Banking Sector Analysis (2022)',
+                        'Modern Business Strategies (2020)'
+                      ],
+                      courses: ['Business Economics', 'Financial Management', 'Banking & Insurance', 'Strategic Management']
                     },
                     {
                       name: 'Ms. Anjali Rai',
-                      image: 'https://i.pravatar.cc/150?img=32',
-                      designation: 'Senior Lecturer, English',
-                      qualification: 'M.A. in English Literature',
+                      image: 'https://i.pravatar.cc/300?img=32',
+                      designation: 'Senior English Language Instructor',
+                      department: 'English & Communication',
                       experience: '10 Years',
-                      specialization: 'Literature, Communication Skills',
+                      qualification: 'M.A. in English Literature, Tribhuvan University',
+                      email: 'anjali.rai@institute.edu.np',
+                      phone: '+977 9851234570',
+                      location: 'Kathmandu, Nepal',
+                      bio: 'Ms. Anjali is passionate about developing strong communication skills in students. She believes that mastering English opens doors to global opportunities and focuses on practical communication along with literature appreciation.',
+                      expertise: ['English Literature', 'Communication Skills', 'IELTS/TOEFL Preparation', 'Creative Writing', 'Public Speaking'],
+                      philosophy: 'Language is a tool for expression and connection. I help students find their voice and communicate confidently in any situation.',
+                      achievements: [
+                        '200+ students scored Band 7+ in IELTS',
+                        'Published poetry collection "Himalayan Voices"',
+                        'Best Communication Trainer (2022)',
+                        '95% entrance success rate in English',
+                        'Conducted 100+ communication workshops'
+                      ],
+                      hobbies: ['Reading novels', 'Poetry writing', 'Debating', 'Yoga & meditation', 'Theater & drama'],
+                      education: [
+                        { degree: 'M.A. in English Literature', university: 'Tribhuvan University', year: '2011' },
+                        { degree: 'B.A. in English', university: 'Tribhuvan University', year: '2009' },
+                        { degree: 'IELTS Trainer Certification', university: 'British Council', year: '2012' }
+                      ],
+                      publications: [
+                        'Himalayan Voices - Poetry Collection (2023)',
+                        'Effective Communication Guide (2022)',
+                        'IELTS Success Strategies (2021)'
+                      ],
+                      courses: ['English Literature', 'Communication Skills', 'IELTS/TOEFL', 'Creative Writing']
                     },
                     {
                       name: 'Dr. Krishna Prasad',
-                      image: 'https://i.pravatar.cc/150?img=45',
-                      designation: 'Professor, Mathematics',
-                      qualification: 'Ph.D. in Applied Mathematics',
+                      image: 'https://i.pravatar.cc/300?img=45',
+                      designation: 'Professor, Advanced Mathematics',
+                      department: 'Science Faculty',
                       experience: '20 Years',
-                      specialization: 'Statistics, Calculus, Research',
+                      qualification: 'Ph.D. in Applied Mathematics, IIT Delhi',
+                      email: 'krishna.prasad@institute.edu.np',
+                      phone: '+977 9851234571',
+                      location: 'Bhaktapur, Nepal',
+                      bio: 'Dr. Krishna is a veteran educator known for his innovative teaching methods in advanced mathematics. He has mentored thousands of students preparing for engineering and medical entrance exams with remarkable success rates.',
+                      expertise: ['Statistics & Probability', 'Calculus & Analysis', 'Research Methodology', 'Entrance Exam Strategy', 'Mathematical Modeling'],
+                      philosophy: 'Mathematics is not about memorization but understanding patterns and logic. I teach students to think mathematically and apply concepts creatively.',
+                      achievements: [
+                        '800+ engineering entrance qualifiers',
+                        'Lifetime Achievement Award in Education (2023)',
+                        'Published 15+ research papers',
+                        'Developed innovative teaching methodology',
+                        'National Mathematics Olympiad coordinator'
+                      ],
+                      hobbies: ['Solving puzzles', 'Astronomy', 'Playing tabla', 'Mountain trekking', 'Chess'],
+                      education: [
+                        { degree: 'Ph.D. in Applied Mathematics', university: 'IIT Delhi', year: '2005' },
+                        { degree: 'M.Sc. in Mathematics', university: 'Tribhuvan University', year: '2000' },
+                        { degree: 'B.Sc. in Mathematics', university: 'Tribhuvan University', year: '1998' }
+                      ],
+                      publications: [
+                        'Advanced Calculus for Engineering Students (2023)',
+                        'Statistical Methods in Research (2022)',
+                        'Mathematical Modeling Techniques (2020)'
+                      ],
+                      courses: ['Advanced Calculus', 'Statistics', 'Mathematical Methods', 'Research Methodology']
                     },
                     {
                       name: 'Mr. Suresh Adhikari',
-                      image: 'https://i.pravatar.cc/150?img=60',
-                      designation: 'Assistant Professor, IT',
-                      qualification: 'M.Sc. in Information Technology',
+                      image: 'https://i.pravatar.cc/300?img=60',
+                      designation: 'Assistant Professor, Information Technology',
+                      department: 'Computer Science & IT',
                       experience: '8 Years',
-                      specialization: 'Web Development, Networking',
+                      qualification: 'M.Sc. in Information Technology, Kathmandu University',
+                      email: 'suresh.adhikari@institute.edu.np',
+                      phone: '+977 9851234572',
+                      location: 'Kathmandu, Nepal',
+                      bio: 'Mr. Suresh is a young and dynamic educator who brings industry experience into the classroom. He focuses on practical skills that make students job-ready from day one and encourages innovation in technology.',
+                      expertise: ['Web Development', 'Cloud Computing', 'Cybersecurity Basics', 'Mobile App Development', 'DevOps'],
+                      philosophy: 'The best way to learn technology is by building projects. I guide students to create real applications that solve actual problems.',
+                      achievements: [
+                        '150+ students placed in IT companies',
+                        'Developed 30+ open-source projects',
+                        'Young Educator Award (2023)',
+                        'Certified AWS & Azure instructor',
+                        'Mentored 10+ successful startups'
+                      ],
+                      hobbies: ['Open source contribution', 'Gaming', 'Photography', 'Hiking', 'Tech podcasts'],
+                      education: [
+                        { degree: 'M.Sc. in Information Technology', university: 'Kathmandu University', year: '2015' },
+                        { degree: 'B.Sc. in Computer Science', university: 'Tribhuvan University', year: '2012' },
+                        { degree: 'AWS Certified Solutions Architect', university: 'Amazon', year: '2020' }
+                      ],
+                      publications: [
+                        'Modern Web Development Guide (2023)',
+                        'Cloud Computing for Beginners (2022)',
+                        'Building Scalable Applications (2021)'
+                      ],
+                      courses: ['Web Development', 'Cloud Computing', 'Mobile Development', 'Database Systems']
                     },
                   ].map((faculty, i) => (
                     <motion.div
@@ -628,553 +895,291 @@ export function InstituteDetailPage({ id }: any) {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300"
+                      className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:border-[#d91f22]/20 transition-all duration-300 group cursor-pointer"
                     >
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 shadow-sm">
-                          <img
-                            src={faculty.image}
-                            alt={faculty.name}
-                            className="w-full h-full object-cover"
-                          />
+                      {/* Compact Card Header */}
+                      <div className="relative bg-gradient-to-br from-[#252872] to-[#1a1d5a] p-6 pb-16">
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
+                          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                            <img
+                              src={faculty.image}
+                              alt={faculty.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-[#252872] mb-1">
+                      </div>
+
+                      {/* Compact Card Content */}
+                      <div className="p-6 pt-12">
+                        <div className="text-center mb-4">
+                          <h3 className="text-lg font-bold text-[#252872] mb-1">
                             {faculty.name}
                           </h3>
-                          <p className="text-xs text-[#d91f22] font-medium">
+                          <p className="text-sm text-[#d91f22] font-semibold mb-1">
                             {faculty.designation}
                           </p>
+                          <p className="text-xs text-gray-500">
+                            {faculty.department}
+                          </p>
                         </div>
-                      </div>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-start gap-2">
-                          <GraduationCap className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-600">{faculty.qualification}</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <Clock className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-600">{faculty.experience} Experience</span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <BookOpen className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-gray-600">{faculty.specialization}</span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
 
-            {/* FACILITIES */}
-            {activeTab === 'facilities' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Our Facilities
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[
-                    {
-                      name: 'Modern Library',
-                      desc: 'Digital and physical collection of 25,000+ books and journals',
-                      icon: BookOpen,
-                      color: 'bg-blue-50 text-blue-600',
-                    },
-                    {
-                      name: 'Computer Labs',
-                      desc: '200+ workstations with high-speed internet and latest software',
-                      icon: Globe,
-                      color: 'bg-purple-50 text-purple-600',
-                    },
-                    {
-                      name: 'Science Labs',
-                      desc: 'Fully equipped physics, chemistry, and biology laboratories',
-                      icon: BarChart3,
-                      color: 'bg-green-50 text-green-600',
-                    },
-                    {
-                      name: 'Sports Complex',
-                      desc: 'Indoor and outdoor facilities for basketball, football, and more',
-                      icon: Dumbbell,
-                      color: 'bg-orange-50 text-orange-600',
-                    },
-                    {
-                      name: 'Auditorium',
-                      desc: '500-seat auditorium for events, seminars, and cultural programs',
-                      icon: Music,
-                      color: 'bg-pink-50 text-pink-600',
-                    },
-                    {
-                      name: 'Cafeteria',
-                      desc: 'Hygienic dining facility serving nutritious meals daily',
-                      icon: Heart,
-                      color: 'bg-amber-50 text-amber-600',
-                    },
-                    {
-                      name: 'Medical Center',
-                      desc: '24/7 health services with qualified medical professionals',
-                      icon: CheckCircle,
-                      color: 'bg-red-50 text-red-600',
-                    },
-                    {
-                      name: 'Transportation',
-                      desc: 'Bus service covering major routes across Kathmandu valley',
-                      icon: MapPin,
-                      color: 'bg-cyan-50 text-cyan-600',
-                    },
-                    {
-                      name: 'Art Studio',
-                      desc: 'Creative space for visual arts, design, and multimedia projects',
-                      icon: Palette,
-                      color: 'bg-indigo-50 text-indigo-600',
-                    },
-                  ].map((facility, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-                    >
-                      <div
-                        className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${facility.color}`}
-                      >
-                        <facility.icon className="w-6 h-6" />
-                      </div>
-                      <h3 className="font-bold text-[#252872] mb-2">
-                        {facility.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed">
-                        {facility.desc}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-[#d91f22]" />
+                            <span className="text-xs text-gray-600">{faculty.experience}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <GraduationCap className="w-4 h-4 text-[#d91f22]" />
+                            <span className="text-xs text-gray-600">Ph.D.</span>
+                          </div>
+                        </div>
 
-            {/* PROGRAMS */}
-            {activeTab === 'programs' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Programs & Courses
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    {
-                      name: 'BBA (Bachelor of Business Administration)',
-                      duration: '4 Years',
-                      seats: 120,
-                      level: 'Undergraduate',
-                      color: 'from-blue-500 to-indigo-500',
-                    },
-                    {
-                      name: 'BBS (Bachelor of Business Studies)',
-                      duration: '4 Years',
-                      seats: 100,
-                      level: 'Undergraduate',
-                      color: 'from-green-500 to-emerald-500',
-                    },
-                    {
-                      name: 'BCA (Bachelor of Computer Application)',
-                      duration: '4 Years',
-                      seats: 80,
-                      level: 'Undergraduate',
-                      color: 'from-purple-500 to-violet-500',
-                    },
-                    {
-                      name: 'MBA (Master of Business Administration)',
-                      duration: '2 Years',
-                      seats: 60,
-                      level: 'Postgraduate',
-                      color: 'from-amber-500 to-orange-500',
-                    },
-                    {
-                      name: 'MBS (Master of Business Studies)',
-                      duration: '2 Years',
-                      seats: 50,
-                      level: 'Postgraduate',
-                      color: 'from-rose-500 to-pink-500',
-                    },
-                    {
-                      name: 'B.Sc. CSIT',
-                      duration: '4 Years',
-                      seats: 60,
-                      level: 'Undergraduate',
-                      color: 'from-cyan-500 to-teal-500',
-                    },
-                  ].map((program, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group"
-                    >
-                      <div
-                        className={`h-1.5 bg-gradient-to-r ${program.color}`}
-                      />
-                      <div className="p-6">
-                        <span
-                          className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${program.level === 'Postgraduate' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'}`}
+                        <p className="text-xs text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                          {faculty.bio}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {faculty.expertise.slice(0, 3).map((skill, idx) => (
+                            <span
+                              key={idx}
+                              className="px-2 py-1 bg-[#252872]/5 text-[#252872] rounded-full text-xs font-medium"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                          {faculty.expertise.length > 3 && (
+                            <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">
+                              +{faculty.expertise.length - 3} more
+                            </span>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => setSelectedFaculty(faculty)}
+                          className="w-full py-2.5 bg-gradient-to-r from-[#252872] to-[#1a1d5a] text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all duration-300 group-hover:from-[#d91f22] group-hover:to-[#b91c1c]"
                         >
-                          {program.level}
-                        </span>
-                        <h3 className="text-lg font-bold text-[#252872] mt-3 mb-3 group-hover:text-[#d91f22] transition-colors">
-                          {program.name}
-                        </h3>
-                        <div className="flex items-center gap-4 text-sm text-gray-500">
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5" /> {program.duration}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <Users className="w-3.5 h-3.5" /> {program.seats}{' '}
-                            seats
-                          </span>
-                        </div>
-                        <button className="mt-4 text-[#d91f22] text-sm font-semibold hover:underline flex items-center gap-1">
-                          View Details <ChevronRight className="w-3.5 h-3.5" />
+                          View Full Profile
                         </button>
                       </div>
                     </motion.div>
                   ))}
                 </div>
-              </div>
-            )}
 
-            {/* ECA */}
-            {activeTab === 'eca' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Extra-Curricular Activities
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {[
-                    {
-                      name: 'Sports Club',
-                      desc: 'Football, basketball, cricket, and athletics',
-                      icon: Dumbbell,
-                      color: 'bg-orange-50 text-orange-600',
-                    },
-                    {
-                      name: 'Music & Dance',
-                      desc: 'Classical, modern dance, and band performances',
-                      icon: Music,
-                      color: 'bg-pink-50 text-pink-600',
-                    },
-                    {
-                      name: 'Art & Design',
-                      desc: 'Painting, sketching, and digital art workshops',
-                      icon: Palette,
-                      color: 'bg-indigo-50 text-indigo-600',
-                    },
-                    {
-                      name: 'Debate Club',
-                      desc: 'Public speaking, MUN, and debate competitions',
-                      icon: Users,
-                      color: 'bg-blue-50 text-blue-600',
-                    },
-                    {
-                      name: 'Community Service',
-                      desc: 'Social outreach and volunteer programs',
-                      icon: Heart,
-                      color: 'bg-red-50 text-red-600',
-                    },
-                    {
-                      name: 'Tech Club',
-                      desc: 'Coding workshops, hackathons, and tech talks',
-                      icon: Globe,
-                      color: 'bg-purple-50 text-purple-600',
-                    },
-                    {
-                      name: 'Photography',
-                      desc: 'Photo walks, exhibitions, and editing workshops',
-                      icon: Camera,
-                      color: 'bg-cyan-50 text-cyan-600',
-                    },
-                    {
-                      name: 'Entrepreneurship',
-                      desc: 'Business plan competitions and startup mentoring',
-                      icon: Briefcase,
-                      color: 'bg-amber-50 text-amber-600',
-                    },
-                  ].map((activity, i) => (
+                {/* Full Profile Modal */}
+                <AnimatePresence>
+                  {selectedFaculty && (
                     <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.04 }}
-                      className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 text-center"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+                      onClick={() => setSelectedFaculty(null)}
                     >
-                      <div
-                        className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 ${activity.color}`}
-                      >
-                        <activity.icon className="w-7 h-7" />
-                      </div>
-                      <h3 className="font-bold text-[#252872] text-sm mb-1">
-                        {activity.name}
-                      </h3>
-                      <p className="text-xs text-gray-500">{activity.desc}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* PLACEMENTS */}
-            {activeTab === 'placements' && (
-              <div className="space-y-8">
-                <h2 className="text-2xl font-bold text-[#252872] mb-2">
-                  Placement Overview
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    {
-                      label: 'Placement Rate',
-                      value: '92%',
-                      color: 'text-green-600 bg-green-50',
-                    },
-                    {
-                      label: 'Avg. Package',
-                      value: 'NPR 6L',
-                      color: 'text-blue-600 bg-blue-50',
-                    },
-                    {
-                      label: 'Highest Package',
-                      value: 'NPR 18L',
-                      color: 'text-purple-600 bg-purple-50',
-                    },
-                    {
-                      label: 'Recruiting Companies',
-                      value: '50+',
-                      color: 'text-amber-600 bg-amber-50',
-                    },
-                  ].map((stat, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.08 }}
-                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center"
-                    >
-                      <div className="text-3xl font-bold text-[#252872] mb-1">
-                        {stat.value}
-                      </div>
-                      <div className="text-xs text-gray-500 uppercase tracking-wider font-bold">
-                        {stat.label}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Student Placements */}
-                <div>
-                  <h3 className="text-xl font-bold text-[#252872] mb-4">
-                    Recent Placements
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[
-                      {
-                        name: 'Aarav Sharma',
-                        image: 'https://i.pravatar.cc/150?img=11',
-                        program: 'BBA - 2025 Batch',
-                        company: 'Nabil Bank',
-                        position: 'Management Trainee',
-                        salary: 'NPR 8 Lakhs/year',
-                        achievement: 'Batch Topper, Student Council President',
-                      },
-                      {
-                        name: 'Priya Adhikari',
-                        image: 'https://i.pravatar.cc/150?img=47',
-                        program: 'B.Sc. CSIT - 2025 Batch',
-                        company: 'Deloitte Nepal',
-                        position: 'Software Engineer',
-                        salary: 'NPR 12 Lakhs/year',
-                        achievement: 'Best Final Year Project, Hackathon Winner',
-                      },
-                      {
-                        name: 'Bikash Thapa',
-                        image: 'https://i.pravatar.cc/150?img=33',
-                        program: 'BCA - 2024 Batch',
-                        company: 'WorldLink Communications',
-                        position: 'Junior Developer',
-                        salary: 'NPR 6 Lakhs/year',
-                        achievement: 'Tech Club President, 3 Internships',
-                      },
-                      {
-                        name: 'Srijana KC',
-                        image: 'https://i.pravatar.cc/150?img=25',
-                        program: 'MBA - 2025 Batch',
-                        company: 'Unilever Nepal',
-                        position: 'Marketing Executive',
-                        salary: 'NPR 10 Lakhs/year',
-                        achievement: "Best Marketing Project, Dean's List",
-                      },
-                    ].map((student, i) => (
                       <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl transition-all"
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.9, opacity: 0 }}
+                        className="bg-white rounded-3xl max-w-5xl w-full my-8 overflow-hidden shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="flex items-start gap-4 mb-4">
-                          <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-gray-100 shadow-sm">
-                            <img
-                              src={student.image}
-                              alt={student.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="font-bold text-[#252872] mb-1">
-                              {student.name}
-                            </h4>
-                            <p className="text-xs text-gray-500">{student.program}</p>
+                        {/* Modal Header */}
+                        <div className="relative bg-gradient-to-br from-[#252872] via-[#1a1d5a] to-[#252872] p-8 text-white">
+                          <button
+                            onClick={() => setSelectedFaculty(null)}
+                            className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all group"
+                          >
+                            <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+                          </button>
+
+                          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-2xl flex-shrink-0">
+                              <img
+                                src={selectedFaculty.image}
+                                alt={selectedFaculty.name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex-1 text-center md:text-left">
+                              <h2 className="text-3xl font-bold mb-2">{selectedFaculty.name}</h2>
+                              <p className="text-xl text-[#d91f22] font-semibold mb-2 bg-white px-4 py-1 rounded-full inline-block">
+                                {selectedFaculty.designation}
+                              </p>
+                              <p className="text-white/90 mb-4">{selectedFaculty.department}</p>
+                              <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm">
+                                <div className="flex items-center gap-2">
+                                  <Mail className="w-4 h-4" />
+                                  <span>{selectedFaculty.email}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Phone className="w-4 h-4" />
+                                  <span>{selectedFaculty.phone}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <MapPin className="w-4 h-4" />
+                                  <span>{selectedFaculty.location}</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="space-y-3">
-                          <div className="flex items-start gap-2">
-                            <Building className="w-4 h-4 text-[#d91f22] mt-0.5 flex-shrink-0" />
-                            <div>
-                              <p className="text-sm font-semibold text-gray-900">{student.company}</p>
-                              <p className="text-xs text-gray-500">{student.position}</p>
+                        {/* Modal Content */}
+                        <div className="p-8 max-h-[70vh] overflow-y-auto">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Left Column */}
+                            <div className="space-y-6">
+                              {/* Professional Summary */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <User className="w-5 h-5" />
+                                  Professional Summary
+                                </h3>
+                                <p className="text-gray-700 leading-relaxed">{selectedFaculty.bio}</p>
+                              </div>
+
+                              {/* Education */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <GraduationCap className="w-5 h-5" />
+                                  Education
+                                </h3>
+                                <div className="space-y-3">
+                                  {selectedFaculty.education.map((edu: any, idx: number) => (
+                                    <div key={idx} className="border-l-4 border-[#d91f22] pl-4">
+                                      <h4 className="font-semibold text-[#252872]">{edu.degree}</h4>
+                                      <p className="text-sm text-gray-600">{edu.university}</p>
+                                      <p className="text-xs text-gray-500">{edu.year}</p>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Teaching Philosophy */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <Lightbulb className="w-5 h-5" />
+                                  Teaching Philosophy
+                                </h3>
+                                <div className="bg-gradient-to-br from-[#252872]/5 to-[#d91f22]/5 p-4 rounded-xl border-l-4 border-[#d91f22]">
+                                  <p className="text-gray-700 italic leading-relaxed">
+                                    "{selectedFaculty.philosophy}"
+                                  </p>
+                                </div>
+                              </div>
+
+                              {/* Courses Taught */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <BookOpen className="w-5 h-5" />
+                                  Courses Taught
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                  {selectedFaculty.courses.map((course: any, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      className="px-3 py-2 bg-gradient-to-r from-[#252872] to-[#1a1d5a] text-white rounded-lg text-sm font-medium shadow-sm"
+                                    >
+                                      {course}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
-                          </div>
 
-                          <div className="flex items-center gap-2">
-                            <DollarSign className="w-4 h-4 text-green-600 flex-shrink-0" />
-                            <span className="text-sm font-bold text-green-600">{student.salary}</span>
-                          </div>
+                            {/* Right Column */}
+                            <div className="space-y-6">
+                              {/* Areas of Expertise */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <Award className="w-5 h-5" />
+                                  Areas of Expertise
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                  {selectedFaculty.expertise.map((skill: any, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      className="px-3 py-2 bg-[#252872]/5 text-[#252872] rounded-full text-sm font-medium border border-[#252872]/10"
+                                    >
+                                      {skill}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
 
-                          <div className="flex items-start gap-2">
-                            <Target className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                            <p className="text-xs text-gray-600">{student.achievement}</p>
+                              {/* Key Achievements */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <Trophy className="w-5 h-5" />
+                                  Key Achievements
+                                </h3>
+                                <ul className="space-y-2">
+                                  {selectedFaculty.achievements.map((achievement: any, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-3">
+                                      <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+                                      <span className="text-gray-700">{achievement}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              {/* Publications */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <BookOpen className="w-5 h-5" />
+                                  Publications
+                                </h3>
+                                <ul className="space-y-2">
+                                  {selectedFaculty.publications.map((pub: any, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-3">
+                                      <div className="w-2 h-2 bg-[#d91f22] rounded-full mt-2 flex-shrink-0"></div>
+                                      <span className="text-gray-700">{pub}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              {/* Hobbies & Interests */}
+                              <div>
+                                <h3 className="text-lg font-bold text-[#252872] mb-3 flex items-center gap-2">
+                                  <Heart className="w-5 h-5" />
+                                  Hobbies & Interests
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                  {selectedFaculty.hobbies.map((hobby: any, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      className="px-3 py-2 bg-gray-50 text-gray-700 rounded-full text-sm border border-gray-200"
+                                    >
+                                      {hobby}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                  <h3 className="font-bold text-[#252872] mb-4">
-                    Top Recruiters
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                    {[
-                      'Nabil Bank',
-                      'NIC Asia',
-                      'Deloitte Nepal',
-                      'Unilever',
-                      'Ncell',
-                      'WorldLink',
-                    ].map((company, i) => (
-                      <div
-                        key={i}
-                        className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100"
-                      >
-                        <div className="w-10 h-10 bg-white rounded-lg mx-auto mb-2 flex items-center justify-center text-lg shadow-sm">
-                          🏢
-                        </div>
-                        <p className="text-xs font-medium text-gray-600">
-                          {company}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
+
+            {/* FACILITIES */}
+            {activeTab === 'facilities' && <FacilitiesSection/>}
+
+            {/* PROGRAMS */}
+            {activeTab === 'programs' && <ProgramsSection/>}
+
+            {/* ECA */}
+            {activeTab === 'eca' && <ECASection/>}
+
+            {/* PLACEMENTS */}
+            {activeTab === 'placements' && <PlacementsSection />}
 
             {/* ALUMNI */}
-            {activeTab === 'alumni' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Notable Alumni
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {[
-                    {
-                      name: 'Aarav Sharma',
-                      image: 'https://i.pravatar.cc/150?img=15',
-                      batch: '2015',
-                      role: 'CEO, TechStart Nepal',
-                      quote: 'Milton gave me the foundation to dream big.',
-                    },
-                    {
-                      name: 'Priya Adhikari',
-                      image: 'https://i.pravatar.cc/150?img=48',
-                      batch: '2016',
-                      role: 'Data Scientist, Google',
-                      quote: 'The faculty mentorship was truly life-changing.',
-                    },
-                    {
-                      name: 'Bikash Thapa',
-                      image: 'https://i.pravatar.cc/150?img=36',
-                      batch: '2014',
-                      role: 'Founder, EduTech Nepal',
-                      quote: 'I learned leadership and teamwork here.',
-                    },
-                    {
-                      name: 'Srijana KC',
-                      image: 'https://i.pravatar.cc/150?img=29',
-                      batch: '2017',
-                      role: 'VP, Nabil Bank',
-                      quote: 'The practical exposure prepared me for the real world.',
-                    },
-                    {
-                      name: 'Rohan Poudel',
-                      image: 'https://i.pravatar.cc/150?img=52',
-                      batch: '2018',
-                      role: 'Software Engineer, Microsoft',
-                      quote: 'Best 4 years of my academic life.',
-                    },
-                    {
-                      name: 'Anita Gurung',
-                      image: 'https://i.pravatar.cc/150?img=44',
-                      batch: '2016',
-                      role: 'Public Health Director, WHO Nepal',
-                      quote: 'Milton instilled values that guide me every day.',
-                    },
-                  ].map((alumni, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100"
-                    >
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-100 shadow-sm">
-                          <img
-                            src={alumni.image}
-                            alt={alumni.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-[#252872]">
-                            {alumni.name}
-                          </h3>
-                          <p className="text-xs text-gray-500">
-                            Batch of {alumni.batch}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-sm text-[#d91f22] font-medium mb-2">
-                        {alumni.role}
-                      </p>
-                      <p className="text-sm text-gray-500 italic">
-                        "{alumni.quote}"
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {activeTab === 'alumni' && <AlumniSection/>}
 
             {/* AWARDS */}
             {activeTab === 'awards' && (
@@ -1183,97 +1188,34 @@ export function InstituteDetailPage({ id }: any) {
                   <h2 className="text-2xl font-bold text-[#252872]">
                     Awards & Achievements
                   </h2>
-                  <button
-                    onClick={() => setShowAwardGallery(!showAwardGallery)}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#252872] hover:bg-[#1a1d54] text-white rounded-xl font-semibold text-sm transition-colors"
-                  >
-                    <Eye className="w-4 h-4" />
-                    {showAwardGallery ? 'View List' : 'View Photos'}
-                  </button>
                 </div>
 
-                {!showAwardGallery ? (
-                  <div className="space-y-4">
-                    {[
-                      {
-                        year: '2025',
-                        title: 'Best Private College in Nepal',
-                        org: 'Nepal Education Board',
-                        icon: '🏆',
-                      },
-                      {
-                        year: '2024',
-                        title: 'Excellence in IT Education',
-                        org: 'CAN Federation',
-                        icon: '🥇',
-                      },
-                      {
-                        year: '2024',
-                        title: 'Top Placement Record',
-                        org: 'FNCCI',
-                        icon: '📈',
-                      },
-                      {
-                        year: '2023',
-                        title: 'Green Campus Award',
-                        org: 'Ministry of Environment',
-                        icon: '🌿',
-                      },
-                      {
-                        year: '2023',
-                        title: 'Innovation in Teaching',
-                        org: 'UGC Nepal',
-                        icon: '💡',
-                      },
-                    ].map((award, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.08 }}
-                        className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-5"
-                      >
-                        <div className="text-3xl flex-shrink-0">{award.icon}</div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-[#252872]">
-                            {award.title}
-                          </h3>
-                          <p className="text-sm text-gray-500">{award.org}</p>
-                        </div>
-                        <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg">
-                          {award.year}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {awardPhotos.map((img, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.04 }}
-                        onClick={() => openAwardLightbox(i)}
-                        className="aspect-video rounded-2xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
-                      >
-                        <img
-                          src={img.src}
-                          alt={img.label}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <Camera className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
-                          <p className="text-white text-xs font-medium">
-                            {img.label}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {awardPhotos.map((img, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: i * 0.04 }}
+                      onClick={() => openAwardLightbox(i)}
+                      className="aspect-video rounded-2xl overflow-hidden relative group cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.label}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                        <Camera className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
+                        <p className="text-white text-xs font-medium">
+                          {img.label}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
 
                 {/* Award Photos Lightbox */}
                 <AnimatePresence>
@@ -1343,168 +1285,10 @@ export function InstituteDetailPage({ id }: any) {
             )}
 
             {/* NEWS */}
-            {activeTab === 'news' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  News & Announcements
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    {
-                      title: 'Admission Open for 2026 Session',
-                      date: 'Feb 5, 2026',
-                      category: 'Admission',
-                      excerpt:
-                        'Applications are now being accepted for all undergraduate and postgraduate programs.',
-                    },
-                    {
-                      title: 'Annual Sports Week Starting March 15',
-                      date: 'Feb 1, 2026',
-                      category: 'Events',
-                      excerpt:
-                        'Inter-department sports competitions including football, basketball, and athletics.',
-                    },
-                    {
-                      title: 'New MOU Signed with Australian University',
-                      date: 'Jan 28, 2026',
-                      category: 'Partnership',
-                      excerpt:
-                        'Student exchange program and joint research initiatives with University of Melbourne.',
-                    },
-                    {
-                      title: 'Scholarship Results Published',
-                      date: 'Jan 20, 2026',
-                      category: 'Scholarship',
-                      excerpt:
-                        'Merit-based scholarship recipients for the spring semester have been announced.',
-                    },
-                  ].map((news, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 group cursor-pointer"
-                    >
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="px-2 py-0.5 bg-red-50 text-[#d91f22] text-[10px] font-bold rounded uppercase">
-                          {news.category}
-                        </span>
-                        <span className="text-xs text-gray-400 flex items-center gap-1">
-                          <Calendar className="w-3 h-3" /> {news.date}
-                        </span>
-                      </div>
-                      <h3 className="font-bold text-[#252872] mb-2 group-hover:text-[#d91f22] transition-colors">
-                        {news.title}
-                      </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed">
-                        {news.excerpt}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {activeTab === 'news' && <NewsSection/>}
 
             {/* RESULTS */}
-            {activeTab === 'results' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  Academic Results
-                </h2>
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="bg-gray-50 border-b border-gray-100">
-                          <th className="text-left px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Program
-                          </th>
-                          <th className="text-center px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Year
-                          </th>
-                          <th className="text-center px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Pass Rate
-                          </th>
-                          <th className="text-center px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Distinction
-                          </th>
-                          <th className="text-center px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            First Division
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-50">
-                        {[
-                          {
-                            program: 'BBA',
-                            year: '2025',
-                            pass: '96%',
-                            distinction: '12%',
-                            first: '45%',
-                          },
-                          {
-                            program: 'BCA',
-                            year: '2025',
-                            pass: '94%',
-                            distinction: '15%',
-                            first: '42%',
-                          },
-                          {
-                            program: 'BBS',
-                            year: '2025',
-                            pass: '91%',
-                            distinction: '8%',
-                            first: '38%',
-                          },
-                          {
-                            program: 'MBA',
-                            year: '2025',
-                            pass: '98%',
-                            distinction: '20%',
-                            first: '55%',
-                          },
-                          {
-                            program: 'B.Sc. CSIT',
-                            year: '2025',
-                            pass: '93%',
-                            distinction: '18%',
-                            first: '40%',
-                          },
-                        ].map((row, i) => (
-                          <tr
-                            key={i}
-                            className="hover:bg-gray-50/50 transition-colors"
-                          >
-                            <td className="px-6 py-4 font-medium text-[#252872]">
-                              {row.program}
-                            </td>
-                            <td className="px-6 py-4 text-center text-sm text-gray-500">
-                              {row.year}
-                            </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className="px-2.5 py-1 bg-green-50 text-green-700 text-xs font-bold rounded-lg">
-                                {row.pass}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className="px-2.5 py-1 bg-purple-50 text-purple-700 text-xs font-bold rounded-lg">
-                                {row.distinction}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg">
-                                {row.first}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            )}
+            {activeTab === 'results' && <AcademicResults/>}
 
             {/* GALLERY */}
             {activeTab === 'gallery' && (
@@ -1607,6 +1391,9 @@ export function InstituteDetailPage({ id }: any) {
                 </AnimatePresence>
               </>
             )}
+
+             {/* SCHOLARSHIP */}
+            {activeTab === 'scholarship' && <ScholarshipSection/>}
           </motion.div>
         </AnimatePresence>
       </div>
