@@ -53,6 +53,8 @@ import ProgramsSection from '../components/institute/ProgramsSection';
 import ECASection from '../components/institute/ECASection';
 import NewsSection from '../components/institute/NewsSection';
 import AlumniSection from '../components/institute/AlumniSection';
+import { CollegeTourSection } from '../components/institute/CollegeTourSection';
+import { ScholarshipCard } from '../components/institute/ScholarshipCard';
 
 const tabs = [
   {
@@ -634,52 +636,7 @@ export function InstituteDetailPage({ id }: any) {
             {activeTab === 'about' && <AboutSection/>}
 
             {/* COLLEGE TOUR */}
-            {activeTab === 'tour' && (
-              <div>
-                <h2 className="text-2xl font-bold text-[#252872] mb-6">
-                  College Tour
-                </h2>
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 cursor-pointer hover:scale-110 transition-transform">
-                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center pl-1 shadow-xl">
-                          <Play className="w-7 h-7 text-[#d91f22] fill-current" />
-                        </div>
-                      </div>
-                      <h3 className="text-white text-xl font-bold mb-2">
-                        Virtual Campus Tour
-                      </h3>
-                      <p className="text-gray-400 text-sm">
-                        Experience our campus from the comfort of your home
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                  {[
-                    'Main Building Tour',
-                    'Library & Labs',
-                    'Sports Facilities',
-                  ].map((tour, i) => (
-                    <div
-                      key={i}
-                      className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Play className="w-6 h-6 text-[#d91f22]" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-[#252872] text-sm">
-                          {tour}
-                        </h4>
-                        <p className="text-xs text-gray-400">3-5 min video</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {activeTab === 'tour' && <CollegeTourSection/>}
 
             {/* FACULTY */}
             {activeTab === 'faculty' && (
@@ -1394,6 +1351,9 @@ export function InstituteDetailPage({ id }: any) {
 
              {/* SCHOLARSHIP */}
             {activeTab === 'scholarship' && <ScholarshipSection/>}
+
+            <ScholarshipCard />
+            
           </motion.div>
         </AnimatePresence>
       </div>

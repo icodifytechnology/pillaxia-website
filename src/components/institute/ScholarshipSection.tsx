@@ -642,24 +642,6 @@ export default function ScholarshipSection() {
           {activeTab === 'quota' && <QuotaTab />}
         </motion.div>
       </AnimatePresence>
-
-      {/* CTA banner */}
-      <div className="mt-8 bg-gradient-to-br from-[#252872] to-[#1a1d54] rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <div className="text-white font-bold text-base mb-1">Ready to Apply for a Scholarship?</div>
-          <div className="text-blue-200 text-sm">
-            Submit your application with required documents to the Scholarship Office
-          </div>
-        </div>
-        <div className="flex gap-3 flex-shrink-0">
-          <button className="bg-[#d91f22] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors shadow-lg flex items-center gap-2">
-            Apply Now <ExternalLink className="w-4 h-4" />
-          </button>
-          <button className="bg-white/10 hover:bg-white/20 text-white px-5 py-2.5 rounded-xl text-sm font-semibold border border-white/20 transition-colors">
-            Brochure
-          </button>
-        </div>
-      </div>
     </div>
   )
 }

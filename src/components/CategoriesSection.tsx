@@ -48,12 +48,12 @@ const organizationIcons: { [key: string]: any } = {
 const generateOrganizations = (category: string) => {
   const orgsByCategory: { [key: string]: any[] } = {
     'Loksewa': [
-      { name: 'Nepal Army', totalPapers: 45, completedPapers: 12, newPapers: 5, avgTime: '45 min', icon: 'Army', students: '4,200+' },
-      { name: 'Shakha Adhikrit', totalPapers: 68, completedPapers: 23, newPapers: 8, avgTime: '60 min', icon: 'Officers', students: '3,800+' },
-      { name: 'Nepal Police', totalPapers: 52, completedPapers: 18, newPapers: 6, avgTime: '50 min', icon: 'Police', students: '5,100+' },
-      { name: 'Nayab Subba', totalPapers: 38, completedPapers: 15, newPapers: 4, avgTime: '40 min', icon: 'Teachers', students: '2,900+' },
-      { name: 'Officers', totalPapers: 41, completedPapers: 10, newPapers: 7, avgTime: '55 min', icon: 'Medical', students: '1,600+' },
-      { name: 'Civil Engineering', totalPapers: 35, completedPapers: 8, newPapers: 3, avgTime: '50 min', icon: 'Engineering', students: '2,300+' },
+      { name: 'Prasasanik', totalPapers: 45, completedPapers: 12, newPapers: 5, avgTime: '45 min', icon: 'Army', students: '4,200+' },
+      { name: 'Nijamati', totalPapers: 68, completedPapers: 23, newPapers: 8, avgTime: '60 min', icon: 'Officers', students: '3,800+' },
+      { name: 'Nepal Telicome', totalPapers: 52, completedPapers: 18, newPapers: 6, avgTime: '50 min', icon: 'Police', students: '5,100+' },
+      { name: 'Shikshak Sewa', totalPapers: 38, completedPapers: 15, newPapers: 4, avgTime: '40 min', icon: 'Teachers', students: '2,900+' },
+      { name: 'NEA', totalPapers: 41, completedPapers: 10, newPapers: 7, avgTime: '55 min', icon: 'Medical', students: '1,600+' },
+      { name: 'Nepal Rastra Bank', totalPapers: 35, completedPapers: 8, newPapers: 3, avgTime: '50 min', icon: 'Engineering', students: '2,300+' },
     ],
     'Entrance Preparation': [
       { name: 'Medical Entrance', totalPapers: 72, completedPapers: 28, newPapers: 10, avgTime: '90 min', icon: 'Medical', students: '8,400+' },

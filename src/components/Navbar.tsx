@@ -86,8 +86,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             <NavItem to="/" label="Home" />
             <NavItem to="/loksewa" label="Loksewa" />
-            <NavItem to="/entrance" label="Entrance" />
-            <NavItem to="/institutes" label="Institutes" />
+            <NavItem to="/entrance" label="Entrance Sewa" />
+            <NavItem to="/institutes" label="College Sewa " />
             <NavItem to="/blog" label="Blog" />
             {/* <NavItem to="/course-counselling" label="Counselling" /> */}
             <NavItem to="/about" label="About Us" />
@@ -157,9 +157,9 @@ export default function Navbar() {
               <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
                 <MobileNavItem to="/" label="Home" />
                 <MobileNavItem to="/loksewa" label="Loksewa" />
-                <MobileNavItem to="/entrance" label="Entrance" />
+                <MobileNavItem to="/entrance" label="Entrance Sewa" />
                 <MobileNavItem to="/blog" label="Blog" />
-                <MobileNavItem to="/institutes" label="Institutes" />
+                <MobileNavItem to="/institutes" label="Institutes Sewa" />
                 <MobileNavItem to="/about" label="About Us" />
                 <MobileNavItem to="/contact" label="Contact" />
                 <MobileNavItem to="/profile" label="My Profile" />

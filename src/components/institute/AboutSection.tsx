@@ -73,16 +73,6 @@ export default function AboutSection() {
             ))}
           </div>
         </div>
-
-        <div className="bg-gradient-to-br from-[#252872] to-[#1a1d54] rounded-2xl p-6 text-white">
-          <h3 className="font-bold mb-3">Interested in Admission?</h3>
-          <p className="text-sm text-blue-200 mb-4">
-            Applications are open for the 2026 academic session. Apply now to secure your seat.
-          </p>
-          <button className="w-full bg-[#d91f22] hover:bg-[#b91c1c] text-white py-3 rounded-xl font-bold text-sm transition-colors shadow-lg flex items-center justify-center gap-2">
-            Apply Now <ExternalLink className="w-4 h-4" />
-          </button>
-        </div>
       </div>
     </div>
   )

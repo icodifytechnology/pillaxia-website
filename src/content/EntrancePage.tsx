@@ -163,6 +163,7 @@ export function EntrancePage() {
     { name: 'Class 10', count: 1 },
     { name: '+2', count: 1 },
     { name: 'Bachelors', count: 10 },
+    { name: 'Masters', count: 5 },
   ]
 
   const universities = [
