@@ -17,10 +17,10 @@ export default function HomePage() {
   return (
     <main>
       <HeroSection />
-      <StatsSection />
       <PlatformsSection />
       <PartnersSection />
       <CategoriesSection />
+      <StatsSection />
       <AdBanner />
       <QuizzesSection />
       <ImageGallery />

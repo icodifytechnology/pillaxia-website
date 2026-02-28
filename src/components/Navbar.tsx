@@ -88,6 +88,7 @@ export default function Navbar() {
             <NavItem to="/loksewa" label="Loksewa" />
             <NavItem to="/entrance" label="Entrance Sewa" />
             <NavItem to="/institutes" label="College Sewa " />
+            <NavItem to="/notes" label="Note Sewa " />
             <NavItem to="/blog" label="Blog" />
             {/* <NavItem to="/course-counselling" label="Counselling" /> */}
             <NavItem to="/about" label="About Us" />
@@ -160,6 +161,7 @@ export default function Navbar() {
                 <MobileNavItem to="/entrance" label="Entrance Sewa" />
                 <MobileNavItem to="/blog" label="Blog" />
                 <MobileNavItem to="/institutes" label="Institutes Sewa" />
+                <MobileNavItem to="/notes" label="Note Sewa" />
                 <MobileNavItem to="/about" label="About Us" />
                 <MobileNavItem to="/contact" label="Contact" />
                 <MobileNavItem to="/profile" label="My Profile" />

@@ -20,10 +20,12 @@ import {
   Navigation,
   Loader2,
   DollarSign,
+  GraduationCap,
 } from 'lucide-react'
 import { Newsletter } from '@/src/components/Newsletter'
 import { useRouter } from 'next/navigation'
 
+// Academic levels each institute supports
 const institutes = [
   {
     id: 1,
@@ -43,6 +45,7 @@ const institutes = [
     feeRange: 'NPR 4-6L',
     minFee: 400000,
     maxFee: 600000,
+    levels: ['Bachelor', 'Masters'],
   },
   {
     id: 2,
@@ -62,6 +65,7 @@ const institutes = [
     feeRange: 'NPR 6-8L',
     minFee: 600000,
     maxFee: 800000,
+    levels: ['+2', 'Bachelor'],
   },
   {
     id: 3,
@@ -81,6 +85,7 @@ const institutes = [
     feeRange: 'NPR 1-3L',
     minFee: 100000,
     maxFee: 300000,
+    levels: ['Bachelor', 'Masters'],
   },
   {
     id: 4,
@@ -100,6 +105,7 @@ const institutes = [
     feeRange: 'NPR 8-12L',
     minFee: 800000,
     maxFee: 1200000,
+    levels: ['Bachelor', 'Masters'],
   },
   {
     id: 5,
@@ -119,6 +125,7 @@ const institutes = [
     feeRange: 'NPR 3-5L',
     minFee: 300000,
     maxFee: 500000,
+    levels: ['+2', 'Bachelor', 'Masters'],
   },
   {
     id: 6,
@@ -138,6 +145,7 @@ const institutes = [
     feeRange: 'NPR 5-7L',
     minFee: 500000,
     maxFee: 700000,
+    levels: ['SEE', '+2', 'Bachelor'],
   },
   {
     id: 7,
@@ -157,6 +165,7 @@ const institutes = [
     feeRange: 'NPR 4-6L',
     minFee: 400000,
     maxFee: 600000,
+    levels: ['Bachelor', 'Masters'],
   },
   {
     id: 8,
@@ -176,140 +185,133 @@ const institutes = [
     feeRange: 'NPR 7-10L',
     minFee: 700000,
     maxFee: 1000000,
+    levels: ['Bachelor', 'Masters'],
   },
 ]
 
-const cities = ['All', 'Kathmandu', 'Bhaktapur', 'Kavre', 'Pokhara', 'Lalitpur']
-const types = ['All', 'University', 'Affiliated']
+const ACADEMIC_LEVELS = ['All', 'SEE', '+2', 'Bachelor', 'Masters']
+
+// University filter only applies when level is Bachelor or Masters
 const universities = ['All', 'TU', 'KU', 'PU']
+
+const cities = ['All', 'Kathmandu', 'Bhaktapur', 'Kavre', 'Pokhara', 'Lalitpur']
+
 const feeRanges = [
-  { label: 'All Fees', min: 0, max: Infinity },
-  { label: 'Under 3L', min: 0, max: 300000 },
-  { label: '3L - 6L', min: 300000, max: 600000 },
-  { label: '6L - 9L', min: 600000, max: 900000 },
-  { label: 'Above 9L', min: 900000, max: Infinity },
+  { label: 'All Fees',   min: 0,       max: Infinity },
+  { label: 'Under 3L',  min: 0,       max: 300000 },
+  { label: '3L - 6L',   min: 300000,  max: 600000 },
+  { label: '6L - 9L',   min: 600000,  max: 900000 },
+  { label: 'Above 9L',  min: 900000,  max: Infinity },
 ]
 
-const badgeColors: Record<string, string> = {
-  'Top Rated': 'bg-amber-50 text-amber-700 border-amber-200',
-  'Govt Approved': 'bg-green-50 text-green-700 border-green-200',
-  'Placement Focused': 'bg-blue-50 text-blue-700 border-blue-200',
-  'Research Hub': 'bg-purple-50 text-purple-700 border-purple-200',
+const levelColors: Record<string, string> = {
+  'SEE':      'bg-orange-50 text-orange-600 border-orange-200',
+  '+2':       'bg-sky-50 text-sky-600 border-sky-200',
+  'Bachelor': 'bg-indigo-50 text-indigo-600 border-indigo-200',
+  'Masters':  'bg-violet-50 text-violet-600 border-violet-200',
 }
 
-// Calculate distance between two coordinates (Haversine formula)
+const badgeColors: Record<string, string> = {
+  'Top Rated':          'bg-amber-50 text-amber-700 border-amber-200',
+  'Govt Approved':      'bg-green-50 text-green-700 border-green-200',
+  'Placement Focused':  'bg-blue-50 text-blue-700 border-blue-200',
+  'Research Hub':       'bg-purple-50 text-purple-700 border-purple-200',
+}
+
 const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-  const R = 6371 // Radius of the Earth in km
+  const R = 6371
   const dLat = (lat2 - lat1) * Math.PI / 180
   const dLon = (lon2 - lon1) * Math.PI / 180
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2)
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c // Distance in km
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
+
+const showUniversityFilter = (level: string) => level === 'All' || level === 'Bachelor' || level === 'Masters'
 
 export function InstitutesPage() {
   const { push: navigate } = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [locationSearch, setLocationSearch] = useState('')
+  const [selectedLevel, setSelectedLevel] = useState('All')
   const [selectedCity, setSelectedCity] = useState('All')
-  const [selectedType, setSelectedType] = useState('All')
   const [selectedUniversity, setSelectedUniversity] = useState('All')
-  const [selectedFeeRange, setSelectedFeeRange] = useState(0) // Index of feeRanges
+  const [selectedFeeRange, setSelectedFeeRange] = useState(0)
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [isGettingLocation, setIsGettingLocation] = useState(false)
   const [locationError, setLocationError] = useState('')
 
+  // When level changes to SEE or +2, reset university filter
+  useEffect(() => {
+    if (!showUniversityFilter(selectedLevel)) {
+      setSelectedUniversity('All')
+    }
+  }, [selectedLevel])
+
   const handleGetLocation = () => {
     setIsGettingLocation(true)
     setLocationError('')
-
     if (!navigator.geolocation) {
       setLocationError('Geolocation is not supported by your browser')
       setIsGettingLocation(false)
       return
     }
-
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        })
+      (pos) => {
+        setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude })
         setLocationSearch('Near Me')
-        setSelectedCity('All') // Clear city filter when using Near Me
+        setSelectedCity('All')
         setIsGettingLocation(false)
       },
-      (error) => {
+      () => {
         setLocationError('Unable to retrieve your location')
         setIsGettingLocation(false)
       }
     )
   }
 
-  const clearLocation = () => {
-    setUserLocation(null)
+  const clearLocation = () => { setUserLocation(null); setLocationSearch('') }
+
+  const resetAll = () => {
+    setSelectedLevel('All')
+    setSelectedCity('All')
+    setSelectedUniversity('All')
+    setSelectedFeeRange(0)
+    setSearchQuery('')
     setLocationSearch('')
+    clearLocation()
   }
 
   const filtered = institutes
-    .map(inst => {
-      // Calculate distance if user location is available
-      let distance = null
-      if (userLocation && locationSearch === 'Near Me') {
-        distance = calculateDistance(
-          userLocation.lat,
-          userLocation.lng,
-          inst.coordinates.lat,
-          inst.coordinates.lng
-        )
-      }
-      return { ...inst, distance }
-    })
+    .map((inst) => ({
+      ...inst,
+      distance: userLocation && locationSearch === 'Near Me'
+        ? calculateDistance(userLocation.lat, userLocation.lng, inst.coordinates.lat, inst.coordinates.lng)
+        : null,
+    }))
     .filter((inst) => {
-      const matchesSearch = inst.name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-      
-      const matchesLocationSearch = 
-        !locationSearch || 
+      const matchesSearch = inst.name.toLowerCase().includes(searchQuery.toLowerCase())
+      const matchesLocation =
+        !locationSearch ||
         locationSearch === 'Near Me' ||
         inst.city.toLowerCase().includes(locationSearch.toLowerCase()) ||
         inst.address.toLowerCase().includes(locationSearch.toLowerCase())
-      
+      const matchesLevel = selectedLevel === 'All' || inst.levels.includes(selectedLevel)
       const matchesCity = selectedCity === 'All' || inst.city === selectedCity
-      const matchesType = selectedType === 'All' || inst.type === selectedType
-      const matchesUniversity = selectedUniversity === 'All' || inst.university === selectedUniversity
-      
-      // Fee range filter
-      const selectedRange = feeRanges[selectedFeeRange]
-      const matchesFeeRange = 
-        inst.minFee >= selectedRange.min && inst.maxFee <= selectedRange.max ||
-        inst.minFee <= selectedRange.max && inst.maxFee >= selectedRange.min
-
-      return matchesSearch && matchesLocationSearch && matchesCity && matchesType && matchesUniversity && matchesFeeRange
+      const matchesUniversity = !showUniversityFilter(selectedLevel) || selectedUniversity === 'All' || inst.university === selectedUniversity
+      const range = feeRanges[selectedFeeRange]
+      const matchesFee = inst.minFee <= range.max && inst.maxFee >= range.min
+      return matchesSearch && matchesLocation && matchesLevel && matchesCity && matchesUniversity && matchesFee
     })
     .sort((a, b) => {
-      // Sort by distance if Near Me is active
-      if (locationSearch === 'Near Me' && a.distance !== null && b.distance !== null) {
-        return a.distance - b.distance
-      }
+      if (locationSearch === 'Near Me' && a.distance !== null && b.distance !== null) return a.distance - b.distance
       return 0
     })
 
-  const handleViewDetails = (id: number) => {
-    navigate(`/institutes/${id}`)
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
-  const totalActiveFilters = 
-    (selectedCity !== 'All' ? 1 : 0) + 
-    (selectedType !== 'All' ? 1 : 0) + 
+  const totalActiveFilters =
+    (selectedLevel !== 'All' ? 1 : 0) +
+    (selectedCity !== 'All' ? 1 : 0) +
     (selectedUniversity !== 'All' ? 1 : 0) +
     (selectedFeeRange !== 0 ? 1 : 0) +
     (locationSearch && locationSearch !== 'Near Me' ? 1 : 0)
@@ -321,35 +323,40 @@ export function InstitutesPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-[0.03] rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-red-400 opacity-[0.08] rounded-full translate-y-1/3 -translate-x-1/4 blur-3xl" />
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Institutes</h1>
             <p className="text-blue-100 text-lg max-w-2xl mb-8">
-              Discover top educational institutions across Nepal. Compare
-              programs, facilities, and find the perfect fit for your academic
-              journey.
+              Discover top educational institutions across Nepal. Compare programs, facilities, and find the perfect fit for your academic journey.
             </p>
             <div className="flex items-center text-sm text-blue-200 font-medium">
-              <span
-                className="hover:text-white cursor-pointer"
-                onClick={() => navigate('/')}
-              >
-                Home
-              </span>
+              <span className="hover:text-white cursor-pointer" onClick={() => navigate('/')}>Home</span>
               <ChevronRight className="w-4 h-4 mx-2" />
               <span className="text-white">Institutes</span>
             </div>
           </motion.div>
 
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="mt-8 max-w-2xl"
-          >
+          {/* Academic Level Quick Filter — Hero */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mt-8">
+            <p className="text-blue-200 text-sm font-semibold mb-3 uppercase tracking-widest">Filter by Level</p>
+            <div className="flex flex-wrap gap-2">
+              {ACADEMIC_LEVELS.map((lvl) => (
+                <button
+                  key={lvl}
+                  onClick={() => setSelectedLevel(lvl)}
+                  className={`px-5 py-2 rounded-full text-sm font-bold transition-all border ${
+                    selectedLevel === lvl
+                      ? 'bg-[#d91f22] border-[#d91f22] text-white shadow-lg shadow-[#d91f22]/30'
+                      : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  }`}
+                >
+                  {lvl}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Search */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-6 max-w-2xl">
             <div className="relative">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -370,24 +377,17 @@ export function InstitutesPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { label: 'Total Institutes', value: `${institutes.length}`, icon: Building2 },
-              { label: 'Total Students', value: '80k+', icon: Users },
-              { label: 'Programs Offered', value: '140+', icon: BookOpen },
-              { label: 'Accredited', value: '100%', icon: Shield },
+              { label: 'Total Students',   value: '80k+',               icon: Users },
+              { label: 'Programs Offered', value: '140+',               icon: BookOpen },
+              { label: 'Accredited',       value: '100%',               icon: Shield },
             ].map((stat, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-4 p-3 rounded-xl bg-gray-50 border border-gray-100"
-              >
+              <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-gray-50 border border-gray-100">
                 <div className="p-2.5 bg-white rounded-lg shadow-sm text-[#d91f22]">
                   <stat.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl font-bold text-[#252872]">
-                    {stat.value}
-                  </div>
-                  <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
-                    {stat.label}
-                  </div>
+                  <div className="text-xl font-bold text-[#252872]">{stat.value}</div>
+                  <div className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -397,54 +397,35 @@ export function InstitutesPage() {
 
       <div className="container mx-auto px-4 max-w-7xl py-10">
         <div className="flex flex-col lg:flex-row gap-8">
+
           {/* Sidebar Filters */}
           <aside className="lg:w-1/4">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24">
-              <div className="flex items-center justify-between mb-6">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 sticky top-24 space-y-6">
+              {/* Header */}
+              <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold text-[#252872] flex items-center gap-2">
                   <Filter className="w-5 h-5 text-[#d91f22]" />
                   Filters
                   {totalActiveFilters > 0 && (
-                    <span className="ml-1 bg-[#d91f22] text-white text-xs px-2 py-0.5 rounded-full">
-                      {totalActiveFilters}
-                    </span>
+                    <span className="ml-1 bg-[#d91f22] text-white text-xs px-2 py-0.5 rounded-full">{totalActiveFilters}</span>
                   )}
                 </h3>
-                {(selectedCity !== 'All' || selectedType !== 'All' || selectedUniversity !== 'All' || selectedFeeRange !== 0 || locationSearch) && (
-                  <button
-                    onClick={() => {
-                      setSelectedCity('All')
-                      setSelectedType('All')
-                      setSelectedUniversity('All')
-                      setSelectedFeeRange(0)
-                      setSearchQuery('')
-                      setLocationSearch('')
-                      clearLocation()
-                    }}
-                    className="text-xs text-[#d91f22] hover:underline font-medium"
-                  >
-                    Reset
-                  </button>
+                {totalActiveFilters > 0 && (
+                  <button onClick={resetAll} className="text-xs text-[#d91f22] hover:underline font-medium">Reset</button>
                 )}
               </div>
 
-              {/* Location Search */}
-              <div className="mb-6 pb-6 border-b border-gray-100">
+              {/* Location */}
+              <div className="pb-6 border-b border-gray-100">
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  Location Search
+                  <MapPin className="w-4 h-4" /> Location Search
                 </h4>
                 <div className="relative mb-2">
                   <input
                     type="text"
                     placeholder="Search by location..."
                     value={locationSearch === 'Near Me' ? '' : locationSearch}
-                    onChange={(e) => {
-                      setLocationSearch(e.target.value)
-                      if (e.target.value) {
-                        clearLocation()
-                      }
-                    }}
+                    onChange={(e) => { setLocationSearch(e.target.value); if (e.target.value) clearLocation() }}
                     disabled={locationSearch === 'Near Me'}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent text-sm bg-gray-50 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
@@ -457,211 +438,97 @@ export function InstitutesPage() {
                     locationSearch === 'Near Me'
                       ? 'bg-green-50 text-green-700 border-2 border-green-200 hover:bg-green-100'
                       : 'bg-[#d91f22] text-white hover:bg-[#b91c1c]'
-                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  } disabled:opacity-50`}
                 >
-                  {isGettingLocation ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Getting Location...
-                    </>
-                  ) : locationSearch === 'Near Me' ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4" />
-                      Using Your Location
-                    </>
-                  ) : (
-                    <>
-                      <Navigation className="w-4 h-4" />
-                      Near Me
-                    </>
-                  )}
+                  {isGettingLocation ? <><Loader2 className="w-4 h-4 animate-spin" />Getting Location...</>
+                    : locationSearch === 'Near Me' ? <><CheckCircle2 className="w-4 h-4" />Using Your Location</>
+                    : <><Navigation className="w-4 h-4" />Near Me</>}
                 </button>
-                {locationError && (
-                  <p className="text-xs text-red-600 mt-2">{locationError}</p>
-                )}
+                {locationError && <p className="text-xs text-red-600 mt-2">{locationError}</p>}
               </div>
 
-              {/* Fee Range Filter */}
-              <div className="mb-6 pb-6 border-b border-gray-100">
+              {/* Academic Level */}
+              <div className="pb-6 border-b border-gray-100">
                 <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <DollarSign className="w-4 h-4" />
-                  Fee Range
+                  <GraduationCap className="w-4 h-4" /> Academic Level
+                </h4>
+                <div className="space-y-2">
+                  {ACADEMIC_LEVELS.map((lvl) => (
+                    <label key={lvl} className="flex items-center justify-between cursor-pointer group">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${selectedLevel === lvl ? 'border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                          {selectedLevel === lvl && <div className="w-2 h-2 bg-[#d91f22] rounded-full" />}
+                        </div>
+                        <input type="radio" name="level" className="hidden" checked={selectedLevel === lvl} onChange={() => setSelectedLevel(lvl)} />
+                        <span className={`text-sm ${selectedLevel === lvl ? 'text-[#252872] font-medium' : 'text-gray-600'}`}>{lvl === 'All' ? 'All Levels' : lvl}</span>
+                      </div>
+                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {lvl === 'All' ? institutes.length : institutes.filter(i => i.levels.includes(lvl)).length}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* University — only for Bachelor / Masters / All */}
+              {showUniversityFilter(selectedLevel) && (
+                <div className="pb-6 border-b border-gray-100">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">University</h4>
+                  <div className="space-y-2">
+                    {universities.map((uni) => (
+                      <label key={uni} className="flex items-center justify-between cursor-pointer group">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedUniversity === uni ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                            {selectedUniversity === uni && <CheckCircle2 className="w-3 h-3 text-white" />}
+                          </div>
+                          <input type="radio" name="university" className="hidden" checked={selectedUniversity === uni} onChange={() => setSelectedUniversity(uni)} />
+                          <span className={`text-sm ${selectedUniversity === uni ? 'text-[#252872] font-medium' : 'text-gray-600'}`}>
+                            {uni === 'All' ? 'All Universities' : uni === 'TU' ? 'Tribhuvan University' : uni === 'KU' ? 'Kathmandu University' : 'Pokhara University'}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                          {institutes.filter(i => (uni === 'All' || i.university === uni) && (selectedLevel === 'All' || i.levels.includes(selectedLevel))).length}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Fee Range */}
+              <div className="pb-6 border-b border-gray-100">
+                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                  <DollarSign className="w-4 h-4" /> Fee Range
                 </h4>
                 <div className="space-y-2">
                   {feeRanges.map((range, index) => (
-                    <label
-                      key={index}
-                      className="flex items-center justify-between cursor-pointer group"
-                    >
+                    <label key={index} className="flex items-center justify-between cursor-pointer group">
                       <div className="flex items-center gap-3">
-                        <div
-                          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                            selectedFeeRange === index
-                              ? 'bg-[#d91f22] border-[#d91f22]'
-                              : 'border-gray-300 group-hover:border-[#d91f22]'
-                          }`}
-                        >
-                          {selectedFeeRange === index && (
-                            <CheckCircle2 className="w-3 h-3 text-white" />
-                          )}
+                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedFeeRange === index ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                          {selectedFeeRange === index && <CheckCircle2 className="w-3 h-3 text-white" />}
                         </div>
-                        <input
-                          type="radio"
-                          name="feeRange"
-                          className="hidden"
-                          checked={selectedFeeRange === index}
-                          onChange={() => setSelectedFeeRange(index)}
-                        />
-                        <span
-                          className={`text-sm ${
-                            selectedFeeRange === index
-                              ? 'text-[#252872] font-medium'
-                              : 'text-gray-600'
-                          }`}
-                        >
-                          {range.label}
-                        </span>
+                        <input type="radio" name="feeRange" className="hidden" checked={selectedFeeRange === index} onChange={() => setSelectedFeeRange(index)} />
+                        <span className={`text-sm ${selectedFeeRange === index ? 'text-[#252872] font-medium' : 'text-gray-600'}`}>{range.label}</span>
                       </div>
                       <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-                        {institutes.filter(i => 
-                          (i.minFee >= range.min && i.maxFee <= range.max) ||
-                          (i.minFee <= range.max && i.maxFee >= range.min)
-                        ).length}
+                        {institutes.filter(i => i.minFee <= range.max && i.maxFee >= range.min).length}
                       </span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* University Filter */}
-              <div className="mb-6 pb-6 border-b border-gray-100">
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  University
-                </h4>
-                <div className="space-y-2">
-                  {universities.map((uni) => (
-                    <label
-                      key={uni}
-                      className="flex items-center justify-between cursor-pointer group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                            selectedUniversity === uni
-                              ? 'bg-[#d91f22] border-[#d91f22]'
-                              : 'border-gray-300 group-hover:border-[#d91f22]'
-                          }`}
-                        >
-                          {selectedUniversity === uni && (
-                            <CheckCircle2 className="w-3 h-3 text-white" />
-                          )}
-                        </div>
-                        <input
-                          type="radio"
-                          name="university"
-                          className="hidden"
-                          checked={selectedUniversity === uni}
-                          onChange={() => setSelectedUniversity(uni)}
-                        />
-                        <span
-                          className={`text-sm ${
-                            selectedUniversity === uni
-                              ? 'text-[#252872] font-medium'
-                              : 'text-gray-600'
-                          }`}
-                        >
-                          {uni === 'All' ? 'All Universities' : uni === 'TU' ? 'Tribhuvan University' : uni === 'KU' ? 'Kathmandu University' : 'Pokhara University'}
-                        </span>
-                      </div>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
-                        {institutes.filter(i => uni === 'All' || i.university === uni).length}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Type Filter */}
-              <div className="mb-6 pb-6 border-b border-gray-100">
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  Institute Type
-                </h4>
-                <div className="space-y-2">
-                  {types.map((type) => (
-                    <label
-                      key={type}
-                      className="flex items-center gap-3 cursor-pointer group"
-                    >
-                      <div
-                        className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${
-                          selectedType === type
-                            ? 'border-[#d91f22]'
-                            : 'border-gray-300 group-hover:border-[#d91f22]'
-                        }`}
-                      >
-                        {selectedType === type && (
-                          <div className="w-2 h-2 bg-[#d91f22] rounded-full" />
-                        )}
-                      </div>
-                      <input
-                        type="radio"
-                        name="type"
-                        className="hidden"
-                        checked={selectedType === type}
-                        onChange={() => setSelectedType(type)}
-                      />
-                      <span
-                        className={`text-sm ${
-                          selectedType === type
-                            ? 'text-[#252872] font-medium'
-                            : 'text-gray-600'
-                        }`}
-                      >
-                        {type}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* City Filter */}
+              {/* City */}
               <div>
-                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-                  City
-                </h4>
+                <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">City</h4>
                 <div className="space-y-2">
                   {cities.map((city) => (
-                    <label
-                      key={city}
-                      className="flex items-center gap-3 cursor-pointer group"
-                    >
-                      <div
-                        className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-                          selectedCity === city
-                            ? 'bg-[#d91f22] border-[#d91f22]'
-                            : 'border-gray-300 group-hover:border-[#d91f22]'
-                        }`}
-                      >
-                        {selectedCity === city && (
-                          <CheckCircle2 className="w-3 h-3 text-white" />
-                        )}
+                    <label key={city} className="flex items-center gap-3 cursor-pointer group">
+                      <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedCity === city ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                        {selectedCity === city && <CheckCircle2 className="w-3 h-3 text-white" />}
                       </div>
-                      <input
-                        type="radio"
-                        name="city"
-                        className="hidden"
-                        checked={selectedCity === city}
-                        onChange={() => setSelectedCity(city)}
-                      />
-                      <span
-                        className={`text-sm ${
-                          selectedCity === city
-                            ? 'text-[#252872] font-medium'
-                            : 'text-gray-600'
-                        }`}
-                      >
-                        {city}
-                      </span>
+                      <input type="radio" name="city" className="hidden" checked={selectedCity === city} onChange={() => setSelectedCity(city)} />
+                      <span className={`text-sm ${selectedCity === city ? 'text-[#252872] font-medium' : 'text-gray-600'}`}>{city}</span>
                     </label>
                   ))}
                 </div>
@@ -671,47 +538,32 @@ export function InstitutesPage() {
 
           {/* Main Grid */}
           <div className="lg:w-3/4">
-            {/* Active filters */}
-            {(selectedCity !== 'All' || selectedType !== 'All' || selectedUniversity !== 'All' || selectedFeeRange !== 0 || (locationSearch && locationSearch !== 'Near Me')) && (
+            {/* Active filter pills */}
+            {(selectedLevel !== 'All' || selectedCity !== 'All' || selectedUniversity !== 'All' || selectedFeeRange !== 0 || (locationSearch && locationSearch !== 'Near Me')) && (
               <div className="flex flex-wrap gap-2 mb-4">
+                {selectedLevel !== 'All' && (
+                  <button onClick={() => setSelectedLevel('All')} className="flex items-center gap-1 bg-[#252872]/10 text-[#252872] px-3 py-1 rounded-full text-xs font-bold hover:bg-[#252872]/15 transition-colors">
+                    🎓 {selectedLevel} <X className="w-3 h-3" />
+                  </button>
+                )}
                 {locationSearch && locationSearch !== 'Near Me' && (
-                  <button
-                    onClick={() => setLocationSearch('')}
-                    className="flex items-center gap-1 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-purple-100 transition-colors"
-                  >
+                  <button onClick={() => setLocationSearch('')} className="flex items-center gap-1 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-purple-100 transition-colors">
                     📍 {locationSearch} <X className="w-3 h-3" />
                   </button>
                 )}
                 {selectedFeeRange !== 0 && (
-                  <button
-                    onClick={() => setSelectedFeeRange(0)}
-                    className="flex items-center gap-1 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-green-100 transition-colors"
-                  >
+                  <button onClick={() => setSelectedFeeRange(0)} className="flex items-center gap-1 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-green-100 transition-colors">
                     💰 {feeRanges[selectedFeeRange].label} <X className="w-3 h-3" />
                   </button>
                 )}
                 {selectedUniversity !== 'All' && (
-                  <button
-                    onClick={() => setSelectedUniversity('All')}
-                    className="flex items-center gap-1 bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-orange-100 transition-colors"
-                  >
+                  <button onClick={() => setSelectedUniversity('All')} className="flex items-center gap-1 bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-orange-100 transition-colors">
                     {selectedUniversity} <X className="w-3 h-3" />
                   </button>
                 )}
                 {selectedCity !== 'All' && (
-                  <button
-                    onClick={() => setSelectedCity('All')}
-                    className="flex items-center gap-1 bg-red-50 text-[#d91f22] px-3 py-1 rounded-full text-xs font-medium hover:bg-red-100 transition-colors"
-                  >
+                  <button onClick={() => setSelectedCity('All')} className="flex items-center gap-1 bg-red-50 text-[#d91f22] px-3 py-1 rounded-full text-xs font-medium hover:bg-red-100 transition-colors">
                     {selectedCity} <X className="w-3 h-3" />
-                  </button>
-                )}
-                {selectedType !== 'All' && (
-                  <button
-                    onClick={() => setSelectedType('All')}
-                    className="flex items-center gap-1 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium hover:bg-blue-100 transition-colors"
-                  >
-                    {selectedType} <X className="w-3 h-3" />
                   </button>
                 )}
               </div>
@@ -719,12 +571,9 @@ export function InstitutesPage() {
 
             <div className="flex items-center justify-between mb-6">
               <p className="text-sm text-gray-500">
-                Showing{' '}
-                <span className="font-bold text-[#252872]">
-                  {filtered.length}
-                </span>{' '}
-                institutes
+                Showing <span className="font-bold text-[#252872]">{filtered.length}</span> institutes
                 {locationSearch === 'Near Me' && ' (sorted by distance)'}
+                {selectedLevel !== 'All' && <span className="ml-1 text-[#252872] font-semibold">for {selectedLevel}</span>}
               </p>
             </div>
 
@@ -740,100 +589,64 @@ export function InstitutesPage() {
                     transition={{ delay: index * 0.05 }}
                     className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
                   >
-                    {/* Gradient top bar */}
                     <div className={`h-1.5 bg-gradient-to-r ${inst.color}`} />
-
                     <div className="p-6">
                       {/* Header */}
                       <div className="flex items-start gap-4 mb-4">
                         <div className="w-14 h-14 bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center border border-gray-100 flex-shrink-0">
-                          <img
-                            src={inst.logo}
-                            alt={inst.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
+                          <img src={inst.logo} alt={inst.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-lg font-bold text-[#252872] group-hover:text-[#d91f22] transition-colors leading-tight mb-1">
-                            {inst.name}
-                          </h3>
-                          <div className="flex items-center gap-1.5 text-xs text-gray-500 flex-wrap">
-                            <span
-                              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${
-                                inst.type === 'University'
-                                  ? 'bg-green-50 text-green-600'
-                                  : 'bg-indigo-50 text-indigo-600'
-                              }`}
-                            >
-                              {inst.type}
-                            </span>
-                            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-orange-50 text-orange-600">
-                              {inst.university}
-                            </span>
-                            <span className="flex items-center gap-0.5">
-                              <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                              {inst.rating}
+                          <h3 className="text-lg font-bold text-[#252872] group-hover:text-[#d91f22] transition-colors leading-tight mb-1">{inst.name}</h3>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            {showUniversityFilter(selectedLevel) && (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-orange-50 text-orange-600">{inst.university}</span>
+                            )}
+                            <span className="flex items-center gap-0.5 text-xs">
+                              <Star className="w-3 h-3 text-amber-400 fill-amber-400" />{inst.rating}
                             </span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Distance Badge & Fee Range */}
-                      <div className="flex items-center gap-2 mb-3">
-                        {inst.distance !== null && locationSearch === 'Near Me' && (
-                          <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">
-                            <Navigation className="w-3 h-3" />
-                            {inst.distance.toFixed(1)} km away
-                          </div>
-                        )}
-                        {/* <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
-                          <DollarSign className="w-3 h-3" />
-                          {inst.feeRange}
-                        </div> */}
+                      {/* Level tags */}
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {inst.levels.map((lvl) => (
+                          <span key={lvl} className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${levelColors[lvl] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+                            {lvl}
+                          </span>
+                        ))}
                       </div>
+
+                      {/* Distance */}
+                      {inst.distance !== null && locationSearch === 'Near Me' && (
+                        <div className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold mb-3">
+                          <Navigation className="w-3 h-3" />{inst.distance.toFixed(1)} km away
+                        </div>
+                      )}
 
                       {/* Badges */}
                       <div className="flex flex-wrap gap-1.5 mb-4">
                         {inst.badges.map((badge) => (
-                          <span
-                            key={badge}
-                            className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${
-                              badgeColors[badge] ||
-                              'bg-gray-50 text-gray-600 border-gray-200'
-                            }`}
-                          >
-                            {badge}
-                          </span>
+                          <span key={badge} className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${badgeColors[badge] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>{badge}</span>
                         ))}
                       </div>
 
                       {/* Info */}
                       <div className="space-y-2 mb-5">
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <Phone className="w-3.5 h-3.5 text-gray-400" />
-                          <span>{inst.phone}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
-                          <MapPin className="w-3.5 h-3.5 text-gray-400" />
-                          <span>{inst.address}</span>
-                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-500"><Phone className="w-3.5 h-3.5 text-gray-400" /><span>{inst.phone}</span></div>
+                        <div className="flex items-center gap-2 text-sm text-gray-500"><MapPin className="w-3.5 h-3.5 text-gray-400" /><span>{inst.address}</span></div>
                       </div>
 
                       {/* Stats row */}
                       <div className="flex items-center gap-4 text-xs text-gray-400 mb-5 pt-4 border-t border-gray-50">
-                        <span className="flex items-center gap-1">
-                          <Users className="w-3.5 h-3.5" /> {inst.students}{' '}
-                          students
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <BookOpen className="w-3.5 h-3.5" /> {inst.programs}{' '}
-                          programs
-                        </span>
+                        <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {inst.students} students</span>
+                        <span className="flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> {inst.programs} programs</span>
+                        <span className="flex items-center gap-1"><DollarSign className="w-3.5 h-3.5" /> {inst.feeRange}</span>
                       </div>
 
-                      {/* CTA */}
                       <button
-                        onClick={() => handleViewDetails(inst.id)}
+                        onClick={() => { navigate(`/institutes/${inst.id}`); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
                         className="w-full bg-[#d91f22] hover:bg-[#b91c1c] text-white py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                       >
                         View Details <ChevronRight className="w-4 h-4" />
@@ -847,26 +660,9 @@ export function InstitutesPage() {
             {filtered.length === 0 && (
               <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-200">
                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-[#252872] mb-2">
-                  No institutes found
-                </h3>
-                <p className="text-gray-500 mb-4">
-                  Try adjusting your search or filters.
-                </p>
-                <button
-                  onClick={() => {
-                    setSelectedCity('All')
-                    setSelectedType('All')
-                    setSelectedUniversity('All')
-                    setSelectedFeeRange(0)
-                    setSearchQuery('')
-                    setLocationSearch('')
-                    clearLocation()
-                  }}
-                  className="text-[#d91f22] font-semibold hover:underline"
-                >
-                  Clear all filters
-                </button>
+                <h3 className="text-lg font-bold text-[#252872] mb-2">No institutes found</h3>
+                <p className="text-gray-500 mb-4">Try adjusting your search or filters.</p>
+                <button onClick={resetAll} className="text-[#d91f22] font-semibold hover:underline">Clear all filters</button>
               </div>
             )}
           </div>

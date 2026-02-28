@@ -1,157 +1,76 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import {
-    GraduationCap,
-    TrendingUp,
-    Megaphone,
-    Share2,
-    Sparkles,
-    ArrowUpRight,
-} from 'lucide-react'
+import { GraduationCap, TrendingUp, Megaphone, Share2 } from 'lucide-react'
 
 const platforms = [
     {
         id: 1,
-        tag: '01',
         title: 'Learning Platform',
-        headline: 'Learn Smarter',
         icon: GraduationCap,
-        accent: '#d91f22',
-        accentLight: 'rgba(217,31,34,0.06)',
-        accentBorder: 'rgba(217,31,34,0.15)',
+        gradient: 'from-red-500 to-pink-500',
     },
     {
         id: 2,
-        tag: '02',
         title: 'Earning Platform',
-        headline: 'Turn Knowledge\nInto Income',
         icon: TrendingUp,
-        accent: '#252872',
-        accentLight: 'rgba(37,40,114,0.06)',
-        accentBorder: 'rgba(37,40,114,0.15)',
+        gradient: 'from-indigo-600 to-blue-500',
     },
     {
         id: 3,
-        tag: '03',
         title: 'Branding Platform',
-        headline: 'Amplify Your\nInstitution',
         icon: Megaphone,
-        accent: '#d91f22',
-        accentLight: 'rgba(217,31,34,0.06)',
-        accentBorder: 'rgba(217,31,34,0.15)',
+        gradient: 'from-rose-500 to-red-500',
     },
     {
         id: 4,
-        tag: '04',
         title: 'Knowledge Sharing',
-        headline: 'Share What\nYou Know',
         icon: Share2,
-        accent: '#252872',
-        accentLight: 'rgba(37,40,114,0.06)',
-        accentBorder: 'rgba(37,40,114,0.15)',
+        gradient: 'from-blue-600 to-indigo-600',
     },
 ]
 
 export function PlatformsSection() {
     return (
-        <section className="relative py-20 md:py-28 bg-white overflow-hidden">
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-gradient-to-b from-gray-50 to-transparent" />
-            </div>
+        <section className="relative py-20 bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden">
+            {/* subtle background glow */}
+            {/* <div className="absolute -top-32 -left-32 w-96 h-96 bg-red-500/10 blur-3xl rounded-full" />
+            <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-500/10 blur-3xl rounded-full" /> */}
 
-            <div className="container mx-auto px-4 max-w-7xl relative z-10">
-                {/* Header */}
-                <div className="mb-12">
-                    <div className="inline-flex items-center space-x-2 bg-[#d91f22]/5 rounded-full px-4 py-1.5 mb-4">
-                        <Sparkles className="w-4 h-4 text-[#252872]" />
-                        <span className="text-sm font-semibold text-[#d91f22]">
-                            Your Complete Digital Ecosystem
-                        </span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-[#d91f22] mb-3">
-                        Our Platform
-                    </h2>
-                    <p className="text-gray-600 max-w-xl">
-                        GyanSewa is more than an ed-tech app — it's a full ecosystem built for students, educators, and institutions.
-                    </p>
-                </div>
-
-                {/* 4-column cards grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {platforms.map((platform, index) => {
                         const Icon = platform.icon
+
                         return (
                             <motion.div
                                 key={platform.id}
-                                initial={{ opacity: 0, y: 24 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: '-40px' }}
-                                transition={{ duration: 0.45, delay: index * 0.08 }}
-                                className="group relative rounded-2xl overflow-hidden border cursor-pointer flex flex-col"
-                                style={{
-                                    borderColor: platform.accentBorder,
-                                    backgroundColor: platform.accentLight,
-                                    minHeight: '200px',
-                                }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="group relative p-[1px] rounded-2xl bg-gradient-to-br from-gray-200 to-gray-100 hover:from-transparent hover:to-transparent"
                             >
-                                {/* Glow blob */}
-                                <div
-                                    className="absolute -top-8 -right-8 w-32 h-32 rounded-full blur-2xl opacity-15 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none"
-                                    style={{ backgroundColor: platform.accent }}
-                                />
+                                {/* animated border glow */}
+                                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-r from-red-500/30 to-indigo-500/30 blur-xl" />
 
-                                <div className="relative p-6 flex flex-col h-full">
-                                    {/* Tag number top-right */}
-                                    <span
-                                        className="absolute top-5 right-5 text-3xl font-black tabular-nums leading-none select-none"
-                                        style={{ color: platform.accent, opacity: 0.12 }}
-                                    >
-                                        {platform.tag}
-                                    </span>
-
+                                <div className="relative h-full bg-white/70 backdrop-blur-xl rounded-2xl p-6 flex items-center gap-4 transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                                    
                                     {/* Icon */}
                                     <div
-                                        className="w-12 h-12 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300 mb-auto"
-                                        style={{ backgroundColor: platform.accent }}
+                                        className={`w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br ${platform.gradient} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
                                     >
-                                        <Icon className="w-6 h-6 text-white" />
+                                        <Icon className="w-5 h-5" />
                                     </div>
 
-                                    {/* Bottom content */}
-                                    <div className="mt-6">
-                                        {/* Label */}
-                                        <p
-                                            className="text-[10px] font-bold uppercase tracking-widest mb-1.5"
-                                            style={{ color: platform.accent, opacity: 0.7 }}
-                                        >
+                                    {/* Title */}
+                                    <div>
+                                        <p className="text-base font-semibold text-gray-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-red-500 group-hover:to-indigo-600 transition-all duration-300">
                                             {platform.title}
                                         </p>
-
-                                        {/* Headline */}
-                                        <h3
-                                            className="text-base font-extrabold leading-snug text-[#252872] group-hover:text-[#d91f22] transition-colors duration-300 whitespace-pre-line"
-                                        >
-                                            {platform.headline}
-                                        </h3>
-                                    </div>
-
-                                    {/* Arrow icon */}
-                                    <div
-                                        className="absolute bottom-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0"
-                                    >
-                                        <ArrowUpRight
-                                            className="w-4 h-4"
-                                            style={{ color: platform.accent }}
-                                        />
+                                        <div className="mt-1 h-[2px] w-0 bg-gradient-to-r from-red-500 to-indigo-600 group-hover:w-10 transition-all duration-300 rounded-full" />
                                     </div>
                                 </div>
-
-                                {/* Bottom accent line */}
-                                <div
-                                    className="absolute bottom-0 left-0 h-[3px] w-0 group-hover:w-full transition-all duration-500 ease-out"
-                                    style={{ backgroundColor: platform.accent }}
-                                />
                             </motion.div>
                         )
                     })}
