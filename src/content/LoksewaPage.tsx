@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Filter,
   ChevronRight,
+  ChevronDown,
   BookOpen,
   Search,
   X,
@@ -27,7 +28,7 @@ import { AdBanner } from '@/src/components/AdBanner'
 import { Newsletter } from '@/src/components/Newsletter'
 import Link from 'next/link'
 
-// ─── Category icon + colour config (same pattern as EntrancePage) ─────────────
+// ─── Category icon + colour config ───────────────────────────────────────────
 
 const categoryConfig: Record<string, { icon: React.ElementType; accent: string; badge: string }> = {
   'Nepal Police': { icon: Shield, accent: 'bg-blue-100 text-blue-600', badge: 'bg-blue-50 text-blue-700 border-blue-200' },
@@ -108,6 +109,8 @@ export function LoksewaPage() {
   const [selectedLevel, setSelectedLevel] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('Default')
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [noticesOpen, setNoticesOpen] = useState(false)
 
   const categories = [
     { name: 'Nepal Police', count: 12 },
@@ -133,14 +136,13 @@ export function LoksewaPage() {
     return matchesCategory && matchesLevel && matchesSearch
   })
 
-  // Group filtered courses by category in canonical order
   const groupedCourses = CATEGORY_ORDER
     .map((cat) => ({ category: cat, courses: filteredCourses.filter((c) => c.category === cat) }))
     .filter(({ courses }) => courses.length > 0)
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Breadcrumb Header — original unchanged */}
+      {/* Breadcrumb Header */}
       <div className="bg-gradient-to-r from-[#252872] to-[#d91f22] text-white py-16 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
         <div className="container mx-auto px-4 max-w-7xl relative z-10">
@@ -153,7 +155,7 @@ export function LoksewaPage() {
         </div>
       </div>
 
-      {/* Stats Bar — original unchanged */}
+      {/* Stats Bar */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 max-w-7xl py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -178,14 +180,28 @@ export function LoksewaPage() {
       </div>
 
       <div className="container mx-auto px-4 max-w-7xl py-12">
-        <div className="flex flex-col lg:flex-row gap-8">
+        {/* 
+          FIX 1: Added `items-start` to the flex container.
+          Without it, children stretch to full height, breaking `sticky` positioning
+          because sticky needs the parent to be taller than the sticky element itself.
+        */}
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
 
-          {/* ── Sidebar ── */}
-          <aside className="lg:w-1/4 space-y-5 sticky top-24">
+          {/* ── Sidebar ── 
+            FIX 2: Removed `sticky` on mobile (it causes layout jumps in flex-col).
+            Applied sticky only at lg+ via `lg:sticky`. Also added `max-h-screen 
+            overflow-y-auto` so the sidebar scrolls independently if its content 
+            is taller than the viewport.
+          */}
+          <aside className="w-full lg:w-1/4 lg:sticky lg:top-24 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto space-y-5 scrollbar-thin scrollbar-thumb-gray-200">
 
-            {/* Filters — original unchanged */}
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <div className="flex items-center justify-between mb-6">
+            {/* Filters */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              {/* Header — always visible, acts as toggle on mobile */}
+              <button
+                onClick={() => setFiltersOpen((v) => !v)}
+                className="w-full flex items-center justify-between p-6 lg:cursor-default"
+              >
                 <h3 className="text-lg font-bold text-[#252872] flex items-center">
                   <Filter className="w-5 h-5 mr-2 text-[#d91f22]" />
                   Filters
@@ -195,91 +211,207 @@ export function LoksewaPage() {
                     </span>
                   )}
                 </h3>
-                {(selectedCategories.length > 0 || selectedLevel !== 'All' || searchQuery) && (
-                  <button
-                    onClick={() => { setSelectedCategories([]); setSelectedLevel('All'); setSearchQuery('') }}
-                    className="text-xs text-[#d91f22] hover:underline font-medium"
-                  >
-                    Clear All
-                  </button>
-                )}
-              </div>
-
-              {/* Search */}
-              <div className="mb-6 relative">
-                <input
-                  type="text"
-                  placeholder="Search positions..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent text-sm bg-gray-50"
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-400 transition-transform duration-300 lg:hidden ${filtersOpen ? 'rotate-180' : ''}`}
                 />
-                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
-              </div>
+              </button>
 
-              {/* Level Filter */}
-              <div className="mb-6">
-                <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Level</h4>
-                <div className="space-y-2">
-                  {['All', 'Officer', 'Assistant'].map((level) => (
-                    <label key={level} className="flex items-center space-x-3 cursor-pointer group">
-                      <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${selectedLevel === level ? 'border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
-                        {selectedLevel === level && <div className="w-2 h-2 bg-[#d91f22] rounded-full" />}
-                      </div>
-                      <input type="radio" name="level" className="hidden" checked={selectedLevel === level} onChange={() => setSelectedLevel(level)} />
-                      <span className={`text-sm ${selectedLevel === level ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{level}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Category Filter */}
-              <div>
-                <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Organization</h4>
-                <div className="space-y-2">
-                  {categories.map((cat) => (
-                    <label key={cat.name} className="flex items-center justify-between cursor-pointer group">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedCategories.includes(cat.name) ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
-                          {selectedCategories.includes(cat.name) && <CheckCircle2 className="w-3 h-3 text-white" />}
+              {/* Collapsible body — always open on lg+, toggled on mobile */}
+              <AnimatePresence initial={false}>
+                {(filtersOpen) && (
+                  <motion.div
+                    key="filters-body"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden lg:!h-auto lg:!opacity-100"
+                  >
+                    <div className="px-6 pb-6 border-t border-gray-100 pt-4">
+                      {(selectedCategories.length > 0 || selectedLevel !== 'All' || searchQuery) && (
+                        <div className="flex justify-end mb-4">
+                          <button
+                            onClick={() => { setSelectedCategories([]); setSelectedLevel('All'); setSearchQuery('') }}
+                            className="text-xs text-[#d91f22] hover:underline font-medium"
+                          >
+                            Clear All
+                          </button>
                         </div>
-                        <input type="checkbox" className="hidden" checked={selectedCategories.includes(cat.name)} onChange={() => toggleCategory(cat.name)} />
-                        <span className={`text-sm ${selectedCategories.includes(cat.name) ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{cat.name}</span>
+                      )}
+
+                      {/* Search */}
+                      <div className="mb-6 relative">
+                        <input
+                          type="text"
+                          placeholder="Search positions..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent text-sm bg-gray-50"
+                        />
+                        <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
                       </div>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{cat.count}</span>
-                    </label>
-                  ))}
+
+                      {/* Level Filter */}
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Level</h4>
+                        <div className="space-y-2">
+                          {['All', 'Officer', 'Assistant'].map((level) => (
+                            <label key={level} className="flex items-center space-x-3 cursor-pointer group">
+                              <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${selectedLevel === level ? 'border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                                {selectedLevel === level && <div className="w-2 h-2 bg-[#d91f22] rounded-full" />}
+                              </div>
+                              <input type="radio" name="level" className="hidden" checked={selectedLevel === level} onChange={() => setSelectedLevel(level)} />
+                              <span className={`text-sm ${selectedLevel === level ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{level}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Category Filter */}
+                      <div>
+                        <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Organization</h4>
+                        <div className="space-y-2">
+                          {categories.map((cat) => (
+                            <label key={cat.name} className="flex items-center justify-between cursor-pointer group">
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedCategories.includes(cat.name) ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                                  {selectedCategories.includes(cat.name) && <CheckCircle2 className="w-3 h-3 text-white" />}
+                                </div>
+                                <input type="checkbox" className="hidden" checked={selectedCategories.includes(cat.name)} onChange={() => toggleCategory(cat.name)} />
+                                <span className={`text-sm ${selectedCategories.includes(cat.name) ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{cat.name}</span>
+                              </div>
+                              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{cat.count}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* On lg+, always show the body without animation */}
+              <div className="hidden lg:block px-6 pb-6 border-t border-gray-100 pt-4">
+                {(selectedCategories.length > 0 || selectedLevel !== 'All' || searchQuery) && (
+                  <div className="flex justify-end mb-4">
+                    <button
+                      onClick={() => { setSelectedCategories([]); setSelectedLevel('All'); setSearchQuery('') }}
+                      className="text-xs text-[#d91f22] hover:underline font-medium"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                )}
+                <div className="mb-6 relative">
+                  <input
+                    type="text"
+                    placeholder="Search positions..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent text-sm bg-gray-50"
+                  />
+                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-3.5" />
+                </div>
+                <div className="mb-6">
+                  <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Level</h4>
+                  <div className="space-y-2">
+                    {['All', 'Officer', 'Assistant'].map((level) => (
+                      <label key={level} className="flex items-center space-x-3 cursor-pointer group">
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${selectedLevel === level ? 'border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                          {selectedLevel === level && <div className="w-2 h-2 bg-[#d91f22] rounded-full" />}
+                        </div>
+                        <input type="radio" name="level" className="hidden" checked={selectedLevel === level} onChange={() => setSelectedLevel(level)} />
+                        <span className={`text-sm ${selectedLevel === level ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{level}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-[#252872] mb-3 text-sm uppercase tracking-wider">Organization</h4>
+                  <div className="space-y-2">
+                    {categories.map((cat) => (
+                      <label key={cat.name} className="flex items-center justify-between cursor-pointer group">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${selectedCategories.includes(cat.name) ? 'bg-[#d91f22] border-[#d91f22]' : 'border-gray-300 group-hover:border-[#d91f22]'}`}>
+                            {selectedCategories.includes(cat.name) && <CheckCircle2 className="w-3 h-3 text-white" />}
+                          </div>
+                          <input type="checkbox" className="hidden" checked={selectedCategories.includes(cat.name)} onChange={() => toggleCategory(cat.name)} />
+                          <span className={`text-sm ${selectedCategories.includes(cat.name) ? 'text-[#252872] font-medium' : 'text-gray-600 group-hover:text-[#252872]'}`}>{cat.name}</span>
+                        </div>
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{cat.count}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Top Loksewa Notices */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <button
+                onClick={() => setNoticesOpen((v) => !v)}
+                className="w-full flex items-center justify-between px-5 py-4 border-b border-gray-100 lg:cursor-default"
+              >
                 <h3 className="text-sm font-bold text-[#252872] flex items-center gap-2">
                   <Bell className="w-4 h-4 text-[#d91f22]" /> Latest Notices
                 </h3>
-                <button className="text-[10px] font-bold text-[#d91f22] hover:underline flex items-center gap-0.5">
-                  View All <ExternalLink className="w-3 h-3" />
-                </button>
-              </div>
+                <div className="flex items-center gap-2">
+                  <span className="hidden lg:flex text-[10px] font-bold text-[#d91f22] hover:underline items-center gap-0.5">
+                    View All <ExternalLink className="w-3 h-3" />
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-gray-400 transition-transform duration-300 lg:hidden ${noticesOpen ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </button>
 
-              <div className="divide-y divide-gray-50">
+              {/* Mobile: collapsible notices body */}
+              <AnimatePresence initial={false}>
+                {noticesOpen && (
+                  <motion.div
+                    key="notices-body"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden lg:hidden"
+                  >
+                    <div className="divide-y divide-gray-50">
+                      {loksewaNotices.map((notice) => (
+                        <div key={notice.id} className="px-5 py-3.5 hover:bg-gray-50 transition-colors cursor-pointer group">
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${notice.tagColor}`}>{notice.tag}</span>
+                            {notice.urgent && <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">New</span>}
+                          </div>
+                          <p className="text-xs font-semibold text-gray-800 leading-snug group-hover:text-[#252872] transition-colors line-clamp-2">{notice.title}</p>
+                          <div className="flex items-center justify-between mt-1.5">
+                            <span className="text-[10px] text-gray-400">{notice.org}</span>
+                            <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {new Date(notice.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="px-5 py-3 border-t border-gray-100">
+                      <button className="text-[10px] font-bold text-[#d91f22] hover:underline flex items-center gap-0.5">
+                        View All <ExternalLink className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Desktop: always visible notices body */}
+              <div className="hidden lg:block divide-y divide-gray-50">
                 {loksewaNotices.map((notice) => (
                   <div key={notice.id} className="px-5 py-3.5 hover:bg-gray-50 transition-colors cursor-pointer group">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${notice.tagColor}`}>
-                        {notice.tag}
-                      </span>
-                      {notice.urgent && (
-                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">
-                          New
-                        </span>
-                      )}
+                      <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${notice.tagColor}`}>{notice.tag}</span>
+                      {notice.urgent && <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">New</span>}
                     </div>
-                    <p className="text-xs font-semibold text-gray-800 leading-snug group-hover:text-[#252872] transition-colors line-clamp-2">
-                      {notice.title}
-                    </p>
+                    <p className="text-xs font-semibold text-gray-800 leading-snug group-hover:text-[#252872] transition-colors line-clamp-2">{notice.title}</p>
                     <div className="flex items-center justify-between mt-1.5">
                       <span className="text-[10px] text-gray-400">{notice.org}</span>
                       <span className="text-[10px] text-gray-400 flex items-center gap-1">
@@ -293,8 +425,11 @@ export function LoksewaPage() {
             </div>
           </aside>
 
-          {/* ── Main Content ── */}
-          <div className="lg:w-3/4">
+          {/* ── Main Content ── 
+            FIX 3: Added `min-w-0` to prevent flex children from overflowing
+            their container (a common cause of layout breakage in flex rows).
+          */}
+          <div className="w-full lg:w-3/4 min-w-0">
             <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-gray-500 text-sm">
                 Showing <span className="font-bold text-[#252872]">{filteredCourses.length}</span> positions across{' '}
@@ -311,7 +446,7 @@ export function LoksewaPage() {
               </div>
             </div>
 
-            {/* Active filter pills — original unchanged */}
+            {/* Active filter pills */}
             {selectedCategories.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-6">
                 {selectedCategories.map((cat) => (
@@ -323,7 +458,7 @@ export function LoksewaPage() {
               </div>
             )}
 
-            {/* ── Grouped cards with previous redesign's section headers ── */}
+            {/* Grouped cards */}
             <div className="space-y-10">
               <AnimatePresence>
                 {groupedCourses.map(({ category, courses }) => {
@@ -337,7 +472,6 @@ export function LoksewaPage() {
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.25 }}
                     >
-                      {/* ── Category header from previous redesign ── */}
                       <div className="flex items-center gap-3 mb-5">
                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${cfg.accent}`}>
                           <Icon className="w-[18px] h-[18px]" />
@@ -352,7 +486,6 @@ export function LoksewaPage() {
                         </span>
                       </div>
 
-                      {/* Original card grid & card markup — untouched */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {courses.map((course, index) => (
                           <motion.div
@@ -364,7 +497,6 @@ export function LoksewaPage() {
                             transition={{ delay: index * 0.05 }}
                             className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group relative"
                           >
-                            {/* Left Accent Border */}
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#d91f22] group-hover:w-2 transition-all duration-300" />
 
                             <div className="p-6 pl-8">
