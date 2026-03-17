@@ -49,8 +49,8 @@ export function BlogPage() {
               Insights & Perspectives
             </h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-10">
-              Insights on chronic care, digital health, and innovation — from
-              the Pillaxia team and collaborators.
+              Insights on chronic care, digital health, and innovation, from the
+              Pillaxia team and collaborators.
             </p>
 
             <div className="max-w-xl mx-auto relative">
@@ -66,60 +66,6 @@ export function BlogPage() {
               
             </div>
           </AnimatedSection>
-        </div>
-
-        {/* Featured Article */}
-        {!isLoading &&
-        featuredPost &&
-        activeCategory === 'All' &&
-        !searchQuery &&
-        <AnimatedSection className="mb-16">
-              <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div className="p-8 md:p-12">
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="text-xs font-bold text-accent-500 bg-accent-500/10 px-3 py-1 rounded-full uppercase tracking-wider">
-                      FEATURED
-                    </span>
-                    <span className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                      {featuredPost.category}
-                    </span>
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-brand-900 mb-6 leading-tight">
-                    {featuredPost.title}
-                  </h2>
-                  <p className="text-lg text-slate-600 mb-8 max-w-3xl leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-6 justify-between">
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <span className="font-medium text-brand-900">
-                        {featuredPost.author}
-                      </span>
-                      <span>·</span>
-                      <span>{featuredPost.date}</span>
-                      <span>·</span>
-                      <span>{featuredPost.readTime}</span>
-                    </div>
-                    <Button className="flex items-center gap-2 w-full sm:w-auto">
-                      Read Article <ArrowRightIcon className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-        }
-
-        {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((cat) =>
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-accent-500 text-white' : 'bg-white text-slate-600 border border-slate-200 hover:border-accent-500 hover:text-accent-500'}`}>
-            
-              {cat}
-            </button>
-          )}
         </div>
 
         {/* Grid */}

@@ -13,7 +13,7 @@ const testimonials = [
   title: 'A brilliant support for complex medication routines.',
   quote:
   'I can really see how this app would suit someone who struggles with medication compliance. If you’re on multiple medications or managing a complex routine, having everything in one place makes a big difference.',
-  stars: 4
+  stars: 5
 },
 {
   id: 1,
@@ -27,21 +27,21 @@ const testimonials = [
   title: 'A great one-stop aid for medication adherence.',
   quote:
   'It’s a nice app and clearly designed with medication and adherence in mind. Having a dedicated space focused purely on staying on track with treatment is really helpful.',
-  stars: 4
+  stars: 5
 },
 {
   id: 3,
   title: 'Supportive and focused on what matters.',
   quote:
   'The app is very much oriented toward medication adherence, which is exactly what many people need. It’s reassuring to have something that keeps you accountable and organised.',
-  stars: 4
+  stars: 5
 },
 {
   id: 4,
   title: 'Strong foundation with real potential.',
   quote:
   'It’s a really solid concept. Making login even smoother would improve ease of use, but overall it’s a valuable tool for supporting adherence and keeping everything organised.',
-  stars: 4
+  stars: 45
 }];
 
 export function TestimonialsSection() {

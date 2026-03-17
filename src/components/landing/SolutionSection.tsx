@@ -50,10 +50,10 @@ export function SolutionSection() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 pt-10">
         <SectionHeading
           eyebrow="THE SOLUTION"
-          title="Pillaxia Is the Missing Care Layer"
-          subtitle="Pillaxia provides a secure, interoperable care layer that connects:" />
+          title="Pillaxia Is The Missing Care Layer"
+          subtitle="Pillaxia provides a secure, interoperable care layer that connects:" 
+        />
         
-
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
           {connections.map((item, i) =>
           <AnimatedSection key={i} direction="up" delay={0.1 * (i + 1)}>

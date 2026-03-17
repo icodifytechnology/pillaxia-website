@@ -51,8 +51,8 @@ export function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Whether you're a hospital, clinic, pharmacy, investor, or press —
-              we'd love to hear from you.
+              Whether you're a hospital, clinic, pharmacy, investor, or press,
+              we would love to hear from you.
             </p>
           </AnimatedSection>
         </div>
@@ -186,33 +186,14 @@ export function ContactPage() {
 
               <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
                 <div className="mt-1">
-                  <MailIcon className="w-6 h-6 text-accent-500" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-brand-900 mb-1">
-                    Press & Media
-                  </h3>
-                  <a
-                    href="mailto:press@pillaxia.com"
-                    className="text-accent-500 hover:text-accent-600 transition-colors">
-                    
-                    press@pillaxia.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
-                <div className="mt-1">
                   <MapPinIcon className="w-6 h-6 text-accent-500" />
                 </div>
                 <div>
                   <h3 className="font-bold text-brand-900 mb-1">
                     Headquarters
                   </h3>
-                  <p className="text-slate-600 text-sm">Dublin, Ireland</p>
-                  <p className="text-slate-500 text-sm">
-                    Active in Ireland & Nigeria
-                  </p>
+                  <p className="text-slate-600 text-sm">Louth, Ireland</p>
+                  <p className="text-slate-500 text-sm">Nigeria</p>
                 </div>
               </div>
 

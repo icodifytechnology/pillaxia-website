@@ -26,7 +26,7 @@ const values = [
 },
 {
   title: 'Human-Centred AI',
-  desc: 'AI that supports—not replaces—clinical judgement.',
+  desc: 'AI that supports, not replaces, clinical judgement.',
   icon: <SparklesIcon className="w-8 h-8 text-accent-500" />
 },
 {

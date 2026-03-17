@@ -2,9 +2,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-  './index.html',
-  './src/**/*.{js,ts,jsx,tsx}'
-],
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -17,7 +17,7 @@ export default {
           200: '#a8c8ff',
           500: '#0a1a6b',
           600: '#071354',
-          700: '#040f4b',
+          700: '#040f49',
           900: '#020833',
         },
         accent: {

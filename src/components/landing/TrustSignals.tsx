@@ -1,90 +1,188 @@
+import { Shield, Zap, Lock, BadgeCheck, Home, Activity } from 'lucide-react';
 
-const cards = [
-  {
-    img: '/partner/aibf-accreditation.jpeg',
-    alt: 'AIBF Business All-Stars Accredited',
-    label: 'AIBF accreditation',
-  },
-  {
-    imgs: [
-      { src: '/partner/intertrade-ireland.png', alt: 'InterTrade Ireland' },
-      { src: '/partner/hihi-logo.jpeg', alt: 'Health Innovation Hub Ireland' },
-    ],
-    prefix: 'Supported by',
-    label: 'InterTrade Ireland · HIHI',
-  },
-  {
-    icon: true,
-    label: 'Public-sector, pharmacy & hospital collaborations',
-  },
-];
+const BASE = 'https://pillaxia-website.vercel.app';
 
-const logoRows = [
-  { src: '/partner/new-frontiers-logo.png', alt: 'New Frontiers – Enterprise Ireland', name: 'New Frontiers' },
-  { src: '/partner/ai-healthcare-logo.png', alt: 'AI in Healthcare Programme', name: 'AI in Healthcare' },
-];
-
-function CheckIcon() {
+function TrustCard({ children, className = '' }: {children: React.ReactNode;className?: string;}) {
   return (
-    <svg width={11} height={11} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
+    <div
+      className={`
+        bg-white rounded-2xl flex flex-col items-center
+        px-4 pt-10 pb-8 min-h-[280px]
+        shadow-[0_2px_4px_rgba(0,0,0,0.04),_0_6px_18px_rgba(0,0,0,0.06)]
+        hover:shadow-[0_12px_40px_rgba(0,0,0,0.13),_0_3px_10px_rgba(0,0,0,0.07)]
+        hover:-translate-y-1.5 transition-all duration-300 ease-out
+        ${className}
+      `}>
+      
+      {children}
+    </div>);
+
 }
 
-function ShieldIcon() {
+function Prefix({ children }: {children: React.ReactNode;}) {
   return (
-    <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
-      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-    </svg>
-  );
+    <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-stone-400 mb-4 shrink-0">
+      {children}
+    </span>);
+
 }
+
+function CardTitle({ children }: {children: React.ReactNode;}) {
+  return (
+    <p className="font-bold text-[15px] text-stone-800 text-center leading-snug mb-2 shrink-0">
+      {children}
+    </p>);
+
+}
+
+function CardSub({ children }: {children: React.ReactNode;}) {
+  return (
+    <p className="text-[12px] text-stone-400 text-center leading-relaxed shrink-0">
+      {children}
+    </p>);
+
+}
+
+const taglines = [
+{
+  icon: <Shield size={16} strokeWidth={1.8} className="text-green-700" />,
+  bg: 'bg-green-50',
+  text: 'Compliant by design'
+},
+{
+  icon: <Zap size={16} strokeWidth={1.8} className="text-blue-600" />,
+  bg: 'bg-blue-50',
+  text: 'Built for scale'
+},
+{
+  icon: <Lock size={16} strokeWidth={1.8} className="text-violet-600" />,
+  bg: 'bg-violet-50',
+  text: 'Ready for regulated environments'
+}];
+
 
 export function TrustSignals() {
   return (
-    <section className="py-10 px-6 bg-white border-y border-slate-100">
-      <p className="text-center text-lg font-semibold tracking-widest uppercase text-slate-400 mb-8">
-        Trusted by early healthcare partners across Ireland and Nigeria
-      </p>
+    <section className="w-full py-12 px-8">
 
-      {/* Three cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-3xl mx-auto mb-5">
-        {/* Card 1 – AIBF */}
-        <div className="flex flex-col items-center justify-center gap-2.5 min-h-[90px] rounded-xl border border-slate-200 bg-white px-4 py-4">
-          <img src={cards[0].img} alt={cards[0].alt} className="h-12 object-contain" />
-          <span className="text-[11px] text-slate-500 text-center">{cards[0].label}</span>
-        </div>
-
-        {/* Card 2 – Supported by logos */}
-        <div className="flex flex-col items-center justify-center gap-2 min-h-[90px] rounded-xl border border-slate-200 bg-white px-4 py-4">
-          <span className="text-[10px] uppercase tracking-widest text-slate-400">Supported by</span>
-          <div className="flex gap-3 items-center flex-wrap justify-center">
-            {cards[1].imgs!.map((img) => (
-              <img key={img.src} src={img.src} alt={img.alt} className="h-6 object-contain" />
-            ))}
-          </div>
-          <span className="text-[11px] text-slate-500 text-center">{cards[1].label}</span>
-        </div>
-
-        {/* Card 3 – Shield */}
-        <div className="flex flex-col items-center justify-center gap-2.5 min-h-[90px] rounded-xl border border-slate-200 bg-white px-4 py-4">
-          <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
-            <ShieldIcon />
-          </div>
-          <span className="text-[11px] text-slate-500 text-center">{cards[2].label}</span>
-        </div>
+      {/* Eyebrow */}
+      <div className="flex items-center justify-center gap-4 mb-14">
+        <span className="block w-14 h-px bg-stone-300" />
+        <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-stone-400 text-center">
+          Trusted by early healthcare partners across Ireland &amp; Nigeria
+        </p>
+        <span className="block w-14 h-px bg-stone-300" />
       </div>
 
-      {/* Logo pills row */}
-      <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto mb-5">
-        {logoRows.map((l) => (
-          <div key={l.name} className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2">
-            <img src={l.src} alt={l.alt} className="h-7 object-contain" />
-            <span className="text-xs text-slate-500">{l.name}</span>
+      {/* 5-card grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 w-full items-stretch mb-5">
+
+        {/* Card 1 — AIBF */}
+        <TrustCard>
+          <img
+            src={`${BASE}/partner/aibf-accreditation.jpeg`}
+            alt="AIBF"
+            className="h-14 max-w-[130px] w-full object-contain mb-5 shrink-0" />
+          
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-blue-800 bg-blue-50 rounded-lg px-3 py-1.5 mb-4 whitespace-nowrap shrink-0">
+            <BadgeCheck size={12} className="text-blue-700" strokeWidth={2.5} />
+            Accredited
+          </span>
+          <CardTitle>AIBF Business<br />All-Stars</CardTitle>
+          <CardSub>National business accreditation programme</CardSub>
+        </TrustCard>
+
+        {/* Card 2 — InterTrade + HIHI */}
+        <TrustCard>
+          <Prefix>Supported by</Prefix>
+          <div className="flex items-center justify-center gap-3 mb-5 w-full shrink-0">
+            <img
+              src={`${BASE}/partner/intertrade-ireland.png`}
+              alt="InterTrade Ireland"
+              className="h-14 max-w-[90px] object-contain shrink-0" />
+            
+            <div className="w-px h-7 bg-stone-200 shrink-0" />
+            <img
+              src={`${BASE}/partner/hihi-logo.jpeg`}
+              alt="HIHI"
+              className="h-8 max-w-[90px] object-contain shrink-0" />
+            
           </div>
-        ))}
+          <CardTitle>InterTrade Ireland<br />· HIHI</CardTitle>
+          <CardSub>Cross-border trade &amp; health innovation support</CardSub>
+        </TrustCard>
+
+        {/* Card 3 — New Frontiers only */}
+        <TrustCard>
+          <Prefix>Programme</Prefix>
+          <div className="flex flex-col items-center justify-center flex-1 w-full mb-5">
+            <div className="w-full bg-stone-50 rounded-xl px-4 py-5 flex flex-col items-center gap-2">
+              <img
+                src={`${BASE}/partner/new-frontiers-logo.png`}
+                alt="New Frontiers"
+                className="h-14 max-w-[240px] object-contain" />
+              
+            </div>
+          </div>
+          <CardTitle>New Frontiers</CardTitle>
+          <CardSub>Enterprise Ireland startup development programme</CardSub>
+        </TrustCard>
+
+        {/* Card 4 — AI in Healthcare only */}
+        <TrustCard>
+          <Prefix>Programme</Prefix>
+          <div className="flex flex-col items-center justify-center flex-1 w-full mb-5">
+            <div className="w-full bg-stone-50 rounded-xl px-4 py-5 flex flex-col items-center gap-2">
+              <img
+                src={`${BASE}/partner/ai-healthcare-logo.png`}
+                alt="AI in Healthcare"
+                className="h-14 max-w-[120px] object-contain" />
+              
+            </div>
+          </div>
+          <CardTitle>AI in Healthcare</CardTitle>
+          <CardSub>AI-focused healthcare accelerator programme</CardSub>
+        </TrustCard>
+
+        {/* Card 5 — Backed by */}
+        <TrustCard>
+          <Prefix>Backed by</Prefix>
+          <div className="flex justify-center gap-3 mb-5 shrink-0">
+            {[
+            { icon: <Shield size={18} strokeWidth={1.8} className="text-blue-600" />, bg: 'bg-blue-50', label: 'Public' },
+            { icon: <Home size={18} strokeWidth={1.8} className="text-emerald-700" />, bg: 'bg-emerald-50', label: 'Pharmacy' },
+            { icon: <Activity size={18} strokeWidth={1.8} className="text-violet-600" />, bg: 'bg-violet-50', label: 'Hospital' }].
+            map(({ icon, bg, label }) =>
+            <div key={label} className="flex flex-col items-center gap-1.5">
+                <div className={`w-11 h-11 rounded-xl ${bg} flex items-center justify-center`}>
+                  {icon}
+                </div>
+              </div>
+            )}
+          </div>
+          <CardTitle>Public Sector<br />Collaborations</CardTitle>
+          <CardSub>Pharmacy &amp; hospital partners across Ireland</CardSub>
+        </TrustCard>
+
       </div>
 
-    </section>
-  );
+      {/* Tagline strip — inline text row, no card */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-0 sm:gap-0 pt-8">
+        {taglines.map(({ icon, bg, text }, i) =>
+        <div key={text} className="flex items-center">
+            <div className="flex items-center gap-2.5 px-6 py-1">
+              <div className={`w-7 h-7 rounded-lg ${bg} flex items-center justify-center shrink-0`}>
+                {icon}
+              </div>
+              <span className="text-[12.5px] font-semibold text-stone-500 whitespace-nowrap">{text}</span>
+            </div>
+            {i < taglines.length - 1 &&
+          <div className="hidden sm:block w-px h-5 bg-stone-300 shrink-0" />
+          }
+          </div>
+        )}
+      </div>
+
+    </section>);
+
 }

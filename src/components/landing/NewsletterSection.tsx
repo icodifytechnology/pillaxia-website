@@ -33,6 +33,7 @@ export function NewsletterSection() {
               className="flex-grow px-6 py-4 rounded-full border-2 border-white/20 bg-white/10 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/20 transition-colors"
               required />
             
+
             <Button
               type="submit"
               size="lg"

@@ -1,83 +1,305 @@
-import React from 'react';
-import { Stethoscope, HeartPulse, HandHeart, Building2 } from 'lucide-react';
-import { AnimatedSection, AnimatedItem } from '../ui/AnimatedSection';
-import { SectionHeading } from '../ui/SectionHeading';
-
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  StethoscopeIcon,
+  HeartPulseIcon,
+  HandHeartIcon,
+  Building2Icon,
+  AlertCircleIcon
+} from
+  'lucide-react';
+const BRAND = '#040f49';
+const ACCENT = '#25affc';
 const challenges = [
   'Whether medications are taken correctly',
   'When follow-ups are missed',
   'How symptoms evolve at home',
   'Where caregivers are struggling',
-  'When risk is quietly escalating',
-];
+  'When risk is quietly escalating'];
 
 const stakeholders = [
-  { label: 'Clinicians', description: 'are left without feedback loops', icon: Stethoscope },
-  { label: 'Patients', description: 'feel isolated between visits', icon: HeartPulse },
-  { label: 'Caregivers', description: 'carry invisible load alone', icon: HandHeart },
-  { label: 'Health systems', description: 'absorb preventable costs', icon: Building2 },
-];
+  {
+    label: 'Clinicians',
+    description: 'Left without feedback loops between visits',
+    icon: StethoscopeIcon
+  },
+  {
+    label: 'Patients',
+    description: 'Feel isolated and unsupported between visits',
+    icon: HeartPulseIcon
+  },
+  {
+    label: 'Caregivers',
+    description: 'Carry an invisible and unacknowledged burden',
+    icon: HandHeartIcon
+  },
+  {
+    label: 'Health systems',
+    description: 'Absorb entirely preventable downstream costs',
+    icon: Building2Icon
+  }];
 
+const stats = [
+  {
+    value: '40%',
+    label: 'of readmissions preventable'
+  },
+  {
+    value: '125M',
+    label: 'adults with chronic conditions'
+  },
+  {
+    value: '3×',
+    label: 'higher cost when unmanaged'
+  }];
+
+function useInView(threshold = 0.1) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true);
+      },
+      {
+        threshold
+      }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible] as const;
+}
 export function ProblemSection() {
+  const [ref, visible] = useInView();
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6 relative">
-        <SectionHeading
-          eyebrow="THE CHALLENGE"
-          title="Chronic Care Is Still Built Around Moments, Not Lives"
-          subtitle="For millions living with chronic or long-term conditions, care happens between visits — not during them. Yet healthcare systems still lack visibility into:"
-        />
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      className="relative overflow-hidden py-12 lg:py-24 bg-white">
 
-        <AnimatedSection stagger className="max-w-4xl mx-auto">
-          <div className="relative rounded-3xl border border-blue-100 px-6 py-10 md:px-12 md:py-12 overflow-hidden">
+      <style>{`
+        @keyframes floatYLight {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-6px); }
+        }
+        @keyframes nodePopLight {
+          0%   { transform: scale(0.5); opacity: 0; }
+          70%  { transform: scale(1.12); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
 
-            {/* Challenge list */}
-            <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
-              {challenges.map((item, i) => (
-                <AnimatedItem key={i}>
-                  <div className="flex items-start gap-4 bg-white border-l-4 border-l-blue-400 border border-blue-100 rounded-2xl px-5 py-4 shadow-sm hover:shadow-md hover:border-l-blue-500 hover:translate-x-1 transition-all duration-300 ease-out group">
-                    <span className="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:bg-blue-600 transition-all duration-300 ease-out">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </span>
-                    <p className="text-[15px] text-slate-700 font-medium leading-snug">{item}</p>
-                  </div>
-                </AnimatedItem>
-              ))}
-              {challenges.length % 2 !== 0 && <div className="hidden sm:block" aria-hidden />}
-            </div>
+      <div className="container mx-auto px-4 md:px-8 relative z-10">
+        {/* ── Heading ── */}
+        <div
+          className="text-center max-w-2xl mx-auto mb-20"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(24px)',
+            transition:
+              'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)'
+          }}>
 
-            {/* Stakeholder grid */}
-            <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4">
-              {stakeholders.map(({ label, description, icon: Icon }, i) => (
-                <AnimatedItem key={i}>
-                  <div className="group relative flex flex-col items-center text-center px-4 py-6 rounded-2xl border border-blue-100 bg-white overflow-hidden hover:border-blue-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out">
+          <div style={{
+            background: 'rgba(14,165,233,0.1)',
+            color: 'rgb(14,165,233)',
+            border: '1px solid rgba(14,165,233,0.25)'
+          }} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 bg-brand-50 border border-brand-100">
+            <AlertCircleIcon className="w-3.5 h-3.5" />
+            <span className="text-[11px] font-bold tracking-[0.22em] uppercase">
+              The Challenge
+            </span>
+          </div>
 
-                    {/* Top gradient bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+          <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold leading-[1.08] tracking-tight mb-5 text-brand-900">
+            Chronic Care Is Still Built Around{' '}
+            <br className="hidden md:block" />
+            <span style={{
+              background: 'linear-gradient(90deg, rgb(14,165,233), #1A3BAE)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>Moments, Not Lives</span>
+          </h2>
 
-                    {/* Glow behind icon */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-blue-400/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 ease-out" />
+          <p className="text-base leading-relaxed text-slate-600">
+            For millions living with chronic conditions, care happens between
+            visits, not during them. Yet healthcare systems still lack
+            visibility into what matters most.
+          </p>
+        </div>
 
-                    {/* Icon */}
-                    <div className="relative w-12 h-12 rounded-xl bg-[rgb(238_244_255)] border border-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-500 group-hover:border-blue-500 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 ease-out">
-                      <Icon
-                        className="w-5 h-5 text-blue-500 group-hover:text-white transition-colors duration-300 ease-out"
-                        strokeWidth={1.8}
-                      />
+        {/* ── Two column layout ── */}
+        <div className="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto items-start">
+          {/* ════ LEFT: Light panel — challenge timeline ════ */}
+          <div
+            className="relative rounded-3xl overflow-hidden bg-slate-50 border border-slate-200 shadow-lg"
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(32px)',
+              transition:
+                'opacity 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s, transform 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s'
+            }}>
+
+            {/* Accent top border */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-brand-500 to-accent-500" />
+
+            <div className="relative z-10 p-8 md:p-10">
+              <p className="text-[10px] font-bold tracking-[0.25em] uppercase mb-8 text-slate-500">
+                What systems cannot see
+              </p>
+
+              {/* Timeline */}
+              <div className="relative space-y-5">
+                {/* Animated vertical line */}
+                <div
+                  className="absolute left-[20px] top-5 w-1 overflow-hidden rounded-full"
+                  style={{
+                    height: visible ? 'calc(100% - 20px)' : '0%',
+                    transition: 'height 1.2s cubic-bezier(0.22,1,0.36,1) 0.5s',
+                    background: `linear-gradient(to bottom, ${BRAND}, ${ACCENT})`
+                  }} />
+
+
+                {challenges.map((item, i) =>
+                  <div
+                    key={i}
+                    className="flex items-center gap-5 relative z-10"
+                    style={{
+                      opacity: visible ? 1 : 0,
+                      transform: visible ?
+                        'translateX(0)' :
+                        'translateX(-20px)',
+                      transition: `opacity 0.5s ease ${0.4 + i * 0.1}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${0.4 + i * 0.1}s`
+                    }}>
+
+                    {/* Animated node */}
+                    <div
+                      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-sm font-black text-white shadow-md"
+                      style={{
+                        background: i === 0 ? BRAND : ACCENT,
+                        animation: visible ?
+                          `nodePopLight 0.4s ease ${0.35 + i * 0.1}s both` :
+                          'none'
+                      }}>
+
+                      {String(i + 1).padStart(2, '0')}
                     </div>
 
-                    <p className="text-[14px] font-semibold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors duration-300 ease-out">{label}</p>
-                    <p className="text-[12px] text-slate-400 leading-snug">{description}</p>
+                    {/* Row card */}
+                    <div className="flex-1 px-5 py-4 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-brand-200 hover:-translate-y-0.5">
+                      <p className="text-sm font-semibold leading-snug text-brand-900">
+                        {item}
+                      </p>
+                    </div>
                   </div>
-                </AnimatedItem>
-              ))}
+                )}
+              </div>
+
+              {/* Pull quote */}
+              <div
+                className="mt-10 p-6 rounded-2xl bg-white border border-brand-100 shadow-sm"
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transition: 'opacity 0.6s ease 1s'
+                }}>
+
+                <p className="text-sm italic leading-relaxed text-slate-600 font-medium">
+                  "The gap between visits is where outcomes are won or lost, yet
+                  it remains a blind spot for most healthcare systems."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ════ RIGHT: Stakeholder cards + stats ════ */}
+          <div className="flex flex-col gap-6">
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500">
+              Who bears the cost
+            </p>
+
+            {/* 2x2 grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {stakeholders.map(({ label, description, icon: Icon }, i) =>
+                <div
+                  key={i}
+                  className="group relative rounded-2xl overflow-hidden cursor-default bg-white border border-slate-200 shadow-sm transition-all duration-300"
+                  style={{
+                    opacity: visible ? 1 : 0,
+                    transform: visible ?
+                      'translateY(0) scale(1)' :
+                      'translateY(20px) scale(0.97)',
+                    transition: `opacity 0.55s cubic-bezier(0.22,1,0.36,1) ${0.3 + i * 0.1}s, transform 0.55s cubic-bezier(0.22,1,0.36,1) ${0.3 + i * 0.1}s, box-shadow 0.3s ease, border-color 0.3s ease`,
+                    animation: visible ?
+                      `floatYLight ${6 + i}s ease-in-out infinite ${i * 0.8}s` :
+                      'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `0 12px 24px rgba(4, 15, 73, 0.08)`;
+                    e.currentTarget.style.borderColor = '#d4e4ff';
+                    e.currentTarget.style.animation = 'none';
+                    e.currentTarget.style.transform =
+                      'translateY(-4px) scale(1.01)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = `0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.animation = `floatYLight ${6 + i}s ease-in-out infinite ${i * 0.8}s`;
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  }}>
+
+                  {/* Top gradient bar */}
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-brand-500 to-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  <div className="p-6 pt-7">
+                    {/* Icon */}
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-brand-50 border border-brand-100 text-brand-700 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-brand-700 group-hover:text-white">
+                      <Icon className="w-6 h-6" />
+                    </div>
+
+                    <h3 className="text-[16px] font-extrabold mb-2 text-brand-900 group-hover:text-brand-700 transition-colors">
+                      {label}
+                    </h3>
+                    <p className="text-[13px] leading-relaxed text-slate-600">
+                      {description}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
+            {/* Stats panel */}
+            <div
+              className="relative rounded-2xl overflow-hidden p-8 bg-brand-50 border border-brand-100 shadow-sm mt-2"
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? 'translateY(0)' : 'translateY(20px)',
+                transition:
+                  'opacity 0.6s ease 0.65s, transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.65s'
+              }}>
+
+              <div className="relative z-10 grid grid-cols-3 gap-4">
+                {stats.map((s, i) =>
+                  <div
+                    key={i}
+                    className="flex flex-col items-center text-center"
+                    style={{
+                      opacity: visible ? 1 : 0,
+                      transform: visible ? 'translateY(0)' : 'translateY(10px)',
+                      transition: `opacity 0.5s ease ${0.8 + i * 0.12}s, transform 0.5s ease ${0.8 + i * 0.12}s`
+                    }}>
+
+                    <span className="text-2xl md:text-3xl font-extrabold leading-none mb-2 text-brand-700">
+                      {s.value}
+                    </span>
+                    <span className="text-[11px] md:text-xs font-medium leading-tight text-slate-600">
+                      {s.label}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-        </AnimatedSection>
+        </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
