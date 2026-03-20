@@ -9,61 +9,63 @@ import { AnimatedSection } from '../ui/AnimatedSection';
 import { SectionHeading } from '../ui/SectionHeading';
 const connections = [
 {
-  icon: <StethoscopeIcon className="w-7 h-7 text-brand-700" />,
+  icon: <StethoscopeIcon className="w-7 h-7 text-white" />,
   title: 'Clinicians',
-  desc: 'with real-world patient adherence and risk signals'
+  desc: 'Real-world patient adherence and risk signals',
+  bg: 'bg-gradient-to-br from-[#3b9eff] to-[#ec4899]'
 },
 {
-  icon: <HeartPulseIcon className="w-7 h-7 text-accent-500" />,
+  icon: <HeartPulseIcon className="w-7 h-7 text-white" />,
   title: 'Patients',
-  desc: 'with clarity, guidance, and support'
+  desc: 'Clarity, guidance, and support',
+  bg: 'bg-gradient-to-br from-[#ec4899] to-[#2dd4bf]'
 },
 {
-  icon: <UsersIcon className="w-7 h-7 text-brand-700" />,
+  icon: <UsersIcon className="w-7 h-7 text-white" />,
   title: 'Families & caregivers',
-  desc: 'with structured involvement'
+  desc: 'Structured involvement & visibility',
+  bg: 'bg-gradient-to-br from-[#2dd4bf] to-[#3b9eff]'
 },
 {
-  icon: <PillIcon className="w-7 h-7 text-accent-500" />,
+  icon: <PillIcon className="w-7 h-7 text-white" />,
   title: 'Pharmacies & care teams',
-  desc: 'with continuity and coordination'
+  desc: 'Continuity and coordination',
+  bg: 'bg-gradient-to-br from-[#3b9eff] to-[#2dd4bf]'
 }];
 
 export function SolutionSection() {
   return (
-    <section className="py-24 bg-brand-50 relative overflow-hidden">
-      {/* Top Wave */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180">
-        <svg
-          className="relative block w-full h-[50px]"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none">
-          
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            fill="#ffffff">
-          </path>
-        </svg>
-      </div>
+    <section
+      className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage: 'url(https://pillaxia.com/images/bg-3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
+      
+      <div className="absolute top-0 left-0 right-0 neon-line" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 pt-10">
         <SectionHeading
           eyebrow="THE SOLUTION"
           title="Pillaxia Is The Missing Care Layer"
-          subtitle="Pillaxia provides a secure, interoperable care layer that connects:" 
-        />
+          subtitle="Pillaxia provides a secure, interoperable care layer that connects:"
+          dark={false} />
         
+
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-12">
           {connections.map((item, i) =>
           <AnimatedSection key={i} direction="up" delay={0.1 * (i + 1)}>
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-8 border border-white shadow-sm h-full">
+              <div className="bg-white rounded-3xl p-8 neon-card h-full">
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-brand-100 flex items-center justify-center flex-shrink-0">
+                  <div
+                  className={`w-16 h-16 rounded-full ${item.bg} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                  
                     {item.icon}
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                    <h3 className="text-2xl font-bold text-[#010d3e] mb-2">
                       {item.title}
                     </h3>
                     <p className="text-slate-600 text-lg">{item.desc}</p>
@@ -75,25 +77,10 @@ export function SolutionSection() {
         </div>
 
         <AnimatedSection delay={0.5} className="text-center">
-          <p className="inline-block px-6 py-3 bg-white rounded-full text-brand-700 font-semibold shadow-sm border border-brand-100">
-            All without replacing existing EHRs or workflows.
+          <p className="inline-block px-6 py-3 bg-white rounded-full text-[#3b9eff] font-semibold shadow-md border border-[#3b9eff]/30">
+            Enhancing existing EHRs and workflows.
           </p>
         </AnimatedSection>
-      </div>
-
-      {/* Bottom Wave */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-        <svg
-          className="relative block w-full h-[50px]"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none">
-          
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            fill="#ffffff">
-          </path>
-        </svg>
       </div>
     </section>);
 

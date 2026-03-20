@@ -2,9 +2,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  './index.html',
+  './src/**/*.{js,ts,jsx,tsx}'
+],
   theme: {
     extend: {
       fontFamily: {
@@ -12,18 +12,22 @@ export default {
       },
       colors: {
         brand: {
-          50: '#eef4ff',
-          100: '#d4e4ff',
-          200: '#a8c8ff',
+          50: '#f0f4ff',
+          100: '#d0dfff',
+          200: '#a0bfff',
           500: '#0a1a6b',
           600: '#071354',
-          700: '#040f49',
-          900: '#020833',
+          700: '#010d3e',
+          900: '#000824',
         },
         accent: {
-          400: '#4dc3ff',
-          500: '#25affc',
-          600: '#1a9ae6',
+          400: '#5cb3ff',
+          500: '#3b9eff',
+          600: '#2080e0',
+        },
+        neon: {
+          magenta: '#ec4899',
+          teal: '#2dd4bf',
         }
       },
       animation: {

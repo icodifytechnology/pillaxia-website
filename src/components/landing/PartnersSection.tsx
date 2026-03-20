@@ -12,8 +12,9 @@ import {
   LinkIcon,
   ChevronRightIcon } from
 'lucide-react';
-const BRAND = '#040f49';
-const ACCENT = '#25affc';
+const BRAND = '#010d3e';
+const ACCENT = '#3b9eff';
+const MAGENTA = '#ec4899';
 const partners = [
 {
   name: 'Public and private hospitals',
@@ -36,7 +37,6 @@ const partners = [
   icon: LandmarkIcon
 }];
 
-// B2B2C flow: B2B side -> Pillaxia -> B2C side
 const b2bEntities = [
 {
   icon: Building2Icon,
@@ -87,7 +87,13 @@ export function PartnersSection() {
   return (
     <section
       ref={ref as React.RefObject<HTMLElement>}
-      className="relative py-20 lg:py-28 overflow-hidden bg-white">
+      className="relative py-20 lg:py-28 overflow-hidden"
+      style={{
+        backgroundImage: 'url(https://pillaxia.com/images/bg-3.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
       
       <style>{`
         @keyframes pPulseLight {
@@ -102,13 +108,7 @@ export function PartnersSection() {
         }
       `}</style>
 
-      {/* Top accent bar */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[2px]"
-        style={{
-          background: `linear-gradient(to right, transparent 5%, ${ACCENT}90 45%, ${ACCENT} 50%, ${ACCENT}90 55%, transparent 95%)`
-        }} />
-      
+      <div className="absolute top-0 left-0 right-0 neon-line" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* ── Heading ── */}
@@ -130,21 +130,15 @@ export function PartnersSection() {
           }}
           className="text-center mb-12">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 bg-brand-50 border border-brand-100">
-            <LinkIcon className="w-3.5 h-3.5 text-brand-700" />
-            <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-brand-700">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 bg-[#3b9eff]/10 border border-[#3b9eff]/30">
+            <LinkIcon className="w-3.5 h-3.5 text-[#3b9eff]" />
+            <span className="text-[11px] font-bold tracking-[0.22em] uppercase text-[#3b9eff]">
               Who We Work With
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-[2.6rem] font-extrabold tracking-tight leading-tight text-brand-900 mb-3">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-[#010d3e] mb-3">
             Partners Across the{' '}
-            <span
-              style={{
-                background: `linear-gradient(90deg, ${BRAND}, ${ACCENT})`,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-              
+            <span className="bg-gradient-to-r from-[#010d3e] to-[#3b9eff] bg-clip-text text-transparent">
               Care Ecosystem
             </span>
           </h2>
@@ -176,15 +170,9 @@ export function PartnersSection() {
               stiffness: 260,
               damping: 22
             }}
-            className="flex items-center gap-3 px-5 py-3 rounded-2xl cursor-default bg-white border border-slate-200 shadow-sm transition-all duration-300"
-            whileHover={{
-              scale: 1.04,
-              backgroundColor: '#eef4ff',
-              borderColor: '#d4e4ff',
-              boxShadow: '0 4px 12px rgba(4, 15, 73, 0.05)'
-            }}>
+            className="flex items-center gap-3 px-5 py-3 rounded-2xl cursor-default bg-white neon-card transition-all duration-300">
             
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-brand-50 border border-brand-100 text-accent-500">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-[#3b9eff]/10 text-[#3b9eff]">
                 <Icon className="w-4.5 h-4.5" />
               </div>
               <span className="text-sm font-semibold text-slate-700 whitespace-nowrap">
@@ -194,9 +182,7 @@ export function PartnersSection() {
           )}
         </div>
 
-        {/* ══════════════════════════════════════════
-             B2B2C SECTION
-          ══════════════════════════════════════════ */}
+        {/* B2B2C SECTION */}
         <motion.div
           initial={{
             opacity: 0,
@@ -215,21 +201,14 @@ export function PartnersSection() {
           }}
           className="relative max-w-5xl mx-auto">
           
-          <div className="relative rounded-3xl overflow-hidden bg-slate-50 border border-slate-200 shadow-lg">
-            {/* Top shimmer line */}
-            <div
-              className="absolute top-0 left-0 right-0 h-[3px]"
-              style={{
-                background: `linear-gradient(to right, transparent, ${ACCENT}, transparent)`
-              }} />
-            
+          <div className="relative rounded-3xl overflow-hidden bg-white border border-[#3b9eff]/20 shadow-xl neon-border">
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#3b9eff] to-transparent" />
 
             <div className="p-8 md:p-12">
-              {/* B2B2C label */}
               <div className="flex justify-center mb-10">
                 <div className="relative inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white border border-slate-200 shadow-sm">
                   <span
-                    className="w-2 h-2 rounded-full shrink-0 bg-accent-500"
+                    className="w-2 h-2 rounded-full shrink-0 bg-[#ec4899]"
                     style={{
                       animation: 'pPulseLight 2s ease-in-out infinite'
                     }} />
@@ -237,11 +216,11 @@ export function PartnersSection() {
                   <span className="text-base md:text-lg font-bold tracking-[0.1em] uppercase text-slate-600">
                     Our Model is
                   </span>
-                  <span className="px-4 py-1.5 rounded-xl text-base md:text-lg font-black tracking-wider bg-brand-50 text-brand-700 border border-brand-100">
+                  <span className="px-4 py-1.5 rounded-xl text-base md:text-lg font-black tracking-wider bg-[#3b9eff]/10 text-[#3b9eff] border border-[#3b9eff]/20">
                     B2B2C
                   </span>
                   <span
-                    className="w-2 h-2 rounded-full shrink-0 bg-accent-500"
+                    className="w-2 h-2 rounded-full shrink-0 bg-[#2dd4bf]"
                     style={{
                       animation: 'pPulseLight 2s ease-in-out infinite 1s'
                     }} />
@@ -249,9 +228,8 @@ export function PartnersSection() {
                 </div>
               </div>
 
-              {/* Flow diagram */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
-                {/* LEFT: B2B — Organisations */}
+                {/* LEFT: B2B */}
                 <div className="flex flex-col items-center gap-3 flex-1 w-full">
                   <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-1 text-slate-500">
                     B2B · Organisations
@@ -275,13 +253,13 @@ export function PartnersSection() {
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-sm">
                     
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-brand-50 border border-brand-100 text-brand-700">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-[#010d3e]/5 text-[#010d3e]">
                         <Icon className="w-4.5 h-4.5" />
                       </div>
                       <span className="text-sm font-semibold text-slate-700">
                         {label}
                       </span>
-                      <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 border border-slate-200">
+                      <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
                         license
                       </span>
                     </motion.div>
@@ -290,21 +268,18 @@ export function PartnersSection() {
 
                 {/* CENTER: Pillaxia hub */}
                 <div className="flex flex-col items-center gap-4 px-4 shrink-0">
-                  {/* Arrow left */}
                   <div className="hidden md:flex flex-col items-center gap-1.5 relative">
-                    <div className="relative w-24 h-[2px] overflow-hidden bg-brand-100">
+                    <div className="relative w-24 h-[2px] overflow-hidden bg-slate-200">
                       <div
-                        className="absolute top-0 h-full w-6 rounded-full"
+                        className="absolute top-0 h-full w-6 rounded-full bg-gradient-to-r from-transparent via-[#3b9eff] to-transparent"
                         style={{
-                          background: `linear-gradient(to right, transparent, ${ACCENT}, transparent)`,
                           animation: 'pFlowDotLight 1.8s ease-in-out infinite'
                         }} />
                       
                     </div>
-                    <ChevronRightIcon className="w-4 h-4 text-brand-300" />
+                    <ChevronRightIcon className="w-4 h-4 text-[#3b9eff]" />
                   </div>
 
-                  {/* Central pill hub */}
                   <motion.div
                     animate={{
                       scale: [1, 1.04, 1]
@@ -314,15 +289,14 @@ export function PartnersSection() {
                       repeat: Infinity,
                       ease: 'easeInOut'
                     }}
-                    className="flex flex-col items-center justify-center rounded-3xl px-6 py-5 shadow-lg"
+                    className="flex flex-col items-center justify-center rounded-3xl px-6 py-5 shadow-[0_0_20px_rgba(59,158,255,0.3)] neon-border"
                     style={{
-                      background: `linear-gradient(160deg, ${BRAND}, #0a1a6b)`,
-                      border: `2px solid ${ACCENT}50`,
+                      background: `linear-gradient(160deg, #010d3e, #0a1a6b)`,
                       minWidth: 120
                     }}>
                     
                     <div
-                      className="w-2 h-2 rounded-full mb-2 bg-accent-500"
+                      className="w-2 h-2 rounded-full mb-2 bg-[#3b9eff]"
                       style={{
                         animation: 'pPulseLight 2s ease-in-out infinite'
                       }} />
@@ -330,37 +304,29 @@ export function PartnersSection() {
                     <span className="text-lg font-black text-white tracking-wider">
                       PILLAXIA
                     </span>
-                    <span className="text-[9px] font-bold tracking-widest uppercase mt-0.5 text-accent-100">
+                    <span className="text-[9px] font-bold tracking-widest uppercase mt-0.5 text-[#3b9eff]">
                       CARE LAYER
                     </span>
                   </motion.div>
 
-                  {/* Arrow right */}
                   <div className="hidden md:flex flex-col items-center gap-1.5">
-                    <ChevronRightIcon className="w-4 h-4 text-brand-300" />
-                    <div className="relative w-24 h-[2px] overflow-hidden bg-brand-100">
+                    <ChevronRightIcon className="w-4 h-4 text-[#ec4899]" />
+                    <div className="relative w-24 h-[2px] overflow-hidden bg-slate-200">
                       <div
-                        className="absolute top-0 h-full w-6 rounded-full"
+                        className="absolute top-0 h-full w-6 rounded-full bg-gradient-to-r from-transparent via-[#ec4899] to-transparent"
                         style={{
-                          background: `linear-gradient(to right, transparent, ${ACCENT}, transparent)`,
                           animation:
                           'pFlowDotLight 1.8s ease-in-out infinite 0.9s'
                         }} />
                       
                     </div>
                   </div>
-
-                  {/* Mobile arrows */}
-                  <div className="flex md:hidden gap-3 my-1">
-                    <ArrowRightIcon className="w-5 h-5 rotate-90 text-brand-300" />
-                    <ArrowRightIcon className="w-5 h-5 rotate-90 text-brand-200" />
-                  </div>
                 </div>
 
-                {/* RIGHT: B2C — End Users */}
+                {/* RIGHT: B2C */}
                 <div className="flex flex-col items-center gap-3 flex-1 w-full">
                   <p className="text-[10px] font-bold tracking-[0.22em] uppercase mb-1 text-slate-500">
-                    2C · End Users
+                    B2C · End Users
                   </p>
                   {b2cEntities.map(({ icon: Icon, label }, i) =>
                   <motion.div
@@ -381,13 +347,13 @@ export function PartnersSection() {
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200 shadow-sm">
                     
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-accent-50 border border-accent-100 text-accent-500">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-[#ec4899]/10 text-[#ec4899]">
                         <Icon className="w-4.5 h-4.5" />
                       </div>
                       <span className="text-sm font-semibold text-slate-700">
                         {label}
                       </span>
-                      <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500 border border-slate-200">
+                      <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
                         benefit
                       </span>
                     </motion.div>
@@ -395,13 +361,12 @@ export function PartnersSection() {
                 </div>
               </div>
 
-              {/* Bottom statement */}
-              <div className="relative rounded-2xl px-6 py-6 text-center bg-white border border-slate-200 shadow-sm">
-                <div className="absolute left-0 top-4 bottom-4 w-[4px] rounded-r-full bg-gradient-to-b from-brand-500 to-accent-500" />
+              <div className="relative rounded-2xl px-6 py-6 text-center bg-white border border-slate-200 shadow-sm overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-gradient-to-b from-[#3b9eff] to-[#ec4899]" />
                 <p className="text-base md:text-lg font-bold leading-relaxed text-slate-700">
                   Healthcare organisations license Pillaxia to support their
                   patients while patients and families experience{' '}
-                  <span className="text-brand-700">
+                  <span className="text-[#ec4899]">
                     tangible day-to-day benefit.
                   </span>
                 </p>

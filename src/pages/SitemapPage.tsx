@@ -66,14 +66,18 @@ export function SitemapPage() {
   }];
 
   return (
-    <main className="pt-32 pb-20 min-h-[70vh]">
-      <div className="container mx-auto px-4 md:px-6 max-w-4xl">
-        <SectionHeading title="Sitemap" centered={false} />
+    <main className="pt-32 pb-20 min-h-screen mesh-dark relative">
+      <div className="absolute top-0 left-0 right-0 neon-line" />
+      <div className="container mx-auto px-4 md:px-6 max-w-4xl relative z-10">
+        <SectionHeading title="Sitemap" centered={false} dark={true} />
 
         <AnimatedSection className="grid md:grid-cols-2 gap-12">
           {links.map((section, i) =>
-          <div key={i}>
-              <h3 className="text-xl font-bold text-slate-900 mb-4 border-b border-slate-200 pb-2">
+          <div
+            key={i}
+            className="bg-white/5 p-8 rounded-3xl border border-white/10 neon-card">
+            
+              <h3 className="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">
                 {section.category}
               </h3>
               <ul className="space-y-3">
@@ -81,7 +85,7 @@ export function SitemapPage() {
               <li key={j}>
                     <Link
                   to={item.path}
-                  className="text-slate-600 hover:text-brand-600 font-medium transition-colors">
+                  className="text-slate-300 hover:text-[#3b9eff] font-medium transition-colors">
                   
                       {item.name}
                     </Link>

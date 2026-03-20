@@ -34,23 +34,18 @@ export function ContactPage() {
     submitContact.mutate(formData);
   };
   return (
-    <main className="pt-32 pb-20 bg-slate-50 min-h-screen">
-      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+    <main className="pt-32 pb-20 mesh-dark min-h-screen relative">
+      <div className="absolute top-0 left-0 right-0 neon-line" />
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
         <div className="mb-12 text-center">
-          <Link
-            to="/"
-            className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-brand-700 transition-colors mb-8">
-            
-            <ArrowLeftIcon className="w-4 h-4 mr-2" /> Back
-          </Link>
           <AnimatedSection>
-            <span className="inline-block text-accent-500 uppercase tracking-widest text-sm font-bold mb-4">
+            <span className="inline-block text-[#3b9eff] uppercase tracking-widest text-sm font-bold mb-4">
               CONTACT US
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-brand-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Get in Touch
             </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
               Whether you're a hospital, clinic, pharmacy, investor, or press,
               we would love to hear from you.
             </p>
@@ -60,15 +55,15 @@ export function ContactPage() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Left Column - Form */}
           <AnimatedSection direction="right">
-            <h2 className="text-2xl font-bold text-brand-900 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
               Send us a message
             </h2>
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <div className="bg-white/5 p-8 rounded-3xl border border-white/10 neon-card">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-900 mb-2">
-                      Full Name <span className="text-red-500">*</span>
+                    <label className="block text-sm font-bold text-white mb-2">
+                      Full Name <span className="text-[#ec4899]">*</span>
                     </label>
                     <input
                       type="text"
@@ -76,13 +71,13 @@ export function ContactPage() {
                       required
                       value={formData.fullName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none bg-slate-50/50"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
                       placeholder="Jane Smith" />
                     
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-900 mb-2">
-                      Email <span className="text-red-500">*</span>
+                    <label className="block text-sm font-bold text-white mb-2">
+                      Email <span className="text-[#ec4899]">*</span>
                     </label>
                     <input
                       type="email"
@@ -90,13 +85,13 @@ export function ContactPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none bg-slate-50/50"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
                       placeholder="jane@hospital.ie" />
                     
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-900 mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Organisation
                   </label>
                   <input
@@ -104,35 +99,52 @@ export function ContactPage() {
                     name="organisation"
                     value={formData.organisation}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none bg-slate-50/50"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
                     placeholder="St James's Hospital" />
                   
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-900 mb-2">
+                  <label className="block text-sm font-bold text-white mb-2">
                     Your Role
                   </label>
                   <select
                     name="role"
                     value={formData.role}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none bg-slate-50/50 text-slate-600">
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white">
                     
-                    <option value="">Select your role...</option>
-                    <option value="Doctor/Clinician">Doctor/Clinician</option>
-                    <option value="Nurse">Nurse</option>
-                    <option value="Pharmacist">Pharmacist</option>
-                    <option value="Hospital Administrator">
+                    <option value="" className="text-slate-800">
+                      Select your role...
+                    </option>
+                    <option value="Doctor/Clinician" className="text-slate-800">
+                      Doctor/Clinician
+                    </option>
+                    <option value="Nurse" className="text-slate-800">
+                      Nurse
+                    </option>
+                    <option value="Pharmacist" className="text-slate-800">
+                      Pharmacist
+                    </option>
+                    <option
+                      value="Hospital Administrator"
+                      className="text-slate-800">
+                      
                       Hospital Administrator
                     </option>
-                    <option value="Investor">Investor</option>
-                    <option value="Press/Media">Press/Media</option>
-                    <option value="Other">Other</option>
+                    <option value="Investor" className="text-slate-800">
+                      Investor
+                    </option>
+                    <option value="Press/Media" className="text-slate-800">
+                      Press/Media
+                    </option>
+                    <option value="Other" className="text-slate-800">
+                      Other
+                    </option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-900 mb-2">
-                    Message <span className="text-red-500">*</span>
+                  <label className="block text-sm font-bold text-white mb-2">
+                    Message <span className="text-[#ec4899]">*</span>
                   </label>
                   <textarea
                     name="message"
@@ -140,7 +152,7 @@ export function ContactPage() {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none resize-none bg-slate-50/50"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none resize-none bg-white/5 text-white placeholder-white/30"
                     placeholder="Tell us about your organisation and what you're looking for...">
                   </textarea>
                 </div>
@@ -153,7 +165,7 @@ export function ContactPage() {
                   {submitContact.isPending ? 'Sending...' : 'Send Message'}
                 </Button>
                 {submitContact.isSuccess &&
-                <p className="text-sm text-emerald-600 text-center font-medium mt-2">
+                <p className="text-sm text-[#2dd4bf] text-center font-medium mt-2">
                     Message sent successfully! We'll be in touch soon.
                   </p>
                 }
@@ -163,54 +175,52 @@ export function ContactPage() {
 
           {/* Right Column - Info */}
           <AnimatedSection direction="left">
-            <h2 className="text-2xl font-bold text-brand-900 mb-6">
+            <h2 className="text-2xl font-bold text-white mb-6">
               Contact information
             </h2>
             <div className="space-y-4">
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-start gap-4">
                 <div className="mt-1">
-                  <MailIcon className="w-6 h-6 text-accent-500" />
+                  <MailIcon className="w-6 h-6 text-[#3b9eff]" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-brand-900 mb-1">
+                  <h3 className="font-bold text-white mb-1">
                     General Enquiries
                   </h3>
                   <a
                     href="mailto:connect@pillaxia.com"
-                    className="text-accent-500 hover:text-accent-600 transition-colors">
+                    className="text-[#3b9eff] hover:text-[#5cb3ff] transition-colors">
                     
                     connect@pillaxia.com
                   </a>
                 </div>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-start gap-4">
                 <div className="mt-1">
-                  <MapPinIcon className="w-6 h-6 text-accent-500" />
+                  <MapPinIcon className="w-6 h-6 text-[#3b9eff]" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-brand-900 mb-1">
-                    Headquarters
-                  </h3>
-                  <p className="text-slate-600 text-sm">Louth, Ireland</p>
-                  <p className="text-slate-500 text-sm">Nigeria</p>
+                  <h3 className="font-bold text-white mb-1">Headquarters</h3>
+                  <p className="text-slate-400 text-sm">Louth, Ireland</p>
+                  <p className="text-slate-400 text-sm">Nigeria</p>
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm mt-8">
+              <div className="bg-white/5 p-8 rounded-2xl border border-white/10 mt-8 neon-card">
                 <div className="mb-4">
-                  <CalendarIcon className="w-8 h-8 text-accent-500" />
+                  <CalendarIcon className="w-8 h-8 text-[#3b9eff]" />
                 </div>
-                <h3 className="text-xl font-bold text-brand-900 mb-3">
+                <h3 className="text-xl font-bold text-white mb-3">
                   Book a Product Demo
                 </h3>
-                <p className="text-slate-600 mb-6 leading-relaxed">
+                <p className="text-slate-400 mb-6 leading-relaxed">
                   Schedule a 30-minute walkthrough of Pillaxia with our team.
                   We'll tailor it to your organisation's needs.
                 </p>
                 <Link
                   to="/book-demo"
-                  className="inline-flex items-center font-bold text-accent-500 hover:text-accent-600 transition-colors">
+                  className="inline-flex items-center font-bold text-[#3b9eff] hover:text-[#5cb3ff] transition-colors">
                   
                   Book Demo <span className="ml-1">→</span>
                 </Link>
