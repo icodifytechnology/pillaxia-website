@@ -42,7 +42,7 @@ export interface ContactFormData {
 // --- FALLBACK DATA ---
 const BLOG_IMAGES = [
 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80',
-'https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=600&q=80',
+'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=600&q=80',
 'https://images.unsplash.com/photo-1530497610245-b1d01281136d?w=600&q=80',
 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=600&q=80',
 'https://images.unsplash.com/photo-1576671081837-49000212a370?w=600&q=80',

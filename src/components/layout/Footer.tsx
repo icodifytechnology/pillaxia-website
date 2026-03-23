@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TwitterIcon, LinkedinIcon, MailIcon } from 'lucide-react';
-const LOGO_URL = 'https://pillaxia-website.vercel.app/logo.webp';
+const LOGO_URL ='/logo.png';
 function AppleIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -18,34 +18,39 @@ function GooglePlayIcon() {
 }
 export function Footer() {
   return (
-    <footer className="bg-brand-50 pt-20 pb-10 border-t border-brand-100">
-      <div className="container mx-auto px-4 md:px-6">
+    <footer className="bg-[#010d3e] pt-20 pb-10 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_50%,_rgba(59,158,255,0.4)_0%,_transparent_50%),_radial-gradient(circle_at_80%_50%,_rgba(236,72,153,0.3)_0%,_transparent_50%)]"></div>
+      </div>
+      <div className="absolute top-0 left-0 right-0 neon-line" />
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center mb-6">
               <img src={LOGO_URL} alt="Pillaxia" className="h-10 w-auto" />
             </Link>
-            <p className="text-slate-600 mb-8 max-w-sm leading-relaxed">
+            <p className="text-slate-400 mb-8 max-w-sm leading-relaxed">
               Reimagining chronic care, together. Bridging patients, clinicians,
               families, and pharmacies through one trusted care platform.
             </p>
             <div className="flex items-center gap-4">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-accent-500 hover:shadow-md transition-all">
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
                 
                 <TwitterIcon className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-accent-500 hover:shadow-md transition-all">
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
                 
                 <LinkedinIcon className="w-5 h-5" />
               </a>
               <a
                 href="mailto:hello@pillaxia.app"
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-400 hover:text-accent-500 hover:shadow-md transition-all">
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
                 
                 <MailIcon className="w-5 h-5" />
               </a>
@@ -54,7 +59,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold text-slate-900 mb-6">Company</h3>
+            <h3 className="font-semibold text-white mb-6">Company</h3>
             <ul className="space-y-4">
               {[
               {
@@ -77,7 +82,7 @@ export function Footer() {
               <li key={to}>
                   <Link
                   to={to}
-                  className="text-slate-600 hover:text-brand-700 transition-colors">
+                  className="text-slate-400 hover:text-[#3b9eff] transition-colors">
                   
                     {label}
                   </Link>
@@ -88,7 +93,7 @@ export function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-semibold text-slate-900 mb-6">Legal</h3>
+            <h3 className="font-semibold text-white mb-6">Legal</h3>
             <ul className="space-y-4">
               {[
               {
@@ -111,7 +116,7 @@ export function Footer() {
               <li key={to}>
                   <Link
                   to={to}
-                  className="text-slate-600 hover:text-brand-700 transition-colors">
+                  className="text-slate-400 hover:text-[#3b9eff] transition-colors">
                   
                     {label}
                   </Link>
@@ -122,8 +127,8 @@ export function Footer() {
 
           {/* Download Column */}
           <div>
-            <h3 className="font-semibold text-slate-900 mb-2">Get the App</h3>
-            <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+            <h3 className="font-semibold text-white mb-2">Get the App</h3>
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
               Your care companion, always in your pocket.
             </p>
 
@@ -132,7 +137,7 @@ export function Footer() {
               <a
                 href="https://apps.apple.com/app/pillaxia/id6520385747"
                 target="_blank"
-                className="group flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+                className="group flex items-center gap-3 bg-white/5 border border-white/10 hover:border-[#3b9eff]/50 text-white rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-[0_0_15px_rgba(59,158,255,0.2)] hover:-translate-y-0.5">
                 
                 <AppleIcon />
                 <div className="flex flex-col">
@@ -149,7 +154,7 @@ export function Footer() {
               <a
                 href="https://play.google.com/store/apps/details?id=com.icodify.pillaxia"
                 target="_blank"
-                className="group flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+                className="group flex items-center gap-3 bg-white/5 border border-white/10 hover:border-[#3b9eff]/50 text-white rounded-2xl px-4 py-3 transition-all duration-200 hover:shadow-[0_0_15px_rgba(59,158,255,0.2)] hover:-translate-y-0.5">
                 
                 <GooglePlayIcon />
                 <div className="flex flex-col">
@@ -166,11 +171,11 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-brand-200/50 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-sm">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-slate-400 text-sm">
             © {new Date().getFullYear()} Pillaxia. All rights reserved.
           </p>
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-400 text-sm">
             Made with care for better healthcare.
           </p>
         </div>

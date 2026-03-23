@@ -19,7 +19,7 @@ export function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col font-sans text-slate-600 bg-white">
+        <div className="min-h-screen flex flex-col font-sans text-slate-300 bg-white">
           <Navbar />
           <div className="flex-grow">
             <Routes>
