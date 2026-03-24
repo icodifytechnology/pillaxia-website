@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { AnimatedSection } from '../components/ui/AnimatedSection';
 import { Button } from '../components/ui/Button';

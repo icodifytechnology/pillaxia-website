@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { AnimatedSection, AnimatedItem } from '../components/ui/AnimatedSection';
 import { ExternalLinkIcon, HomeIcon, NewspaperIcon } from 'lucide-react';

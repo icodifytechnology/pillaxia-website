@@ -37,13 +37,13 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="#"
+                href="https://x.com/pillaxia"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
 
                 <TwitterIcon className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/pillaxia-ai-8288aa31a"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
 
                 <LinkedinIcon className="w-5 h-5" />
@@ -108,10 +108,7 @@ export function Footer() {
                   to: '/cookies',
                   label: 'Cookie Policy'
                 },
-                {
-                  to: '/sitemap',
-                  label: 'Sitemap'
-                }].
+                ].
                 map(({ to, label }) =>
                   <li key={to}>
                     <Link

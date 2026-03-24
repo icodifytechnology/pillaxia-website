@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, createElement } from 'react';
 import { AnimatedSection } from '../components/ui/AnimatedSection';
 import { SectionHeading } from '../components/ui/SectionHeading';

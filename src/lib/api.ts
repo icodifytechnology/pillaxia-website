@@ -52,7 +52,7 @@ const BLOG_IMAGES = [
   'https://images.unsplash.com/photo-1584982751601-97dcc096659c?w=600&q=80'];
 
 
-const FALLBACK_BLOG_POSTS: BlogPost[] = [
+export const FALLBACK_BLOG_POSTS: BlogPost[] = [
   {
     id: '1',
     slug: 'connected-care-reduces-hospitalisation-rates',
@@ -360,7 +360,7 @@ Readmission reduction is not primarily a clinical problem. It is a coordination 
   },
 ];
 
-const FALLBACK_PRESS_RELEASES: PressRelease[] = [
+export const FALLBACK_PRESS_RELEASES: PressRelease[] = [
   {
     id: '1',
     date: '3 March 2026',

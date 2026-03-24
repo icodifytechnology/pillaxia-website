@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { HeroSlideshow } from '../components/landing/HeroSlideshow';
 import { TrustSignals } from '../components/landing/TrustSignals';
