@@ -35,7 +35,7 @@ export function Button({
     lg: 'px-8 py-4 text-lg'
   };
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
-  const MotionComponent = motion(Component as any);
+  const MotionComponent = motion.create(Component as any);
   return (
     <MotionComponent
       whileHover={{

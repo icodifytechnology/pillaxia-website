@@ -23,6 +23,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://pillaxia.com'),
   title: {
     default: 'Pillaxia | AI Medication Management for Clinics & Patients',
     template: '%s | Pillaxia',
@@ -48,7 +49,7 @@ twitter: {
   creator: '@pillaxia',
   title: 'Pillaxia | AI Medication Management Platform',
   description: 'Connected care for hospitals, clinics, pharmacies, patients and caregivers.',
-  images: ['https://pillaxia.com/og-image.png'],
+  images: ['/og-image.png'],
 },
 robots: {
   index: true,
@@ -79,7 +80,7 @@ export default function RootLayout({
             '@type': 'Organization',
             name: 'Pillaxia',
             url: 'https://pillaxia.com',
-            logo: 'https://pillaxia.com/logo.png',
+            logo: '/logo.png',
             foundingLocation: 'Ireland',
             email: 'connect@pillaxia.com',
             description: 'Connected care infrastructure for chronic and long-term health.',
