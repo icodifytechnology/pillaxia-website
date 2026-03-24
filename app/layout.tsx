@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import { LayoutWrapper } from "../src/components/LayoutWrapper";
+import { LayoutWrapper } from "@/src/components/layout/LayoutWrapper";
+import ReactQueryProvider from "@/src/providers/ReactQueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,28 +15,30 @@ const geistMono = Geist_Mono({
 });
 
 const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-  variable: '--font-inter',
-})
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: 'Gyansewa',
-  description: 'Educational platform for Loksewa and Entrance preparation',
+  title: "Pillaxia",
+  description: "Pillaxia",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased min-h-screen bg-white text-[#252872] font-sans selection:bg-[#d91f22] selection:text-white`}
       >
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <ReactQueryProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -1,251 +1,234 @@
-'use client'
-
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react';
+import { AnimatedSection } from '../components/ui/AnimatedSection';
+import { Button } from '../components/ui/Button';
 import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Send,
-  ChevronDown,
-  ChevronUp,
-} from 'lucide-react'
-import { Newsletter } from '../components/Newsletter'
-
+  MailIcon,
+  MapPinIcon,
+  CalendarIcon,
+  SendIcon,
+  ArrowLeftIcon } from
+'lucide-react';
+import { useSubmitContact } from '../lib/api';
+import Link from 'next/link';
 export function ContactPage() {
-  const [activeAccordion, setActiveAccordion] = useState<number | null>(0)
-  
-  const faqs = [
-    {
-      q: 'How do I enroll in a course?',
-      a: 'You can enroll by creating an account, browsing our course catalog, and clicking the "Enroll Now" button on any course page.',
-    },
-    {
-      q: 'Are the courses free?',
-      a: 'We offer both free and premium courses. Free courses can be accessed immediately after signup, while premium courses require a one-time payment.',
-    },
-    {
-      q: 'Can I access the content on mobile?',
-      a: 'Yes! Our platform is fully responsive and works seamlessly on all mobile devices and tablets.',
-    },
-    {
-      q: 'Do you offer refunds?',
-      a: 'We have a 7-day refund policy for all premium courses if you are not satisfied with the content.',
-    },
-  ]
-  
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Banner */}
-      <div className="bg-gradient-to-r from-[#252872] to-[#d91f22] text-white py-20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl"></div>
-        <div className="container mx-auto px-4 max-w-7xl relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message and
-            we'll respond as soon as possible.
-          </p>
-        </div>
-      </div>
+  const submitContact = useSubmitContact();
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    organisation: '',
+    role: '',
+    message: ''
+  });
+  const handleChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
 
-      <div className="container mx-auto px-4 max-w-7xl py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          {/* Contact Form */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -20,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100"
-          >
-            <h2 className="text-2xl font-bold text-[#252872] mb-6">
-              Send us a Message
+  {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submitContact.mutate(formData);
+  };
+  return (
+    <main className="pt-32 pb-20 mesh-dark min-h-screen relative">
+      <div className="absolute top-0 left-0 right-0 neon-line" />
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
+        <div className="mb-12 text-center">
+          <AnimatedSection>
+            <span className="inline-block text-[#3b9eff] uppercase tracking-widest text-sm font-bold mb-4">
+              CONTACT US
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Get in Touch
+            </h1>
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+              Whether you're a hospital, clinic, pharmacy, investor, or press,
+              we would love to hear from you.
+            </p>
+          </AnimatedSection>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Left Column - Form */}
+          <AnimatedSection direction="right">
+            <h2 className="text-2xl font-bold text-white mb-6">
+              Send us a message
             </h2>
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white/5 p-8 rounded-3xl border border-white/10 neon-card">
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-bold text-white mb-2">
+                      Full Name <span className="text-[#ec4899]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      required
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
+                      placeholder="Jane Smith" />
+                    
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-white mb-2">
+                      Email <span className="text-[#ec4899]">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
+                      placeholder="jane@hospital.ie" />
+                    
+                  </div>
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
+                  <label className="block text-sm font-bold text-white mb-2">
+                    Organisation
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent transition-all"
-                    placeholder="John Doe"
-                  />
+                    name="organisation"
+                    value={formData.organisation}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white placeholder-white/30"
+                    placeholder="St James's Hospital" />
+                  
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                  <label className="block text-sm font-bold text-white mb-2">
+                    Your Role
                   </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent transition-all"
-                    placeholder="john@example.com"
-                  />
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none bg-white/5 text-white">
+                    
+                    <option value="" className="text-slate-800">
+                      Select your role...
+                    </option>
+                    <option value="Doctor/Clinician" className="text-slate-800">
+                      Doctor/Clinician
+                    </option>
+                    <option value="Nurse" className="text-slate-800">
+                      Nurse
+                    </option>
+                    <option value="Pharmacist" className="text-slate-800">
+                      Pharmacist
+                    </option>
+                    <option
+                      value="Hospital Administrator"
+                      className="text-slate-800">
+                      
+                      Hospital Administrator
+                    </option>
+                    <option value="Investor" className="text-slate-800">
+                      Investor
+                    </option>
+                    <option value="Press/Media" className="text-slate-800">
+                      Press/Media
+                    </option>
+                    <option value="Other" className="text-slate-800">
+                      Other
+                    </option>
+                  </select>
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
-                </label>
-                <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent transition-all bg-white">
-                  <option>General Inquiry</option>
-                  <option>Course Support</option>
-                  <option>Technical Issue</option>
-                  <option>Partnership</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
-                </label>
-                <textarea
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#d91f22] focus:border-transparent transition-all"
-                  placeholder="How can we help you?"
-                ></textarea>
-              </div>
-              <button
-                type="button"
-                className="w-full bg-[#d91f22] hover:bg-[#b91c1c] text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              >
-                Send Message <Send className="ml-2 w-5 h-5" />
-              </button>
-            </form>
-          </motion.div>
+                <div>
+                  <label className="block text-sm font-bold text-white mb-2">
+                    Message <span className="text-[#ec4899]">*</span>
+                  </label>
+                  <textarea
+                    name="message"
+                    required
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 focus:ring-2 focus:ring-[#3b9eff] focus:border-[#3b9eff] outline-none resize-none bg-white/5 text-white placeholder-white/30"
+                    placeholder="Tell us about your organisation and what you're looking for...">
+                  </textarea>
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-2"
+                  disabled={submitContact.isPending}>
+                  
+                  <SendIcon className="w-4 h-4" />
+                  {submitContact.isPending ? 'Sending...' : 'Send Message'}
+                </Button>
+                {submitContact.isSuccess &&
+                <p className="text-sm text-[#2dd4bf] text-center font-medium mt-2">
+                    Message sent successfully! We'll be in touch soon.
+                  </p>
+                }
+              </form>
+            </div>
+          </AnimatedSection>
 
-          {/* Contact Info */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: 20,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            className="space-y-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:border-[#d91f22] transition-colors group">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#252872] mb-4 group-hover:bg-[#d91f22] group-hover:text-white transition-colors">
-                  <MapPin className="w-6 h-6" />
+          {/* Right Column - Info */}
+          <AnimatedSection direction="left">
+            <h2 className="text-2xl font-bold text-white mb-6">
+              Contact information
+            </h2>
+            <div className="space-y-4">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+                <div className="mt-1">
+                  <MailIcon className="w-6 h-6 text-[#3b9eff]" />
                 </div>
-                <h3 className="font-bold text-[#252872] mb-2">Our Location</h3>
-                <p className="text-gray-600 text-sm">
-                  Baneswor Chowk, Kathmandu
-                  <br />
-                  Bagmati Province, Nepal
-                </p>
+                <div>
+                  <h3 className="font-bold text-white mb-1">
+                    General Enquiries
+                  </h3>
+                  <a
+                    href="mailto:connect@pillaxia.com"
+                    className="text-[#3b9eff] hover:text-[#5cb3ff] transition-colors">
+                    
+                    connect@pillaxia.com
+                  </a>
+                </div>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:border-[#d91f22] transition-colors group">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#252872] mb-4 group-hover:bg-[#d91f22] group-hover:text-white transition-colors">
-                  <Phone className="w-6 h-6" />
+
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+                <div className="mt-1">
+                  <MapPinIcon className="w-6 h-6 text-[#3b9eff]" />
                 </div>
-                <h3 className="font-bold text-[#252872] mb-2">Phone Number</h3>
-                <p className="text-gray-600 text-sm">
-                  +977-01-1234567
-                  <br />
-                  +977-9800000000
-                </p>
+                <div>
+                  <h3 className="font-bold text-white mb-1">Headquarters</h3>
+                  <p className="text-slate-400 text-sm">Louth, Ireland</p>
+                  <p className="text-slate-400 text-sm">Nigeria</p>
+                </div>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:border-[#d91f22] transition-colors group">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#252872] mb-4 group-hover:bg-[#d91f22] group-hover:text-white transition-colors">
-                  <Mail className="w-6 h-6" />
+
+              <div className="bg-white/5 p-8 rounded-2xl border border-white/10 mt-8 neon-card">
+                <div className="mb-4">
+                  <CalendarIcon className="w-8 h-8 text-[#3b9eff]" />
                 </div>
-                <h3 className="font-bold text-[#252872] mb-2">Email Address</h3>
-                <p className="text-gray-600 text-sm">
-                  info@gyansewa.edu.np
-                  <br />
-                  support@gyansewa.edu.np
+                <h3 className="text-xl font-bold text-white mb-3">
+                  Book a Product Demo
+                </h3>
+                <p className="text-slate-400 mb-6 leading-relaxed">
+                  Schedule a 30-minute walkthrough of Pillaxia with our team.
+                  We'll tailor it to your organisation's needs.
                 </p>
-              </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:border-[#d91f22] transition-colors group">
-                <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#252872] mb-4 group-hover:bg-[#d91f22] group-hover:text-white transition-colors">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <h3 className="font-bold text-[#252872] mb-2">Office Hours</h3>
-                <p className="text-gray-600 text-sm">
-                  Sun - Fri: 9AM - 5PM
-                  <br />
-                  Sat: Closed
-                </p>
+                <Link
+                  href="/book-demo"
+                  className="inline-flex items-center font-bold text-[#3b9eff] hover:text-[#5cb3ff] transition-colors">
+                  
+                  Book Demo <span className="ml-1">→</span>
+                </Link>
               </div>
             </div>
-
-            {/* Google Map Embed - Baneswor Chowk */}
-            <div className="w-full h-64 bg-gray-200 rounded-3xl overflow-hidden border border-gray-300">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4911803842496!2d85.33447907549395!3d27.70279997619267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19bad0b5c51d%3A0x5e8c8dfbd5f93f30!2sBaneswor%20Chowk!5e0!3m2!1sen!2snp!4v1234567890123!5m2!1sen!2snp"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Baneswor Chowk Location"
-              ></iframe>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#252872] mb-8 text-center">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-4">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl border border-gray-100 overflow-hidden"
-              >
-                <button
-                  className="w-full px-6 py-4 text-left flex justify-between items-center font-bold text-[#252872] hover:bg-gray-50 transition-colors"
-                  onClick={() =>
-                    setActiveAccordion(activeAccordion === i ? null : i)
-                  }
-                >
-                  {faq.q}
-                  {activeAccordion === i ? (
-                    <ChevronUp className="w-5 h-5 text-[#d91f22]" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  )}
-                </button>
-                <AnimatePresence>
-                  {activeAccordion === i && (
-                    <motion.div
-                      initial={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      animate={{
-                        height: 'auto',
-                        opacity: 1,
-                      }}
-                      exit={{
-                        height: 0,
-                        opacity: 0,
-                      }}
-                      className="px-6 pb-4 text-gray-600"
-                    >
-                      {faq.a}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
+          </AnimatedSection>
         </div>
       </div>
+    </main>);
 
-      <Newsletter />
-    </div>
-  )
 }

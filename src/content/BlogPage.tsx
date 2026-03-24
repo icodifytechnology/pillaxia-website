@@ -1,278 +1,298 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
-import { Calendar, User, ArrowRight, Tag, ChevronRight } from 'lucide-react'
-import { useRouter } from 'next/navigation';
-import { Newsletter } from '../components/Newsletter'
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { ArrowRightIcon, SearchIcon, SparklesIcon } from 'lucide-react';
+import { useBlogPosts } from '../lib/api';
 
-/* ------------------ DATA ------------------ */
-
-const featuredPost = {
-  id: 0,
-  title: 'Mastering the Loksewa Interview: A Comprehensive Guide',
-  excerpt:
-    'The interview phase is the final hurdle in your Loksewa journey. Learn how to present yourself confidently, answer tricky questions, and leave a lasting impression.',
-  category: 'Featured',
-  author: 'Ramesh Thapa',
-  date: 'Jan 20, 2024',
-  image:
-    'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&q=80',
+/* ── helpers ── */
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, visible };
 }
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'How to Prepare for Loksewa Exams',
-    excerpt:
-      'Master the strategies and study plans needed to crack the toughest government exams in Nepal.',
-    category: 'Loksewa',
-    author: 'Ramesh Thapa',
-    date: 'Jan 15, 2024',
-    image:
-      'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80',
-  },
-  {
-    id: 2,
-    title: 'Top 10 Tips for Entrance Exam Success',
-    excerpt:
-      'Expert advice on managing time, stress, and syllabus coverage for engineering and medical entrance.',
-    category: 'Entrance',
-    author: 'Sita Sharma',
-    date: 'Jan 12, 2024',
-    image:
-      'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80',
-  },
-  {
-    id: 3,
-    title: 'Understanding CMAT Exam Pattern',
-    excerpt:
-      'A comprehensive breakdown of the CMAT syllabus, marking scheme, and question types.',
-    category: 'Management',
-    author: 'Hari Krishna',
-    date: 'Jan 10, 2024',
-    image:
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
-  },
-  {
-    id: 4,
-    title: "Nepal's Education System: A Complete Guide",
-    excerpt:
-      'An in-depth look at the current state, challenges, and future of education in Nepal.',
-    category: 'Education',
-    author: 'Dr. B.K. Rai',
-    date: 'Jan 08, 2024',
-    image:
-      'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80',
-  },
-  {
-    id: 5,
-    title: 'Best Study Techniques for Competitive Exams',
-    excerpt:
-      'Scientific methods like Pomodoro, Active Recall, and Spaced Repetition explained.',
-    category: 'Tips',
-    author: 'Anjali Gurung',
-    date: 'Jan 05, 2024',
-    image:
-      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
-  },
-  {
-    id: 6,
-    title: 'Career Opportunities After Loksewa',
-    excerpt:
-      'Explore the various career paths and benefits available after passing the Loksewa exam.',
-    category: 'Career',
-    author: 'Ramesh Thapa',
-    date: 'Jan 02, 2024',
-    image:
-      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80',
-  },
-]
-
-/* ------------------ PAGE ------------------ */
-
-export function BlogPage() {
-  const { push: navigate } = useRouter();
-
-  const goToPost = (id: number) => {
-    navigate(`/blog/${id}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
+function Reveal({ children, delay = 0, className = '' }: {
+  children: React.ReactNode; delay?: number; className?: string;
+}) {
+  const { ref, visible } = useInView();
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* ---------- HERO ---------- */}
-      <div className="bg-[#252872] text-white py-16 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-
-        <div className="container mx-auto px-4 max-w-7xl relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Blog</h1>
-          <p className="text-blue-100 text-lg max-w-2xl mb-6">
-            Latest insights, tips, and news from education & competitive exams in
-            Nepal.
-          </p>
-
-          <div className="flex items-center text-sm text-blue-200 font-medium">
-            <Link href="/" className="hover:text-white">
-              Home
-            </Link>
-            <ChevronRight className="w-4 h-4 mx-2" />
-            <span className="text-white">Blog</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ---------- CONTENT ---------- */}
-      <div className="container mx-auto px-4 max-w-7xl py-12">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* ===== MAIN ===== */}
-          <div className="lg:w-2/3">
-            {/* Featured */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={() => goToPost(featuredPost.id)}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition cursor-pointer mb-12 group"
-            >
-              <div className="relative h-64 md:h-80">
-                <img
-                  src={featuredPost.image}
-                  alt={featuredPost.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <span className="bg-[#d91f22] text-xs font-bold px-3 py-1 rounded-full">
-                    Featured
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-bold mt-3 mb-2">
-                    {featuredPost.title}
-                  </h2>
-                  <div className="flex gap-4 text-sm text-gray-200">
-                    <span className="flex items-center">
-                      <User className="w-4 h-4 mr-1" /> {featuredPost.author}
-                    </span>
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" /> {featuredPost.date}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-8">
-                <p className="text-gray-600 mb-6">
-                  {featuredPost.excerpt}
-                </p>
-                <span className="text-[#d91f22] font-bold flex items-center">
-                  Read Full Article <ArrowRight className="ml-2 w-4 h-4" />
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {blogPosts.map((post, i) => (
-                <motion.div
-                  key={post.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  onClick={() => goToPost(post.id)}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl group cursor-pointer flex flex-col"
-                >
-                  <div className="relative h-48">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                    />
-                    <span className="absolute top-4 left-4 bg-white/90 text-[#252872] text-xs font-bold px-3 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
-
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold text-[#252872] group-hover:text-[#d91f22] transition mb-3 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="flex justify-between text-xs text-gray-500 border-t pt-4">
-                      <span className="flex items-center">
-                        <User className="w-3 h-3 mr-1" />
-                        {post.author}
-                      </span>
-                      <span className="flex items-center">
-                        <Calendar className="w-3 h-3 mr-1" />
-                        {post.date}
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* ===== SIDEBAR ===== */}
-          <aside className="lg:w-1/3 space-y-8">
-            {/* Categories */}
-            <SidebarCard title="Categories">
-              {['Loksewa', 'Entrance', 'Management', 'Education', 'Tips', 'Career'].map(
-                (cat) => (
-                  <div key={cat} className="flex justify-between group cursor-pointer">
-                    <span className="text-gray-600 group-hover:text-[#d91f22]">
-                      {cat}
-                    </span>
-                    <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                      {Math.floor(Math.random() * 20) + 5}
-                    </span>
-                  </div>
-                )
-              )}
-            </SidebarCard>
-
-            {/* Tags */}
-            <SidebarCard title="Popular Tags">
-              <div className="flex flex-wrap gap-2">
-                {['Exam', 'Study', 'Nepal', 'Interview', 'Tips', 'Guide'].map(
-                  (tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs bg-gray-100 px-3 py-1.5 rounded-full hover:bg-[#d91f22] hover:text-white cursor-pointer flex items-center"
-                    >
-                      <Tag className="w-3 h-3 mr-1" /> {tag}
-                    </span>
-                  )
-                )}
-              </div>
-            </SidebarCard>
-          </aside>
-        </div>
-      </div>
-
-      <Newsletter />
+    <div ref={ref} className={className} style={{
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(28px)',
+      transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
+    }}>
+      {children}
     </div>
-  )
+  );
 }
 
-/* ------------------ SMALL COMPONENT ------------------ */
-
-function SidebarCard({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
+function Blob({ className, color = '#3b9eff', size = 400, opacity = 0.1 }: {
+  className?: string; color?: string; size?: number; opacity?: number;
 }) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm">
-      <h3 className="text-lg font-bold text-[#252872] mb-4 border-b pb-2">
-        {title}
-      </h3>
-      <div className="space-y-3">{children}</div>
-    </div>
-  )
+    <div className={`pointer-events-none absolute rounded-full ${className}`} style={{
+      width: size, height: size, background: color,
+      filter: `blur(${size * 0.3}px)`, opacity,
+    }} />
+  );
+}
+
+function Pill({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-[0.2em] uppercase" style={{
+      background: 'rgba(59,158,255,0.1)',
+      color: '#3b9eff',
+      border: '1px solid rgba(59,158,255,0.3)',
+    }}>
+      {children}
+    </span>
+  );
+}
+
+const CATEGORIES = ['All', 'Chronic Care', 'Digital Health', 'Innovation', 'Patient Stories'];
+
+export default function BlogPage() {
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: posts, isLoading } = useBlogPosts();
+
+  const filteredPosts =
+    posts?.filter((post) => {
+      if (post.featured && activeCategory === 'All' && !searchQuery) return false;
+      const matchesCategory = activeCategory === 'All' || post.category === activeCategory;
+      const matchesSearch =
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    }) ?? [];
+
+  return (
+    <main className="overflow-x-hidden">
+
+      {/* ── HERO ── */}
+      <section className="relative min-h-[70vh] flex items-center pt-32 pb-24 overflow-hidden mesh-dark">
+        <Blob className="-top-40 -left-40" color="#3b9eff" size={600} opacity={0.15} />
+        <Blob className="top-1/3 right-0"   color="#ec4899" size={500} opacity={0.10} />
+        <Blob className="bottom-0 left-1/3" color="#2dd4bf" size={400} opacity={0.10} />
+
+        <div className="absolute inset-0 opacity-[0.05]" style={{
+          backgroundImage: 'radial-gradient(circle, #3b9eff 1px, transparent 1px)',
+          backgroundSize: '36px 36px',
+        }} />
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <Reveal className="flex flex-col items-center text-center space-y-7 max-w-3xl mx-auto">
+            <Pill>
+              <SparklesIcon size={11} />
+              Pillaxia Blog
+            </Pill>
+
+            <h1 className="text-5xl md:text-7xl font-extrabold text-white" style={{ lineHeight: 1.08 }}>
+              Insights &amp;{' '}
+              <span className="neon-text">Perspectives</span>
+            </h1>
+
+            <p className="text-lg leading-relaxed text-slate-300 max-w-xl">
+              Insights on chronic care, digital health, and innovation — from the Pillaxia team and collaborators.
+            </p>
+
+            {/* Search */}
+            <div className="w-full max-w-lg relative mt-2">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <SearchIcon className="w-5 h-5 text-slate-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-6 py-4 rounded-2xl outline-none text-white placeholder-slate-500 transition-all duration-200"
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: 'none',
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(59,158,255,0.5)';
+                  e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59,158,255,0.12)';
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+            </div>
+
+            {/* Category pills */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className="px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200"
+                  style={
+                    activeCategory === cat
+                      ? { background: 'linear-gradient(90deg, #3b9eff, #ec4899)', color: '#fff', border: '1px solid transparent' }
+                      : { background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.12)' }
+                  }
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── ARTICLE GRID ── */}
+      <section className="relative py-28 overflow-hidden mesh-dark">
+        <div className="absolute top-0 left-0 right-0 neon-line" />
+
+        <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
+          {isLoading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="rounded-3xl overflow-hidden animate-pulse"
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div className="aspect-[16/10] bg-white/5" />
+                  <div className="p-8 space-y-3">
+                    <div className="h-3 w-20 rounded-full bg-white/10" />
+                    <div className="h-5 w-3/4 rounded-full bg-white/10" />
+                    <div className="h-3 w-full rounded-full bg-white/10" />
+                    <div className="h-3 w-2/3 rounded-full bg-white/10" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredPosts.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post, i) => (
+                <Reveal key={post.id} delay={i * 70}>
+                  {/* ── Next.js Link wraps the entire card ── */}
+                  <Link href={`/blog/${post.slug}`} className="group block h-full">
+                    <article
+                      className="relative rounded-3xl overflow-hidden flex flex-col h-full transition-all duration-300 hover:-translate-y-1"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.border = '1px solid rgba(59,158,255,0.3)';
+                        (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(59,158,255,0.08)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.border = '1px solid rgba(255,255,255,0.09)';
+                        (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                      }}
+                    >
+                      {/* Image */}
+                      <div className="aspect-[16/10] overflow-hidden" style={{ background: 'rgba(59,158,255,0.06)' }}>
+                        {post.imageUrl && (
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-8 flex-1 flex flex-col">
+                        <div className="mb-4">
+                          <span className="text-xs font-bold px-3 py-1 rounded-full" style={{
+                            background: 'rgba(59,158,255,0.12)',
+                            color: '#3b9eff',
+                            border: '1px solid rgba(59,158,255,0.25)',
+                          }}>
+                            {post.category}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#3b9eff] transition-colors line-clamp-2">
+                          {post.title}
+                        </h3>
+
+                        <p className="text-slate-400 mb-6 flex-1 line-clamp-3 text-sm leading-relaxed">
+                          {post.excerpt}
+                        </p>
+
+                        <div className="pt-6 flex items-center justify-between"
+                          style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                          <div className="text-xs text-slate-500 flex flex-col gap-1">
+                            <span className="font-semibold text-slate-300">{post.author}</span>
+                            <span>{post.date} · {post.readTime}</span>
+                          </div>
+                          <div
+                            className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                            style={{
+                              background: 'rgba(59,158,255,0.1)',
+                              border: '1px solid rgba(59,158,255,0.2)',
+                              color: '#3b9eff',
+                            }}
+                          >
+                            <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          ) : (
+            <Reveal>
+              <div className="text-center py-20 rounded-3xl" style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}>
+                <p className="text-slate-400 text-base">No articles found matching your criteria.</p>
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </section>
+
+      {/* ── CLOSING CTA ── */}
+      <section className="relative py-28 overflow-hidden mesh-dark">
+        <div className="absolute top-0 left-0 right-0 neon-line" />
+        <Blob className="bottom-0 right-0" color="#ec4899" size={400} opacity={0.08} />
+        <div className="container mx-auto px-6 md:px-12 relative z-10 text-center max-w-3xl">
+          <Reveal>
+            <Pill>Stay in the Loop</Pill>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mt-6 mb-6">
+              Never miss a story<br />
+              <span className="neon-text">from Pillaxia</span>
+            </h2>
+            <p className="text-slate-300 text-lg mb-10">
+              Subscribe to our newsletter for the latest in chronic care, digital health, and patient empowerment.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full px-5 py-4 rounded-full outline-none text-white placeholder-slate-500"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)' }}
+              />
+              <button
+                className="shrink-0 inline-flex items-center gap-2 px-7 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:gap-4 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)]"
+                style={{ background: 'linear-gradient(90deg, #3b9eff, #ec4899)', color: '#fff' }}
+              >
+                Subscribe <ArrowRightIcon size={15} />
+              </button>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+    </main>
+  );
 }

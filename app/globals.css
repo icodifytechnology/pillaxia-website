@@ -1,15 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --color-primary: #252872;
-  --color-primary-light: #3538a0;
-  --color-primary-dark: #1a1d54;
-
-  --color-secondary: #d91f22;
-  --color-secondary-light: #ef4444;
-  --color-secondary-dark: #b91c1c;
-}
-
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
@@ -17,11 +7,131 @@
   }
 }
 
-/* Custom scrollbar for horizontal scrolling sections */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root {
+  --brand-50: #f0f4ff;
+  --brand-100: #d0dfff;
+  --brand-200: #a0bfff;
+  --brand-500: #0a1a6b;
+  --brand-600: #071354;
+  --brand-700: #010d3e;
+  --brand-900: #000824;
+  --accent-400: #5cb3ff;
+  --accent-500: #3b9eff;
+  --accent-600: #2080e0;
+  --neon-magenta: #ec4899;
+  --neon-teal: #2dd4bf;
 }
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #475569;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+}
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #010d3e;
+}
+::-webkit-scrollbar-thumb {
+  background: #3b9eff;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ec4899;
+}
+/* Neon Animations */
+@keyframes neonBorderCycle {
+  0% { border-color: #3b9eff; }
+  33% { border-color: #ec4899; }
+  66% { border-color: #2dd4bf; }
+  100% { border-color: #3b9eff; }
+}
+@keyframes neonPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+@keyframes gradientLine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes meshFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2%, 3%) scale(1.05); }
+  66% { transform: translate(-2%, 1%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+/* Neon Classes */
+.neon-card {
+  border: 2px solid #3b9eff;
+  border-radius: 1.5rem;
+  animation: neonBorderCycle 4s linear infinite;
+  transition: all 0.3s ease;
+}
+.neon-card:hover {
+  box-shadow: 0 0 30px rgba(59, 158, 255, 0.4), 0 0 60px rgba(236, 72, 153, 0.2);
+  transform: translateY(-4px);
+}
+.neon-border {
+  border: 2px solid #3b9eff;
+  animation: neonBorderCycle 4s linear infinite;
+}
+.neon-glow-hover:hover {
+  box-shadow: 0 0 30px rgba(59, 158, 255, 0.4), 0 0 60px rgba(236, 72, 153, 0.2);
+}
+.neon-text {
+  background: linear-gradient(90deg, #3b9eff, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.neon-line {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, #3b9eff, #ec4899, #2dd4bf, transparent);
+  background-size: 200% 100%;
+  animation: gradientLine 3s linear infinite;
+}
+.mesh-dark {
+  background-color: #010d3e;
+  position: relative;
+  overflow: hidden;
+}
+.mesh-dark::before, .mesh-dark::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  animation: meshFloat 15s ease-in-out infinite;
+}
+.mesh-dark::before {
+  top: -10%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(59, 158, 255, 0.15) 0%, transparent 70%);
+}
+.mesh-dark::after {
+  bottom: -10%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+  animation-delay: -7.5s;
+}
+.mesh-dark-teal::after {
+  background: radial-gradient(circle, rgba(45, 212, 191, 0.12) 0%, transparent 70%);
 }
