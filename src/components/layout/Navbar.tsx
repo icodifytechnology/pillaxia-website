@@ -22,15 +22,15 @@ export function Navbar() {
   const navLinks = [
     {
       name: 'Home',
-      path: '/#home'
+      path: '/'
     },
     {
       name: 'About',
-      path: '/about'
+      path: '/about-us'
     },
     {
       name: 'Blog',
-      path: '/blog'
+      path: '/blogs'
     },
     {
       name: 'Press',
@@ -38,7 +38,7 @@ export function Navbar() {
     },
     {
       name: 'Contact',
-      path: '/contact'
+      path: '/contact-us'
     }];
 
   return (
@@ -71,7 +71,14 @@ export function Navbar() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Button as={Link} href="/contact" variant="outline" size="sm">
+            <Button
+              as="a"
+              href={process.env.NEXT_PUBLIC_APP_URL || 'https://app.pillaxia.com'}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outline"
+              size="sm"
+            >
               Sign in
             </Button>
             <Button as={Link} href="/book-demo" size="sm">

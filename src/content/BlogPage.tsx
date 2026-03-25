@@ -181,7 +181,7 @@ export default function BlogPage() {
               {filteredPosts.map((post, i) => (
                 <Reveal key={post.id} delay={i * 70}>
                   {/* ── Next.js Link wraps the entire card ── */}
-                  <Link href={`/blog/${post.slug}`} className="group block h-full">
+                  <Link href={`/blogs/${post.slug}`} className="group block h-full">
                     <article
                       className="relative rounded-3xl overflow-hidden flex flex-col h-full transition-all duration-300 hover:-translate-y-1"
                       style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}

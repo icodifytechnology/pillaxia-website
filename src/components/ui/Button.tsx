@@ -5,6 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   as?: 'button' | 'a' | typeof Link;
+  target?: string;
   href?: string;
   to?: string;
   className?: string;

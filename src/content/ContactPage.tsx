@@ -204,8 +204,9 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-white mb-1">Headquarters</h3>
-                  <p className="text-slate-400 text-sm">Louth, Ireland</p>
-                  <p className="text-slate-400 text-sm">Nigeria</p>
+                  <p className="text-slate-400 text-sm">Drogheda Co. Louth, Ireland </p>
+                  <h3 className="font-bold text-white my-1">Local</h3>
+                  <p className="text-slate-400 text-sm">Enugu, Nigeria</p>
                 </div>
               </div>
 

@@ -5,7 +5,7 @@ import BlogPage from '@/src/content/BlogPage'
 export const metadata: Metadata = {
   title: 'Blog — Insights on Chronic Care & Digital Health',
   description: 'Insights on chronic care, medication adherence, digital health innovation, and patient empowerment from the Pillaxia team.',
-  alternates: { canonical: 'https://pillaxia.com/blog' },
+  alternates: { canonical: 'https://pillaxia.com/blogs' },
 }
 
 export default function Page() {

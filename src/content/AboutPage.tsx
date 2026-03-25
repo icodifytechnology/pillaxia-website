@@ -635,7 +635,8 @@ export function AboutPage() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link
-                href="#"
+                href={process.env.NEXT_PUBLIC_APP_URL || 'https://app.pillaxia.com'}
+                target='_blank'
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-300 hover:gap-4 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] bg-gradient-to-r from-[#3b9eff] to-[#ec4899] text-white">
                 Get Early Access <ArrowRightIcon size={15} />
               </Link>

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import BlogDetailPage from "@/src/content/BlogDetailPage"
-import { FALLBACK_BLOG_POSTS } from '@/src/lib/api'
+import { FALLBACK_BLOG_POSTS } from '@/src/lib/blog'
 
 // Helper function to get blog post by slug (server-safe)
 function getBlogPostBySlug(slug: string) {
@@ -26,13 +26,13 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `https://pillaxia.com/blog/${slug}` },
+    alternates: { canonical: `https://pillaxia.com/blogs/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: 'article',
       publishedTime: post.date,
-      url: `https://pillaxia.com/blog/${slug}`,
+      url: `https://pillaxia.com/blogs/${slug}`,
       images: post.imageUrl ? [{ 
         url: post.imageUrl, 
         width: 1200, 
@@ -84,13 +84,13 @@ export default async function Page({
                 }
               },
               datePublished: post.date,
-              url: `https://pillaxia.com/blog/${slug}`,
+              url: `https://pillaxia.com/blogs/${slug}`,
               image: post.imageUrl
             })
           }}
         />
       )}
-      <BlogDetailPage slug={slug} />
+      <BlogDetailPage />
     </>
   )
 }

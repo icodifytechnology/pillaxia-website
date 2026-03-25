@@ -4,7 +4,7 @@ import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'Press & Media — Pillaxia Newsroom',
-  description: 'Press releases, news coverage, and media assets from Pillaxia. For press enquiries contact press@pillaxia.com.',
+  description: 'Press releases, news coverage, and media assets from Pillaxia. For press enquiries contact connect@pillaxia.com.',
   alternates: { canonical: 'https://pillaxia.com/press' },
 }
 
@@ -24,7 +24,7 @@ export default function Page() {
                 "name": "How can journalists or media contact Pillaxia?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Press and media enquiries, interview requests, and requests for media assets can be directed to press@pillaxia.com."
+                  "text": "Press and media enquiries, interview requests, and requests for media assets can be directed to connect@pillaxia.com."
                 }
               },
               {
@@ -40,7 +40,7 @@ export default function Page() {
                 "name": "Does Pillaxia provide media assets for journalists?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Yes. Media assets are available upon request. Please contact the communications team at press@pillaxia.com to obtain logos, images, or brand materials."
+                  "text": "Yes. Media assets are available upon request. Please contact the communications team at connect@pillaxia.com to obtain logos, images, or brand materials."
                 }
               }
             ]

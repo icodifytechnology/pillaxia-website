@@ -1,5 +1,5 @@
+import { FALLBACK_BLOG_POSTS } from '@/src/lib/blog'
 import { MetadataRoute } from 'next'
-import { FALLBACK_BLOG_POSTS } from '@/src/lib/api'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Base pages
@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: 'https://pillaxia.com/blog',
+      url: 'https://pillaxia.com/blogs',
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.9,
@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Blog posts
   const blogPages = FALLBACK_BLOG_POSTS.map((post) => ({
-    url: `https://pillaxia.com/blog/${post.slug}`,
+    url: `https://pillaxia.com/blogs/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: 'monthly' as const,
     priority: 0.7,

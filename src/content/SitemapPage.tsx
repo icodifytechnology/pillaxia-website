@@ -26,7 +26,7 @@ export function SitemapPage() {
       items: [
         {
           name: 'Blog & Insights',
-          path: '/blog'
+          path: '/blogs'
         },
         {
           name: 'Press & Media',

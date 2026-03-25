@@ -1,7 +1,8 @@
 import React from 'react';
-import { TwitterIcon, LinkedinIcon, MailIcon } from 'lucide-react';
+import { MailIcon, Instagram, Facebook, Linkedin } from 'lucide-react';
 import Link from 'next/link';
 const LOGO_URL = '/logo.png';
+
 function AppleIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -37,23 +38,41 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="https://x.com/pillaxia"
+                target="_blank"
+                href="https://www.instagram.com/pillaxia.ai"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
 
-                <TwitterIcon className="w-5 h-5" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a
+                target="_blank"
                 href="https://www.linkedin.com/in/pillaxia-ai-8288aa31a"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
 
-                <LinkedinIcon className="w-5 h-5" />
+                <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="mailto:hello@pillaxia.app"
+                target="_blank"
+                href="https://www.facebook.com/profile.php?id=61562518252431"
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
+
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a
+                target="_blank"
+                href="https://x.com/pillaxia"
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
+
+                <img src="/twitter.svg" alt="Twitter" className="w-4 h-4 invert opacity-60" />
+              </a>
+              <a
+                target="_blank"
+                href="mailto:connect@pillaxia.com"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-[#3b9eff] hover:bg-[#3b9eff]/20 transition-all">
 
                 <MailIcon className="w-5 h-5" />
               </a>
+
             </div>
           </div>
 
@@ -63,7 +82,7 @@ export function Footer() {
             <ul className="space-y-4">
               {[
                 {
-                  to: '/about',
+                  to: '/about-us',
                   label: 'About Us'
                 },
                 {
@@ -71,11 +90,11 @@ export function Footer() {
                   label: 'Press & Media'
                 },
                 {
-                  to: '/blog',
+                  to: '/blogs',
                   label: 'Blog & Insights'
                 },
                 {
-                  to: '/contact',
+                  to: '/contact-us',
                   label: 'Contact'
                 }].
                 map(({ to, label }) =>
@@ -97,18 +116,22 @@ export function Footer() {
             <ul className="space-y-4">
               {[
                 {
-                  to: '/privacy',
+                  to: '/faqs',
+                  label: 'Support & FAQs'
+                },
+                {
+                  to: '/privacy-policy',
                   label: 'Privacy Policy'
                 },
                 {
-                  to: '/terms',
+                  to: '/terms-and-conditions',
                   label: 'Terms of Service'
                 },
                 {
                   to: '/cookies',
                   label: 'Cookie Policy'
                 },
-                ].
+              ].
                 map(({ to, label }) =>
                   <li key={to}>
                     <Link
@@ -126,7 +149,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-white mb-2">Get the App</h3>
             <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-              Your care companion, always in your pocket.
+              Your partner in care.
             </p>
 
             <div className="flex flex-col gap-3">

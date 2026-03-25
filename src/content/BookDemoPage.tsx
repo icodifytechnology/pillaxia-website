@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, createElement } from 'react';
 import { AnimatedSection } from '../components/ui/AnimatedSection';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { CheckCircle2Icon, ShieldCheckIcon, CalendarIcon } from 'lucide-react';
+import { CheckCircle2Icon, ShieldCheckIcon, CalendarIcon, Hospital } from 'lucide-react';
 export function BookDemoPage() {
   const calendlyRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -28,7 +28,7 @@ export function BookDemoPage() {
           title="Book a Demo"
           subtitle="See how Pillaxia can transform your healthcare delivery. Schedule a 30-minute walkthrough with our team."
           dark={true} />
-        
+
 
         <div className="grid lg:grid-cols-5 gap-12 max-w-6xl mx-auto items-start">
           {/* Calendly Embed */}
@@ -58,7 +58,7 @@ export function BookDemoPage() {
                   minWidth: '320px',
                   height: '680px'
                 }} />
-              
+
             </div>
           </AnimatedSection>
 
@@ -113,14 +113,18 @@ export function BookDemoPage() {
                 src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80"
                 alt="Healthcare professional using digital platform"
                 className="w-full h-48 object-cover" />
-              
+
             </div>
 
             {/* Partner code note */}
             <div className="bg-[#ec4899]/5 p-6 rounded-2xl border border-[#ec4899]/20">
-              <h4 className="font-bold text-[#ec4899] mb-2 text-sm">
-                🏥 Partner Hospital Access
-              </h4>
+              <div className="flex items-start gap-3 mb-2">
+                <Hospital className="w-5 h-5 text-[#ec4899] mt-0.5" />
+                <h4 className="font-bold text-[#ec4899] text-sm">
+                  Partner Hospital Access
+                </h4>
+              </div>
+
               <p className="text-sm text-slate-300 leading-relaxed">
                 If you've received a special access code from your hospital or
                 clinic, your patients can access Pillaxia Premium at no cost.
