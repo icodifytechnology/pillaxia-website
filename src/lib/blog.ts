@@ -1,18 +1,26 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+export interface BlogAuthor {
+  name: string;
+  slug: string;
+  title: string;
+  url: string;
+}
+
 export interface BlogPost {
-  id: string
-  slug: string
-  title: string
-  category: string
-  excerpt: string
-  body: string
-  author: string
-  date: string
-  readTime: string
-  featured: boolean
-  imageUrl: string
-  tags: string[]
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  excerpt: string;
+  body: string;
+  author: BlogAuthor;
+  date: string;        // ISO 8601: YYYY-MM-DD
+  updatedAt?: string;  // ISO 8601: YYYY-MM-DD
+  readTime: string;
+  featured: boolean;
+  imageUrl: string;
+  tags: string[];
 }
 
 /**
@@ -21,32 +29,50 @@ export interface BlogPost {
  * BlogDetailPage reads this map to render a next/image block.
  */
 export interface InlineImageMeta {
-  src: string
-  alt: string
-  width: number
-  height: number
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
 
 export const INLINE_IMAGES: Record<string, InlineImageMeta> = {
-  'img:pillaxia-angela':      { src: '/blogs/2.png',                     alt: 'Pillaxia & Angela AI Health Companion',          width: 235, height: 361 },
-  'img:ai-discovery':         { src: '/blogs/ai-discovery.jpg',          alt: 'AI and Drug Discovery',                         width: 900, height: 350 },
-  'img:medication-sharing-1': { src: '/blogs/medication-sharing-1.jpg',  alt: 'Medication sharing illustration',                width: 800, height: 400 },
-  'img:medication-sharing-2': { src: '/blogs/medication-sharing-2.jpg',  alt: 'Everyday medication sharing scenarios',          width: 800, height: 400 },
-  'img:relationship-stress':  { src: '/blogs/relationship-stress.png',   alt: 'Couple managing medication together',            width: 900, height: 400 },
-  'img:care-hub':             { src: '/blogs/care-hub.png',              alt: 'Care Hub interface showing shared medication',   width: 900, height: 400 },
-}
+  'img:pillaxia-angela':      { src: '/blogs/2.png',                    alt: 'Pillaxia & Angela AI Health Companion',        width: 235, height: 361 },
+  'img:ai-discovery':         { src: '/blogs/ai-discovery.jpg',         alt: 'AI and Drug Discovery',                        width: 900, height: 350 },
+  'img:medication-sharing-1': { src: '/blogs/medication-sharing-1.jpg', alt: 'Medication sharing illustration',               width: 800, height: 400 },
+  'img:medication-sharing-2': { src: '/blogs/medication-sharing-2.jpg', alt: 'Everyday medication sharing scenarios',         width: 800, height: 400 },
+  'img:relationship-stress':  { src: '/blogs/relationship-stress.png',  alt: 'Couple managing medication together',           width: 900, height: 400 },
+  'img:care-hub':             { src: '/blogs/care-hub.png',             alt: 'Care Hub interface showing shared medication',  width: 900, height: 400 },
+};
+
+// ─── Authors ──────────────────────────────────────────────────────────────────
+
+export const AUTHORS: Record<string, BlogAuthor> = {
+  'pillaxia-research': {
+    name: 'Pillaxia Research Team',
+    slug: 'pillaxia-research-team',
+    title: 'Clinical & Product Research',
+    url: 'https://pillaxia.com/authors/pillaxia-research-team',
+  },
+  // Add individual authors as you build out /authors pages:
+  // 'dr-jane-doe': {
+  //   name: 'Dr. Jane Doe',
+  //   slug: 'dr-jane-doe',
+  //   title: 'Chief Medical Officer',
+  //   url: 'https://pillaxia.com/authors/dr-jane-doe',
+  // },
+};
 
 // ─── Image paths ──────────────────────────────────────────────────────────────
 
 const IMG = {
-  connectedCare:    '/blogs/connected-care.jpg',
-  adherence:        '/blogs/1.png',
-  aiMedicine:       '/blogs/ai-in-medicine.jpg',
-  medicationSharing:'/blogs/medication-sharing.jpg',
-  digitalHealth:    '/blogs/digital-health.jpg',
-  careCoordination: '/blogs/care-coordination.jpg',
-  valentines:       '/blogs/relationship-stress.png',
-} as const
+  connectedCare:     '/blogs/connected-care.jpg',
+  adherence:         '/blogs/1.png',
+  aiMedicine:        '/blogs/ai-in-medicine.jpg',
+  medicationSharing: '/blogs/medication-sharing.jpg',
+  digitalHealth:     '/blogs/digital-health.jpg',
+  careCoordination:  '/blogs/care-coordination.jpg',
+  valentines:        '/blogs/relationship-stress.png',
+} as const;
 
 // ─── Full blog bodies ─────────────────────────────────────────────────────────
 
@@ -80,7 +106,7 @@ img:pillaxia-angela
 
 ## Conclusion & Call to Action
 
-Medication adherence doesn't have to be a silent crisis. With the right tools, patients and caregivers can save time, stress, and money while improving health outcomes.`
+Medication adherence doesn't have to be a silent crisis. With the right tools, patients and caregivers can save time, stress, and money while improving health outcomes.`;
 
 const BODY_AI_IN_MEDICINE = `## Introduction
 
@@ -129,7 +155,7 @@ The global AI-in-drug-discovery market is projected to grow from USD 4–5 billi
 
 ## Conclusion
 
-AI is transforming medicine — making care personal, adherence stronger, and discovery faster. Stay informed, talk to your care team, and explore how AI can improve your health journey.`
+AI is transforming medicine — making care personal, adherence stronger, and discovery faster. Stay informed, talk to your care team, and explore how AI can improve your health journey.`;
 
 const BODY_MEDICATION_SHARING = `## Introduction
 
@@ -191,7 +217,7 @@ The complexities of modern healthcare often involve multiple caregivers and vari
 
 Clear permissions, smart alerts, and solid audit trails reduce confusion, improve safety, and ease caregiver burden. When the right people see the right information at the right time, doses get taken, refills don't slip, and everyone sleeps better.
 
-With AI in medication management, we are moving beyond conventional methods to offer solutions that are not only technologically advanced but also deeply empathetic and user-friendly.`
+With AI in medication management, we are moving beyond conventional methods to offer solutions that are not only technologically advanced but also deeply empathetic and user-friendly.`;
 
 const BODY_VALENTINES = `> "Valentine's Day is a celebration of love, connection, and being present with those who matter most. However, for millions of people managing chronic conditions or caring for loved ones, the romantic ideal often clashes with the rigid reality of medication schedules. Nothing disrupts a candlelit dinner quite like the panic of realizing you missed a dose. At Pillaxia, we believe that managing your health shouldn't require you to sacrifice your peace of mind or your personal life."
 
@@ -252,86 +278,95 @@ Yes, Pillaxia is an all-in-one platform that includes a symptom and side-effect 
 
 ## In Summary
 
-This Valentine's Day, let love be the focus, not logistics. Pillaxia is more than just an app; it is a compassionate partner in your health journey, dedicated to simplifying the complex and empowering you to live fully. Whether it is through Angela's voice guidance or the reassurance provided by the Care Hub, our technology is here to support you.`
+This Valentine's Day, let love be the focus, not logistics. Pillaxia is more than just an app; it is a compassionate partner in your health journey, dedicated to simplifying the complex and empowering you to live fully. Whether it is through Angela's voice guidance or the reassurance provided by the Care Hub, our technology is here to support you.`;
 
 // ─── Fallback posts ───────────────────────────────────────────────────────────
-// These are served when the API is unavailable.
-// body is the full rich markdown string (including img: tokens) so
-// BlogDetailPage can just render post.body directly — no override map needed.
 
 export const FALLBACK_BLOG_POSTS: BlogPost[] = [
   {
     id: 'l1',
     slug: 'medication-adherence-crisis',
-    title: 'Medication Adherence: The Hidden Health Crisis',
+    title: 'What Is the Medication Adherence Crisis and How Can AI Solve It?',
     category: 'Medication Adherence',
-    excerpt: "50% of patients don't take their meds correctly. Learn why it matters and how Pillaxia's AI can solve medication adherence.",
+    excerpt:
+      '50% of patients don\'t take their medication correctly. Learn why medication non-adherence is a hidden health crisis and how Pillaxia\'s AI assistant Angela helps patients stay on track.',
     body: BODY_MEDICATION_ADHERENCE,
-    author: 'Pillaxia Research Team',
-    date: '25 September 2025',
+    author: AUTHORS['pillaxia-research'],
+    date: '2025-09-25',
     readTime: '5 min read',
     featured: false,
     imageUrl: IMG.adherence,
-    tags: ['medication adherence', 'AI', 'digital health'],
+    tags: ['medication adherence', 'AI', 'digital health', 'chronic care'],
   },
   {
     id: 'l2',
     slug: 'ai-in-medicine',
-    title: 'How AI Is Reshaping Medicine: Personalized Management, Better Adherence & Faster Discovery',
+    title: 'How Is AI Reshaping Medicine? Personalized Management, Better Adherence & Faster Discovery',
     category: 'AI in Healthcare',
-    excerpt: 'Discover how AI is customizing treatments, boosting medication adherence, and speeding up drug discovery.',
+    excerpt:
+      'Discover how artificial intelligence is customizing treatments, boosting medication adherence by up to 32.7%, and cutting drug discovery timelines from 14 years to 18 months.',
     body: BODY_AI_IN_MEDICINE,
-    author: 'Pillaxia Research Team',
-    date: '12 October 2025',
+    author: AUTHORS['pillaxia-research'],
+    date: '2025-10-12',
     readTime: '7 min read',
     featured: false,
     imageUrl: IMG.aiMedicine,
-    tags: ['AI', 'personalized care', 'drug discovery', 'HealthTech'],
+    tags: ['AI', 'personalized care', 'drug discovery', 'HealthTech', 'medication adherence'],
   },
   {
     id: 'l3',
     slug: 'medication-sharing',
-    title: 'Medication Sharing for Families, Caregivers, and Clinicians',
+    title: 'How Does Secure Medication Sharing Work for Families, Caregivers, and Clinicians?',
     category: 'Care Coordination',
-    excerpt: 'Learn how secure medication sharing with permissions, alerts, and audit trails improves safety, coordination, and peace of mind.',
+    excerpt:
+      'Learn how secure medication sharing with role-based permissions, smart alerts, and audit trails improves patient safety and caregiver coordination across families, clinics, and schools.',
     body: BODY_MEDICATION_SHARING,
-    author: 'Pillaxia Research Team',
-    date: '18 December 2025',
+    author: AUTHORS['pillaxia-research'],
+    date: '2025-12-18',
     readTime: '8 min read',
     featured: false,
     imageUrl: IMG.medicationSharing,
-    tags: ['medication sharing', 'CareHub', 'caregivers', 'clinicians'],
+    tags: ['medication sharing', 'CareHub', 'caregivers', 'clinicians', 'patient safety'],
   },
   {
     id: 'l4',
     slug: 'reclaiming-romance-pillaxia-valentines-day',
-    title: "Reclaiming Romance: How Pillaxia Simplifies Medicine Management for a Stress-Free Valentine's Day",
+    title: "How Can Couples Manage Chronic Illness Without It Affecting Their Relationship?",
     category: 'Lifestyle & Health',
-    excerpt: "Don't let medication schedules kill the mood this Valentine's Day. Discover how Pillaxia and Angela manage your health so you can focus on love.",
+    excerpt:
+      "Managing medication schedules shouldn't strain your relationship. Discover how Pillaxia and Angela AI automate health management so couples can focus on each other.",
     body: BODY_VALENTINES,
-    author: 'Pillaxia Research Team',
-    date: '14 February 2026',
+    author: AUTHORS['pillaxia-research'],
+    date: '2026-02-14',
     readTime: '6 min read',
     featured: false,
     imageUrl: IMG.valentines,
-    tags: ['lifestyle', 'relationships', 'Angela', 'CareHub'],
+    tags: ['lifestyle', 'relationships', 'Angela', 'CareHub', 'chronic illness'],
   },
-]
+];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 export function getBlogBySlug(slug: string): BlogPost | undefined {
-  return FALLBACK_BLOG_POSTS.find((p) => p.slug === slug)
+  return FALLBACK_BLOG_POSTS.find((p) => p.slug === slug);
 }
 
 export function getFeaturedPost(): BlogPost | undefined {
-  return FALLBACK_BLOG_POSTS.find((p) => p.featured)
+  return FALLBACK_BLOG_POSTS.find((p) => p.featured);
 }
 
 export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
   return FALLBACK_BLOG_POSTS.filter(
     (p) =>
       p.slug !== post.slug &&
-      (p.category === post.category || p.tags.some((t) => post.tags.includes(t)))
-  ).slice(0, limit)
+      (p.category === post.category || p.tags.some((t) => post.tags.includes(t))),
+  ).slice(0, limit);
+}
+
+export function getAllCategories(): string[] {
+  return [...new Set(FALLBACK_BLOG_POSTS.map((p) => p.category))];
+}
+
+export function getAllTags(): string[] {
+  return [...new Set(FALLBACK_BLOG_POSTS.flatMap((p) => p.tags))];
 }

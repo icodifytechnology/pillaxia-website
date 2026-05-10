@@ -477,7 +477,7 @@ export default function BlogDetailPage() {
     </main>
   );
 
-  const authorInitials = post.author?.split(' ').map((n: string) => n[0]).join('').slice(0, 2) ?? 'P';
+  const authorInitials = post.author?.name?.split(' ').map((n: string) => n[0]).join('').slice(0, 2) ?? 'P';
 
   const shareButtons = (
     <>
@@ -553,7 +553,7 @@ export default function BlogDetailPage() {
                   {authorInitials}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-white">{post.author}</p>
+                  <p className="text-sm font-bold text-white">{post.author.name}</p>
                   <p className="text-xs text-slate-500">Pillaxia Team</p>
                 </div>
               </div>
@@ -630,7 +630,7 @@ export default function BlogDetailPage() {
                 style={{ background: 'rgba(59,158,255,0.05)', border: '1px solid rgba(59,158,255,0.15)' }}>
                 <div className="flex items-start gap-4">
                   <div>
-                    <p className="text-sm font-bold text-white mb-0.5">{post.author}</p>
+                    <p className="text-sm font-bold text-white mb-0.5">{post.author.name}</p>
                     <p className="text-[10px] font-bold tracking-[0.15em] uppercase mb-2" style={{ color: ACCENT }}>Pillaxia Team</p>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       Writing about chronic care, digital health, and the future of patient empowerment at Pillaxia.

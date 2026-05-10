@@ -228,7 +228,7 @@ export default function BlogPage() {
                         <div className="pt-6 flex items-center justify-between"
                           style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                           <div className="text-xs text-slate-500 flex flex-col gap-1">
-                            <span className="font-semibold text-slate-300">{post.author}</span>
+                            <span className="font-semibold text-slate-300">{post.author.name}</span>
                             <span>{post.date} · {post.readTime}</span>
                           </div>
                           <div

@@ -89,7 +89,7 @@ export function PartnersSection() {
       ref={ref as unknown as React.RefObject<HTMLElement>}
       className="relative py-20 lg:py-28 overflow-hidden"
       style={{
-        backgroundImage: 'url(https://pillaxia.com/images/bg-3.png)',
+        backgroundImage: 'url(/images/bg-3.webp)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
