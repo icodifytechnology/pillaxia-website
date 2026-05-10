@@ -58,11 +58,10 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[0
         {[...Array(5)].map((_, i) => (
           <StarIcon
             key={i}
-            className={`w-5 h-5 ${
-              i < testimonial.stars
+            className={`w-5 h-5 ${i < testimonial.stars
                 ? 'text-[#ec4899] fill-[#ec4899]'
                 : 'text-slate-200 fill-slate-200'
-            }`}
+              }`}
           />
         ))}
       </div>
@@ -99,7 +98,14 @@ export function TestimonialsSection() {
   const second = (currentIndex + 1) % total;
 
   return (
-    <section className="py-24 relative overflow-hidden bg-[#f8fbff]">
+    <section className="py-24 relative overflow-hidden"
+      style={{
+        backgroundImage: 'url(/images/bg-3.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       <div className="absolute top-0 left-0 right-0 neon-line" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -146,11 +152,10 @@ export function TestimonialsSection() {
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
-                    idx === currentIndex || idx === second
+                  className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex || idx === second
                       ? 'w-8 bg-[#3b9eff] shadow-[0_0_10px_rgba(59,158,255,0.5)]'
                       : 'w-2.5 bg-[#010d3e]/20 hover:bg-[#010d3e]/40'
-                  }`}
+                    }`}
                   aria-label={`Go to testimonial ${idx + 1}`}
                 />
               ))}
