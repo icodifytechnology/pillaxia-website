@@ -255,7 +255,7 @@ export function FaqPage() {
                 Our team is happy to help with anything not covered above.
               </p>
               <a
-                href="/contact-us"
+                href="/contact"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
